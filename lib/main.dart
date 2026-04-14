@@ -1,4 +1,5 @@
 
+import 'package:evetick/features/auth/presentation/screens/Done_screen.dart';
 import 'package:evetick/features/auth/presentation/screens/verify_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: VerifyScreen(),
+      home: DoneScreen(),
     );
   }
 }
