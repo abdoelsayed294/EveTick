@@ -9,6 +9,30 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # State management
+  flutter_bloc: ^9.1.1
+  # Code generator (mainly used with cubit & retrofit)
+  freezed: ^3.2.5
+  freezed_annotation: ^3.1.0
+  # For dependency injection
+  get_it: ^9.2.1
+  #Automatically generate code for converting to and from JSON by annotating Dart classes.
+  json_serializable: ^6.13.1
+  json_annotation: ^4.11.0
+  # Networking
+  dio: ^5.9.2
+  retrofit: ^4.9.2
+  retrofit_generator: ^10.2.5
+  pretty_dio_logger: ^1.4.0
+  # localizatio
+  intl: ^0.20.2
+  easy_localization: ^3.0.8
+  # for splash screen
+  flutter_native_splash: ^2.4.7
+  # An SVG rendering and widget library for Flutter, which allows painting
+  flutter_svg: ^2.2.4
+  # for adapting screen and font size
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +41,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/svgs/
