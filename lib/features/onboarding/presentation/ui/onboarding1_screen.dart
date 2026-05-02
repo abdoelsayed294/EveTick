@@ -47,7 +47,7 @@ class Onboarding1Screen extends StatelessWidget {
               right: 16.w,
               child: Text(
                 'Find and book tickets for concerts, cinema, and more happening right in your city',
-                style: TextStyles.font16LightGrayRegualr,
+                style: TextStyles.font16LightGrayRegular,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -72,7 +72,7 @@ class Onboarding1Screen extends StatelessWidget {
               bottom: 740.h,
               child: TextButton(
                 onPressed: onSkip,
-                child: Text('Skip', style: TextStyles.font16LightGrayRegualr),
+                child: Text('Skip', style: TextStyles.font16LightGrayRegular),
               ),
             ),
             Padding(

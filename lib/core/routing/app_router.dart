@@ -1,5 +1,6 @@
 import 'package:evetick/core/routing/routes.dart';
-import 'package:evetick/features/auth/login_screen.dart';
+import 'package:evetick/features/login/ui/screens/login_screen.dart';
+import 'package:evetick/features/login/ui/screens/verification_screen.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
       case Routes.loginScreen:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case Routes.verificationScreen:
+        return MaterialPageRoute(builder: (_) => const VerificationScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

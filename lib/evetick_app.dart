@@ -20,7 +20,7 @@ class EvetickApp extends StatelessWidget {
           scaffoldBackgroundColor: ColorsManager.darkBlue
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.onBoardingScreen,
+        initialRoute: Routes.loginScreen,
         onGenerateRoute: appRouter.generateRoute,
       ),
     );
