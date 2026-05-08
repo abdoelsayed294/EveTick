@@ -46,7 +46,7 @@ class Onboarding2Screen extends StatelessWidget {
               right: 16.w,
               child: Text(
                 'Secure your spot in seconds with our fast and easy checkout process',
-                style: TextStyles.font16LightGrayRegualr,
+                style: TextStyles.font16LightGrayRegular,
                 textAlign: TextAlign.center,
               ),
             ),

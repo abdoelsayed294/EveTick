@@ -12,9 +12,9 @@ class TextStyles {
   static TextStyle font24WhiteBold = TextStyle(
     fontSize: 24.sp,
     fontWeight: FontWeightHelper.bold,
-    color: ColorsManager.defaultWhite,
+    color: ColorsManager.white,
   );
-  static TextStyle font16LightGrayRegualr = TextStyle(
+  static TextStyle font16LightGrayRegular = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.regular,
     color: ColorsManager.lightGray,
@@ -22,6 +22,31 @@ class TextStyles {
   static TextStyle font16WhiteMid = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.medium,
-    color: ColorsManager.defaultWhite,
+    color: ColorsManager.white,
+  );
+  static TextStyle font16WhiteRegular = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.regular,
+    color: ColorsManager.white,
+  );
+  static TextStyle font16LightGrayMid = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.medium,
+    color: ColorsManager.lightGray,
+  );
+  static TextStyle font18WhiteBold = TextStyle(
+    fontSize: 18.sp,
+    fontWeight: FontWeightHelper.bold,
+    color: ColorsManager.white,
+  );
+  static TextStyle font12LightGrayRegular = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeightHelper.regular,
+    color: ColorsManager.lightGray,
+  );
+  static TextStyle font12OrangeBold = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeightHelper.bold,
+    color: ColorsManager.orange,
   );
 }
