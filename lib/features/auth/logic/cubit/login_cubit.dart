@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:evetick/core/services/result.dart';
+import 'package:evetick/features/auth/data/auth_repository.dart';
+import 'package:evetick/features/auth/logic/cubit/login_state.dart';
+
+class LoginCubit extends Cubit<LoginState> {
+  final AuthRepository authRepo;
+  LoginCubit(this.authRepo) : super(const LoginState.initial());
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  
+  void emitLoginStates({
+    required String email,
+    required String password,
+  }) async {
+    emit(const LoginState.loading());
+    final result = await authRepo.login(email: email, password: password);
+    result.when(
+      success: (user) {
+        emit(LoginState.success(user));
+      },
+      failure: (failure) {
+        emit(LoginState.error(error: failure.message));
+      },
+    );
+  }
+}

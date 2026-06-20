@@ -49,4 +49,9 @@ class TextStyles {
     fontWeight: FontWeightHelper.bold,
     color: ColorsManager.orange,
   );
+  static TextStyle font12OrangeMid = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeightHelper.medium,
+    color: ColorsManager.orange,
+  );
 }
