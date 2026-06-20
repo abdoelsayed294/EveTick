@@ -14,8 +14,9 @@ class AppTextFormField extends StatelessWidget {
   final String? hintText;
   final bool? isObscureText;
   final Widget? suffixIcon;
-  final Widget? prefixIcon;
   final Color? backgroundColor;
+  final TextEditingController? controller;
+  final Function(String?) validator;
   const AppTextFormField({
     super.key,
     required this.label,
@@ -27,8 +28,9 @@ class AppTextFormField extends StatelessWidget {
     required this.hintText,
     this.isObscureText = false,
     this.suffixIcon,
-    this.prefixIcon,
-    this.backgroundColor
+    this.backgroundColor,
+    this.controller,
+    required this.validator
   });
 
   @override
@@ -38,13 +40,14 @@ class AppTextFormField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(label, style: TextStyles.font16WhiteRegular),
-        verticalSpace(16),
+        verticalSpace(8),
         TextFormField(
+          controller: controller,
           decoration: InputDecoration(
             isDense: true,
             contentPadding:
             contentPadding ??
-            EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+            EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
             focusedBorder:
             focusedBorder ??
             OutlineInputBorder(
@@ -60,15 +63,31 @@ class AppTextFormField extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(12.0),
             ),
+            errorBorder:OutlineInputBorder(
+              borderSide: BorderSide(
+                color: ColorsManager.red,
+                width: 1.3,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: ColorsManager.red,
+                width: 1.3,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
             filled: true,
             fillColor: backgroundColor ?? ColorsManager.fourthBlue,
             hintStyle: hintStyle ?? TextStyles.font16LightGrayRegular,
             hintText: hintText,
-            suffixIcon: suffixIcon,
-            prefixIcon: prefixIcon           
+            suffixIcon: suffixIcon,        
           ),
           obscureText: isObscureText ?? false,
           style: inputTextStyle ?? TextStyles.font16WhiteRegular,
+          validator: (value){
+            return validator(value);
+          },
         ),
       ],
     );

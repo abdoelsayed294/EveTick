@@ -1,19 +1,26 @@
-import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/helpers/spacing.dart';
-import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
 import 'package:evetick/core/widgets/app_text_button.dart';
-import 'package:evetick/core/widgets/app_text_form_field.dart';
-import 'package:evetick/features/login/ui/widgets/login_background.dart';
-import 'package:evetick/features/login/ui/widgets/login_with_other_platforms.dart';
+import 'package:evetick/features/auth/logic/cubit/login_cubit.dart';
+import 'package:evetick/features/auth/ui/widgets/login_widgets/dont_have_account_text.dart';
+import 'package:evetick/features/auth/ui/widgets/login_widgets/email_and_password.dart';
+import 'package:evetick/features/auth/ui/widgets/login_widgets/login_background.dart';
+import 'package:evetick/features/auth/ui/widgets/login_widgets/login_bloc_listener.dart';
+import 'package:evetick/features/auth/ui/widgets/login_widgets/login_with_other_platforms.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +33,7 @@ class LoginScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
@@ -39,44 +46,30 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    verticalSpace(72),
+                    verticalSpace(24),
                     Align(
                       alignment: Alignment.center,
                       child: SvgPicture.asset('assets/svgs/dark_logo.svg'),
                     ),
-                    verticalSpace(56),
+                    verticalSpace(24),
                     Align(
                       alignment: Alignment.center,
                       child: Text('Sign In', style: TextStyles.font24WhiteBold),
                     ),
-                    verticalSpace(8),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Enter your email to continue',
-                        style: TextStyles.font16LightGrayRegular,
-                      ),
-                    ),
                     verticalSpace(32),
-                    AppTextFormField(
-                      label: 'Email Address',
-                      hintText: 'hello@evetick.com',
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                        color: ColorsManager.lightGray,
-                        size: 24.sp,
-                      ),
-                    ),
-                    verticalSpace(32),
+                    EmailAndPassword(),
+                    verticalSpace(24),
                     AppTextButton(
                       buttonText: 'Continue',
                       onPressed: () {
-                        context.pushNamed(Routes.verificationScreen);
+                        validateThenDoLogin(context);
                       },
                     ),
-                    verticalSpace(72),
+                    verticalSpace(32),
                     LoginWithOtherPlatforms(),
-
+                    verticalSpace(32),
+                    const DontHaveAccountText(),
+                    const LoginBlocListener()
                   ],
                 ),
               ),
@@ -85,5 +78,14 @@ class LoginScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void validateThenDoLogin(BuildContext context) {
+    if (context.read<LoginCubit>().formKey.currentState!.validate()) {
+      context.read<LoginCubit>().emitLoginStates(
+        email: context.read<LoginCubit>().emailController.text,
+        password: context.read<LoginCubit>().passwordController.text
+      );
+    }
   }
 }

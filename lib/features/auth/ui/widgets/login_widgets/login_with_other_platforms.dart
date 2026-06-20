@@ -1,6 +1,6 @@
 import 'package:evetick/core/helpers/spacing.dart';
-import 'package:evetick/features/login/ui/widgets/or_devider.dart';
-import 'package:evetick/features/login/ui/widgets/platform_container.dart';
+import 'package:evetick/features/auth/ui/widgets/login_widgets/or_devider.dart';
+import 'package:evetick/features/auth/ui/widgets/login_widgets/platform_container.dart';
 import 'package:flutter/material.dart';
 
 class LoginWithOtherPlatforms extends StatelessWidget {
