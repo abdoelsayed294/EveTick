@@ -1,29 +1,23 @@
-import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
 import 'package:evetick/core/widgets/app_text_button.dart';
-import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
-import 'package:evetick/features/auth/ui/widgets/dont_have_account_text.dart';
-import 'package:evetick/features/auth/ui/widgets/email_and_password.dart';
+import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
+import 'package:evetick/features/auth/ui/widgets/already_have_account_text.dart';
 import 'package:evetick/features/auth/ui/widgets/auth_background.dart';
-import 'package:evetick/features/auth/ui/widgets/login_bloc_listener.dart';
 import 'package:evetick/features/auth/ui/widgets/auth_with_other_platforms.dart';
+import 'package:evetick/features/auth/ui/widgets/name_email_and_password.dart';
+import 'package:evetick/features/auth/ui/widgets/signup_bloc_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:evetick/core/helpers/extentions.dart';
 
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ) : const SizedBox.shrink()
                     ),
-                    verticalSpace(24),
+                    verticalSpace(16),
                     Align(
                       alignment: Alignment.center,
                       child: SvgPicture.asset('assets/svgs/dark_logo.svg'),
@@ -60,22 +54,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     verticalSpace(24),
                     Align(
                       alignment: Alignment.center,
-                      child: Text('Sign In', style: TextStyles.font24WhiteBold),
+                      child: Text('Sign up', style: TextStyles.font24WhiteBold),
                     ),
-                    verticalSpace(32),
-                    EmailAndPassword(),
+                    verticalSpace(24),
+                    NameEmailAndPassword(),
                     verticalSpace(24),
                     AppTextButton(
-                      buttonText: 'Continue',
+                      buttonText: 'Sign up',
                       onPressed: () {
-                        validateThenDoLogin(context);
+                        validateThenDoSignup(context);
                       },
                     ),
-                    verticalSpace(32),
+                    verticalSpace(16),
                     LoginWithOtherPlatforms(),
-                    verticalSpace(32),
-                    const DontHaveAccountText(),
-                    const LoginBlocListener()
+                    verticalSpace(16),
+                    const AlreadyHaveAccountText(),
+                    const SignupBlocListener(),
                   ],
                 ),
               ),
@@ -85,12 +79,12 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  void validateThenDoLogin(BuildContext context) {
-    if (context.read<LoginCubit>().formKey.currentState!.validate()) {
-      context.read<LoginCubit>().emitLoginStates(
-        email: context.read<LoginCubit>().emailController.text,
-        password: context.read<LoginCubit>().passwordController.text
+   void validateThenDoSignup(BuildContext context) {
+    if (context.read<SignupCubit>().formKey.currentState!.validate()) {
+      context.read<SignupCubit>().emitSignupStates(
+        name: context.read<SignupCubit>().nameController.text,
+        email: context.read<SignupCubit>().emailController.text,
+        password: context.read<SignupCubit>().passwordController.text
       );
     }
   }

@@ -1,7 +1,9 @@
 import 'package:evetick/core/di/dependency_injection.dart';
 import 'package:evetick/core/routing/routes.dart';
-import 'package:evetick/features/auth/logic/cubit/login_cubit.dart';
+import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
+import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/auth/ui/screens/login_screen.dart';
+import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
 import 'package:evetick/features/home/home_screen.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
@@ -21,6 +23,13 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<LoginCubit>(),
             child: const LoginScreen(),
+          ),
+        );
+      case Routes.signupScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<SignupCubit>(),
+            child: const SignupScreen(),
           ),
         );
       case Routes.homeScreen:

@@ -2,19 +2,20 @@ import 'package:evetick/core/helpers/app_regex.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/widgets/app_text_form_field.dart';
-import 'package:evetick/features/auth/logic/cubit/login_cubit.dart';
+import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
+import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class EmailAndPassword extends StatefulWidget {
-  const EmailAndPassword({super.key});
+class NameEmailAndPassword extends StatefulWidget {
+  const NameEmailAndPassword({super.key});
 
   @override
-  State<EmailAndPassword> createState() => _EmailAndPasswordState();
+  State<NameEmailAndPassword> createState() => _NameEmailAndPasswordState();
 }
 
-class _EmailAndPasswordState extends State<EmailAndPassword> {
+class _NameEmailAndPasswordState extends State<NameEmailAndPassword> {
   bool isObscureText = true;
 
 
@@ -33,9 +34,21 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
   Widget build(BuildContext context) {
     
     return Form(
-      key: context.read<LoginCubit>().formKey,
+      key: context.read<SignupCubit>().formKey,
       child: Column(
         children: [
+          AppTextFormField(
+            label: 'Full Name',
+            hintText: 'Enter your Name',
+            
+            validator: (value){
+              if(value == null || value.isEmpty){
+                return 'Please enter a valid name';
+              }
+            },
+            controller: context.read<SignupCubit>().nameController,
+          ),
+          verticalSpace(16),
           AppTextFormField(
             label: 'Email Address',
             hintText: 'Enter your email',
@@ -49,7 +62,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
                 return 'Please enter a valid email';
               }
             },
-            controller: context.read<LoginCubit>().emailController,
+            controller: context.read<SignupCubit>().emailController,
           ),
           verticalSpace(16),
 
@@ -57,7 +70,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
             label: 'Password',
             hintText: 'Enter your password',
             isObscureText: isObscureText,
-            controller: context.read<LoginCubit>().passwordController,
+            controller: context.read<SignupCubit>().passwordController,
             suffixIcon: GestureDetector(
               onTap: () {
                 setState(() {
