@@ -38,7 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                         child: Icon(
                           Icons.arrow_back_ios,
                           color: ColorsManager.white,
@@ -69,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     LoginWithOtherPlatforms(),
                     verticalSpace(32),
                     const DontHaveAccountText(),
-                    const LoginBlocListener()
+                    const LoginBlocListener(),
                   ],
                 ),
               ),
@@ -84,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (context.read<LoginCubit>().formKey.currentState!.validate()) {
       context.read<LoginCubit>().emitLoginStates(
         email: context.read<LoginCubit>().emailController.text,
-        password: context.read<LoginCubit>().passwordController.text
+        password: context.read<LoginCubit>().passwordController.text,
       );
     }
   }

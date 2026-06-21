@@ -3,27 +3,14 @@ import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_state.dart';
 
 class OnboardingCubit extends Cubit<OnboardingState> {
-  OnboardingRepository onboardingRepository;
-  OnboardingCubit(this.onboardingRepository) : super(OnboardingInitial()) {
-    onboardingRepository.isNew();
-  }
-  Future<void> isNew() async {
-    try {
-      final isNew = await onboardingRepository.isNew();
-      if (isNew) {
-        emit(UserIsNew());
-      } else {
-        emit(UserIsNotNew());
-      }
-    } catch (e) {
-      emit(OnboardingError(e.toString()));
-    }
-  }
+  final OnboardingRepository onboardingRepository;
 
-  Future<void> notNew() async {
+  OnboardingCubit(this.onboardingRepository) : super(OnboardingInitial());
+
+  Future<void> finishOnboarding() async {
     try {
-      await onboardingRepository.notNew();
-      emit(UserIsNotNew());
+      await onboardingRepository.markOnboardingAsSeen();
+      emit(OnboardingFinished());
     } catch (e) {
       emit(OnboardingError(e.toString()));
     }

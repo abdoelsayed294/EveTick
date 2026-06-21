@@ -1,4 +1,4 @@
 abstract class OnboardingRepository {
-  Future<bool> isNew();
-  Future<void> notNew();
+  Future<bool> hasSeenOnboarding();
+  Future<void> markOnboardingAsSeen();
 }
