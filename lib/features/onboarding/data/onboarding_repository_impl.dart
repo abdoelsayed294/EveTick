@@ -2,16 +2,17 @@ import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingRepositoryImpl implements OnboardingRepository {
-  String key = 'onboarding_Completed';
+  final String key = 'onboarding_completed';
+
   @override
-  Future<bool> isNew() async {
+  Future<bool> hasSeenOnboarding() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(key) ?? true;
+    return prefs.getBool(key) ?? false;
   }
 
   @override
-  Future<void> notNew() async {
+  Future<void> markOnboardingAsSeen() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(key, false);
+    await prefs.setBool(key, true);
   }
 }

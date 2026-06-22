@@ -25,7 +25,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         currentIndex = pageController.page!.round();
       });
     });
-    context.read<OnboardingCubit>().isNew();
+    context.read<OnboardingCubit>().finishOnboarding();
   }
 
   void _goToNext() {
