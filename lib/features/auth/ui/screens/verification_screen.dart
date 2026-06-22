@@ -1,7 +1,7 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
-import 'package:evetick/core/widgets/app_text_button.dart';
+import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/auth/ui/widgets/verification_widgets/check_email_text.dart';
 import 'package:evetick/features/auth/ui/widgets/verification_widgets/didnt_receive_the_code.dart';
 import 'package:evetick/features/auth/ui/widgets/verification_widgets/digit_verification_code_frame.dart';
@@ -46,10 +46,7 @@ class VerificationScreen extends StatelessWidget {
                 verticalSpace(24),
                 DidntReceiveTheCode(),
                 verticalSpace(150),
-                AppTextButton(
-                  buttonText: 'Confirm',
-                  onPressed: () {},
-                  )
+                FilledAppTextButton(buttonText: 'Confirm', onPressed: () {}),
               ],
             ),
           ),

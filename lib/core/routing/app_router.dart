@@ -1,11 +1,17 @@
 import 'package:evetick/core/di/dependency_injection.dart';
 import 'package:evetick/core/routing/routes.dart';
+import 'package:evetick/features/app_start/logic/cubit/app_start_cubit.dart';
+import 'package:evetick/features/app_start/presentation/app_start.dart';
+import 'package:evetick/features/auth/data/auth_repository.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
 import 'package:evetick/features/home/home_screen.dart';
+import 'package:evetick/features/location/presentation/screens/set_location.dart';
+import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
+import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +23,12 @@ class AppRouter {
 
     switch (settings.name) {
       case Routes.onBoardingScreen:
-        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<OnboardingCubit>(),
+            child: const OnboardingScreen(),
+          ),
+        );
       case Routes.loginScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -36,6 +47,18 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case Routes.verificationScreen:
         return MaterialPageRoute(builder: (_) => const VerificationScreen());
+      case Routes.appStartScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<AppStartCubit>(
+            create: (context) => AppStartCubit(
+              authRepository: getIt<AuthRepository>(),
+              onboardingRepository: getIt<OnboardingRepository>(),
+            )..checkAppStart(),
+            child: const AppStartScreen(),
+          ),
+        );
+      case Routes.setLocationScreen:
+        return MaterialPageRoute(builder: (_) => const SetLocation());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -2,7 +2,7 @@ import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
-import 'package:evetick/core/widgets/app_text_button.dart';
+import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/ui/widgets/dont_have_account_text.dart';
 import 'package:evetick/features/auth/ui/widgets/email_and_password.dart';
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     verticalSpace(32),
                     EmailAndPassword(),
                     verticalSpace(24),
-                    AppTextButton(
+                    FilledAppTextButton(
                       buttonText: 'Continue',
                       onPressed: () {
                         validateThenDoLogin(context);
