@@ -1,5 +1,5 @@
 import 'package:evetick/features/auth/data/auth_repository.dart';
-import 'package:evetick/features/auth/logic/cubit/login_cubit.dart';
+import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/onboarding/data/onboarding_repository_impl.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 

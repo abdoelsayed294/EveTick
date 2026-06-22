@@ -1,8 +1,8 @@
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/features/auth/logic/cubit/login_cubit.dart';
-import 'package:evetick/features/auth/logic/cubit/login_state.dart';
+import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
+import 'package:evetick/features/auth/logic/login_cubit/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
