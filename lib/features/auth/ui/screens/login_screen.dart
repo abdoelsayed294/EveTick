@@ -15,7 +15,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -40,16 +39,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: ColorsManager.white,
-                          size: 24.sp,
-                        ),
-                      ) : const SizedBox.shrink()
+                      child: (GoRouter.maybeOf(context)?.canPop() ?? false)
+                          ? InkWell(
+                              onTap: () {
+                                Navigation(context).pop();
+                              },
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: ColorsManager.white,
+                                size: 24.sp,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     ),
                     verticalSpace(24),
                     Align(
