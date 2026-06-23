@@ -27,4 +27,8 @@ class LoginCubit extends Cubit<LoginState> {
       },
     );
   }
+  void clearFields() {
+    emailController.clear();
+    passwordController.clear();
+  }
 }
