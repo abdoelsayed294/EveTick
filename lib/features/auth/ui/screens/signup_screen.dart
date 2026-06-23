@@ -1,7 +1,7 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
-import 'package:evetick/core/widgets/app_text_button.dart';
+import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/auth/ui/widgets/already_have_account_text.dart';
 import 'package:evetick/features/auth/ui/widgets/auth_background.dart';
@@ -35,16 +35,17 @@ class SignupScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.topLeft,
                       child: (GoRouter.maybeOf(context)?.canPop() ?? false)
-                       ? InkWell(
-                        onTap: () {
-                          Navigation(context).pop();
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: ColorsManager.white,
-                          size: 24.sp,
-                        ),
-                      ) : const SizedBox.shrink()
+                          ? InkWell(
+                              onTap: () {
+                                Navigation(context).pop();
+                              },
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: ColorsManager.white,
+                                size: 24.sp,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     ),
                     verticalSpace(16),
                     Align(
@@ -59,7 +60,7 @@ class SignupScreen extends StatelessWidget {
                     verticalSpace(24),
                     NameEmailAndPassword(),
                     verticalSpace(24),
-                    AppTextButton(
+                    FilledAppTextButton(
                       buttonText: 'Sign up',
                       onPressed: () {
                         validateThenDoSignup(context);
@@ -79,12 +80,13 @@ class SignupScreen extends StatelessWidget {
       ),
     );
   }
-   void validateThenDoSignup(BuildContext context) {
+
+  void validateThenDoSignup(BuildContext context) {
     if (context.read<SignupCubit>().formKey.currentState!.validate()) {
       context.read<SignupCubit>().emitSignupStates(
         name: context.read<SignupCubit>().nameController.text,
         email: context.read<SignupCubit>().emailController.text,
-        password: context.read<SignupCubit>().passwordController.text
+        password: context.read<SignupCubit>().passwordController.text,
       );
     }
   }

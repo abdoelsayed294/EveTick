@@ -1,7 +1,6 @@
 import 'package:evetick/core/routing/app_router.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/features/app_start/presentation/app_start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,16 +13,18 @@ class EvetickApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
-      child: MaterialApp(
-        title: 'EveTick',
-        theme: ThemeData(
-          primaryColor: ColorsManager.darkBlue,
-          scaffoldBackgroundColor: ColorsManager.darkBlue,
-        ),
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: appRouter.generateRoute,
-        home: AppStartScreen(),
-      ),
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'EveTick',
+          theme: ThemeData(
+            primaryColor: ColorsManager.darkBlue,
+            scaffoldBackgroundColor: ColorsManager.darkBlue,
+          ),
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: appRouter.generateRoute,
+          initialRoute: Routes.appStartScreen,
+        );
+      },
     );
   }
 }

@@ -54,4 +54,9 @@ class TextStyles {
     fontWeight: FontWeightHelper.medium,
     color: ColorsManager.orange,
   );
+  static TextStyle font16OrangeRegular = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.regular,
+    color: ColorsManager.orange,
+  );
 }
