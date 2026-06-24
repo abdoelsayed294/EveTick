@@ -1,7 +1,9 @@
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DontHaveAccountText extends StatelessWidget {
   const DontHaveAccountText({super.key});
@@ -10,6 +12,7 @@ class DontHaveAccountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        context.read<LoginCubit>().clearFields;
         context.pushNamed(Routes.signupScreen);
       },
       child: RichText(
