@@ -9,6 +9,7 @@ part 'location_cubit.freezed.dart';
 class LocationCubit extends Cubit<LocationState> {
   final LocationRepository locationRepository;
   LocationModel? selectedLocation;
+  List<String> governorates = [];
   LocationCubit({required this.locationRepository, this.selectedLocation})
     : super(LocationState.initial());
 
@@ -29,6 +30,25 @@ class LocationCubit extends Cubit<LocationState> {
     try {
       await locationRepository.saveLocation(selectedLocation!);
       emit(LocationState.saved());
+    } catch (e) {
+      emit(LocationState.error(e.toString()));
+    }
+  }
+
+  Future<void> loadGovernorates() async {
+    governorates = await locationRepository.getGovernorates();
+  }
+
+  void selectGovernorate(String governorate) {
+    selectedLocation = LocationModel(country: 'Egypt', city: governorate);
+  }
+
+  Future<void> skipLocation() async {
+    emit(const LocationState.loading());
+
+    try {
+      await locationRepository.skipLocation();
+      emit(const LocationState.saved());
     } catch (e) {
       emit(LocationState.error(e.toString()));
     }

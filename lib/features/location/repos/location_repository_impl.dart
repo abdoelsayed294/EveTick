@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evetick/features/location/models/location_model.dart';
 import 'package:evetick/features/location/repos/location_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -49,6 +52,7 @@ class LocationRepositoryImpl implements LocationRepository {
     await firestore.collection('users').doc(uid).update({
       'city': location.city,
       'country': location.country,
+      'locationSkipped': false,
     });
   }
 
@@ -62,11 +66,29 @@ class LocationRepositoryImpl implements LocationRepository {
     if (!doc.exists) return null;
 
     final data = doc.data();
-
+    if (data?['locationSkipped'] == true) {
+      return LocationModel(country: '', city: '');
+    }
     if (data == null || data['city'] == null || data['country'] == null) {
       return null;
     }
 
     return LocationModel.fromJson(data);
+  }
+
+  @override
+  Future<List<String>> getGovernorates() async {
+    final jsonString = await rootBundle.loadString(
+      'assets/json/egypt_governorates.json',
+    );
+    return List<String>.from(jsonDecode(jsonString));
+  }
+
+  @override
+  Future<void> skipLocation() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({'locationSkipped': true});
   }
 }
