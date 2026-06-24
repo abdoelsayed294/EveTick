@@ -3,9 +3,11 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
+import 'package:evetick/features/auth/logic/signup_cubit/signup_state.dart';
 import 'package:evetick/features/auth/ui/widgets/already_have_account_text.dart';
 import 'package:evetick/features/auth/ui/widgets/auth_background.dart';
 import 'package:evetick/features/auth/ui/widgets/auth_with_other_platforms.dart';
+import 'package:evetick/features/auth/ui/widgets/error_banner.dart';
 import 'package:evetick/features/auth/ui/widgets/name_email_and_password.dart';
 import 'package:evetick/features/auth/ui/widgets/signup_bloc_listener.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +60,7 @@ class SignupScreen extends StatelessWidget {
                       child: Text('Sign up', style: TextStyles.font24WhiteBold),
                     ),
                     verticalSpace(24),
+                    const SignupBlocListener(),
                     NameEmailAndPassword(),
                     verticalSpace(24),
                     FilledAppTextButton(
@@ -70,7 +73,6 @@ class SignupScreen extends StatelessWidget {
                     LoginWithOtherPlatforms(),
                     verticalSpace(16),
                     const AlreadyHaveAccountText(),
-                    const SignupBlocListener(),
                   ],
                 ),
               ),
