@@ -9,7 +9,9 @@ import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
 import 'package:evetick/features/home/home_screen.dart';
+import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
 import 'package:evetick/features/location/presentation/screens/set_location.dart';
+import 'package:evetick/features/location/repos/location_repository.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
@@ -53,12 +55,19 @@ class AppRouter {
             create: (context) => AppStartCubit(
               authRepository: getIt<AuthRepository>(),
               onboardingRepository: getIt<OnboardingRepository>(),
+              locationRepository: getIt<LocationRepository>(),
             )..checkAppStart(),
             child: const AppStartScreen(),
           ),
         );
       case Routes.setLocationScreen:
-        return MaterialPageRoute(builder: (_) => const SetLocation());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                LocationCubit(locationRepository: getIt<LocationRepository>()),
+            child: SetLocation(),
+          ),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

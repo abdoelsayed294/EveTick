@@ -1,36 +1,44 @@
 import 'package:bloc/bloc.dart';
+import 'package:evetick/features/app_start/logic/cubit/app_start_state.dart';
 import 'package:evetick/features/auth/data/auth_repository.dart';
+import 'package:evetick/features/location/repos/location_repository.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'app_start_state.dart';
-part 'app_start_cubit.freezed.dart';
 
 class AppStartCubit extends Cubit<AppStartState> {
   final AuthRepository authRepository;
   final OnboardingRepository onboardingRepository;
+  final LocationRepository locationRepository;
+
   AppStartCubit({
     required this.authRepository,
     required this.onboardingRepository,
-  }) : super(AppStartState.initial());
+    required this.locationRepository,
+  }) : super(const AppStartState.initial());
+
   void checkAppStart() async {
-    emit(AppStartState.loading());
+    emit(const AppStartState.loading());
 
-    final isOnboardingCompleted = await onboardingRepository
-        .hasSeenOnboarding();
+    final onboardingDone = await onboardingRepository.hasSeenOnboarding();
 
-    if (!isOnboardingCompleted) {
-      emit(AppStartState.goToOnboarding());
+    if (!onboardingDone) {
+      emit(const AppStartState.goToOnboarding());
       return;
     }
 
     final user = await authRepository.getCurrentUser();
 
     if (user == null) {
-      emit(AppStartState.goToLogin());
+      emit(const AppStartState.goToLogin());
       return;
     }
 
-    emit(AppStartState.goToHome());
+    final location = await locationRepository.getSavedLocation();
+
+    if (location == null) {
+      emit(const AppStartState.goToLocation());
+      return;
+    }
+
+    emit(const AppStartState.goToHome());
   }
 }

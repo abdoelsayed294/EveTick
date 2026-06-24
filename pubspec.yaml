@@ -39,6 +39,8 @@ dependencies:
   firebase_core: 4.6.0
   go_router: ^17.3.0
   cloud_firestore: ^6.2.0
+  geolocator: ^14.0.3
+  geocoding: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -51,3 +53,4 @@ flutter:
   assets:
     - assets/images/
     - assets/svgs/
+    - assets/json/

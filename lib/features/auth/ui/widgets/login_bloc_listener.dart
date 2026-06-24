@@ -24,7 +24,7 @@ class LoginBlocListener extends StatelessWidget {
           },
           success: (data) {
             context.read<LoginCubit>().clearFields();
-            context.pushNamed(Routes.homeScreen);
+            context.pushNamed(Routes.appStartScreen);
           },
         );
       },
