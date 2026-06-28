@@ -10,6 +10,9 @@ class OutlineAppTextButton extends StatelessWidget {
   final double? buttonHeight;
   final String buttonText;
   final VoidCallback onPressed;
+  final TextStyle? textStyle;
+  final Widget? trailing;
+
   const OutlineAppTextButton({
     super.key,
     this.borderRadius,
@@ -18,6 +21,8 @@ class OutlineAppTextButton extends StatelessWidget {
     this.buttonHeight,
     required this.buttonText,
     required this.onPressed,
+    this.textStyle,
+    this.trailing,
   });
 
   @override
@@ -30,15 +35,28 @@ class OutlineAppTextButton extends StatelessWidget {
         ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? 16.0),
+            borderRadius: BorderRadius.circular(borderRadius ?? 16),
           ),
         ),
         side: WidgetStatePropertyAll(
           BorderSide(color: ColorsManager.orange, width: 1.5),
         ),
       ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Text(buttonText, style: textStyle ?? TextStyles.font16OrangeRegular),
 
-      child: Text(buttonText, style: TextStyles.font16OrangeRegular),
+          if (trailing != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: EdgeInsets.only(left: 16.w),
+                child: trailing,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

@@ -11,7 +11,7 @@ class LoginCubit extends Cubit<LoginState> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  
+
   void emitLoginStates({
     required String email,
     required String password,
@@ -27,8 +27,24 @@ class LoginCubit extends Cubit<LoginState> {
       },
     );
   }
+
   void clearFields() {
     emailController.clear();
     passwordController.clear();
+  }
+
+  void continueAsGuest() async {
+    emit(const LoginState.loading());
+
+    final result = await authRepo.continueAsGuest();
+
+    result.when(
+      success: (user) {
+        emit(LoginState.success(user));
+      },
+      failure: (failure) {
+        emit(LoginState.error(error: failure.message));
+      },
+    );
   }
 }
