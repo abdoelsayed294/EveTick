@@ -1,6 +1,5 @@
 import 'package:evetick/core/di/dependency_injection.dart';
 import 'package:evetick/core/routing/app_router.dart';
-import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/evetick_app.dart';
 import 'package:evetick/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
