@@ -8,4 +8,5 @@ class Routes {
   static const String verificationScreen = '/verificationScreen';
   static const String appStartScreen = '/appStartScreen';
   static const String setLocationScreen = '/setLocationScreen';
+  static const String profileScreen = '/profileScreen';
 }
