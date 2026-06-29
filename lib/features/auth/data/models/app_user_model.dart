@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUserModel {
-  String uid;
-  String email;
-  String name;
+  final String uid;
+  final String email;
+  final String name;
   final bool isEmailVerified;
-
+  final bool isGuest;
   AppUserModel({
     required this.uid,
     required this.email,
     this.name = '',
     this.isEmailVerified = false,
+    this.isGuest = false,
   });
 
   Map<String, dynamic> toJson() {
@@ -19,6 +20,7 @@ class AppUserModel {
       'email': email,
       'name': name,
       'isEmailVerified': isEmailVerified,
+      'isGuest': isGuest,
       'createdAt': FieldValue.serverTimestamp(),
     };
   }
@@ -29,6 +31,7 @@ class AppUserModel {
       email: json['email'],
       name: json['name'],
       isEmailVerified: json['isEmailVerified'] ?? false,
+      isGuest: json['isGuest'] ?? false,
     );
   }
 }

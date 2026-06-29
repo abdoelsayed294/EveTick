@@ -18,6 +18,9 @@ class AppStartScreen extends StatelessWidget {
           goToOnboarding: () {
             context.pushReplacedNamed(Routes.onBoardingScreen);
           },
+          goToWelcome: () {
+            context.pushReplacedNamed(Routes.welcomeScreen);
+          },
           goToLogin: () {
             context.pushReplacedNamed(Routes.loginScreen);
           },

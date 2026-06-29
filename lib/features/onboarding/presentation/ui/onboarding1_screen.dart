@@ -14,7 +14,8 @@ class Onboarding1Screen extends StatelessWidget {
   const Onboarding1Screen({
     super.key,
     required this.onNext,
-    required this.onSkip, required this.currentIndex,
+    required this.onSkip,
+    required this.currentIndex,
   });
 
   @override
@@ -57,7 +58,7 @@ class Onboarding1Screen extends StatelessWidget {
               right: 162.5.w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                
+
                 children: [
                   CustomIndicator(active: currentIndex == 0),
                   SizedBox(width: 5.w),
