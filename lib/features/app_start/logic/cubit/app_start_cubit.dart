@@ -28,7 +28,7 @@ class AppStartCubit extends Cubit<AppStartState> {
     final user = await authRepository.getCurrentUser();
 
     if (user == null) {
-      emit(const AppStartState.goToLogin());
+      emit(const AppStartState.goToWelcome());
       return;
     }
 

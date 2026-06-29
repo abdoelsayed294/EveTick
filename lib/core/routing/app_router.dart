@@ -4,6 +4,7 @@ import 'package:evetick/features/app_start/logic/cubit/app_start_cubit.dart';
 import 'package:evetick/features/app_start/presentation/app_start.dart';
 import 'package:evetick/features/auth/data/auth_repository.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
+import 'package:evetick/features/auth/logic/login_cubit/login_state.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
@@ -16,6 +17,7 @@ import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
 import 'package:evetick/features/profile/logic/profile_cubit.dart';
+import 'package:evetick/features/onboarding/presentation/ui/welcome_screen.dart';
 import 'package:evetick/features/profile/ui/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,6 +72,13 @@ class AppRouter {
             child: SetLocation(),
           ),
         );
+      case Routes.welcomeScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => getIt<LoginCubit>(),
+            child: const WelcomeScreen(),
+          ),
+        );
       case Routes.profileScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -77,7 +86,6 @@ class AppRouter {
             child: const ProfileScreen(),
           ),
         );
-
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
