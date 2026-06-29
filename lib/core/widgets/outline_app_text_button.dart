@@ -6,17 +6,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class OutlineAppTextButton extends StatelessWidget {
   final double? borderRadius;
   final Color? backgroundColor;
+  final Color? borderColor;
+  final TextStyle? textStyle;
   final double? buttonWidth;
   final double? buttonHeight;
   final String buttonText;
   final VoidCallback onPressed;
-  final TextStyle? textStyle;
   final Widget? trailing;
-
   const OutlineAppTextButton({
     super.key,
     this.borderRadius,
     this.backgroundColor,
+    this.borderColor,
+    this.textStyle,
     this.buttonWidth,
     this.buttonHeight,
     required this.buttonText,
@@ -39,14 +41,13 @@ class OutlineAppTextButton extends StatelessWidget {
           ),
         ),
         side: WidgetStatePropertyAll(
-          BorderSide(color: ColorsManager.orange, width: 1.5),
+          BorderSide(color: borderColor?? ColorsManager.orange, width: 1.5),
         ),
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Text(buttonText, style: textStyle ?? TextStyles.font16OrangeRegular),
-
           if (trailing != null)
             Align(
               alignment: Alignment.centerRight,

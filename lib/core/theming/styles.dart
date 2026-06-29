@@ -24,6 +24,16 @@ class TextStyles {
     fontWeight: FontWeightHelper.medium,
     color: ColorsManager.white,
   );
+  static TextStyle font16RedMid = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.medium,
+    color: ColorsManager.red,
+  );
+  static TextStyle font16lightGrayMid = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.medium,
+    color: ColorsManager.lightGray,
+  );
   static TextStyle font16WhiteRegular = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.regular,
