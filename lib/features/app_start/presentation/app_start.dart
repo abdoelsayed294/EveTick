@@ -22,7 +22,7 @@ class AppStartScreen extends StatelessWidget {
             context.pushReplacedNamed(Routes.loginScreen);
           },
           goToHome: () {
-            context.pushReplacedNamed(Routes.homeScreen);
+            context.pushReplacedNamed(Routes.profileScreen);
           },
           goToLocation: () {
             context.pushReplacedNamed(Routes.setLocationScreen);

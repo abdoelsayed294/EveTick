@@ -51,4 +51,22 @@ class FirebaseErrorHandler {
   static FirebaseFailure handleGeneric(Object e) {
     return FirebaseFailure('Something went wrong, please try again');
   }
+  
+  static FirebaseFailure handleFirestore(FirebaseException e) {
+  switch (e.code) {
+    case 'permission-denied':
+      return FirebaseFailure('Permission denied');
+
+    case 'unavailable':
+      return FirebaseFailure('Service unavailable');
+
+    case 'not-found':
+      return FirebaseFailure('Data not found');
+
+    default:
+      return FirebaseFailure(
+        'Firestore Error: ${e.code}',
+      );
+  }
+}
 }

@@ -1,0 +1,100 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:evetick/core/helpers/spacing.dart';
+import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/features/profile/logic/profile_cubit.dart';
+import 'package:evetick/features/profile/logic/profile_state.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class ProfileHeader extends StatelessWidget {
+  const ProfileHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
+        return state.when(
+          initial: () => const SizedBox.shrink(),
+
+          loading: () => const Center(
+            child: CircularProgressIndicator(color: ColorsManager.orange),
+          ),
+
+          success: (user) {
+            return Column(
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      width: 120.w,
+                      height: 120.h,
+                      padding: EdgeInsets.all(8.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.r),
+                        border: Border.all(
+                          color: ColorsManager.orange,
+                          width: 1.w,
+                        ),
+                      ),
+                      child: ClipOval(
+                        child: user.imageUrl == null
+                            ? Image.asset(
+                                'assets/images/profile_image.png',
+                                fit: BoxFit.cover,
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: user.imageUrl!,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator(color: ColorsManager.orange),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                      'assets/images/profile_image.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                              ),
+                      ),
+                    ),
+
+                    Positioned(
+                      bottom: 0,
+                      right: 8.w,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          width: 30.w,
+                          height: 30.h,
+                          decoration: BoxDecoration(
+                            color: ColorsManager.orange,
+                            borderRadius: BorderRadius.circular(100.r),
+                          ),
+                          child: Icon(
+                            Icons.camera_alt_rounded,
+                            color: ColorsManager.white,
+                            size: 24.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                verticalSpace(16.h),
+                Text(user.name, style: TextStyles.font18WhiteBold),
+                verticalSpace(4.h),
+                Text(
+                  'Premium Attendee',
+                  style: TextStyles.font16LightGrayRegular,
+                ),
+              ],
+            );
+          },
+
+          error: (error) => Center(child: Text(error)),
+        );
+      },
+    );
+  }
+}
