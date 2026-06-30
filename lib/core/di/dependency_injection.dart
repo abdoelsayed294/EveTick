@@ -8,6 +8,8 @@ import 'package:evetick/features/location/repos/location_repository_impl.dart';
 import 'package:evetick/features/onboarding/data/onboarding_repository_impl.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:evetick/features/profile/data/profile_repository.dart';
+import 'package:evetick/features/profile/logic/profile_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:get_it/get_it.dart';
@@ -33,7 +35,16 @@ Future<void> setupGetIt() async {
   getIt.registerFactory<SignupCubit>(
     () => SignupCubit(getIt<AuthRepository>()),
   );
+
   getIt.registerFactory<LocationCubit>(
     () => LocationCubit(locationRepository: getIt<LocationRepository>()),
+  );
+
+  getIt.registerLazySingleton<ProfileRepository>(
+  () => ProfileRepository(),
+);
+
+  getIt.registerFactory<ProfileCubit>(
+    () => ProfileCubit(getIt<ProfileRepository>()),
   );
 }

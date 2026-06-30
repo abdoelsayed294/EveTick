@@ -3,7 +3,7 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/core/widgets/outline_app_text_button.dart';
-import 'package:evetick/features/profile/ui/widgets/profile_image.dart';
+import 'package:evetick/features/profile/ui/widgets/profile_header.dart';
 import 'package:evetick/features/profile/ui/widgets/profile_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,14 +25,7 @@ class ProfileScreen extends StatelessWidget {
                   child: Text('My Profile', style: TextStyles.font18WhiteBold),
                 ),
                 verticalSpace(24.h),
-                ProfileImage(),
-                verticalSpace(16.h),
-                Text('Abdelrhman Elsayed', style: TextStyles.font18WhiteBold),
-                verticalSpace(4.h),
-                Text(
-                  'Premium Attendee',
-                  style: TextStyles.font16LightGrayRegular,
-                ),
+                ProfileHeader(),
                 verticalSpace(16.h),
                 FilledAppTextButton(
                   buttonWidth: 151.w,

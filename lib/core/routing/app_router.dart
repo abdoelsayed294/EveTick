@@ -16,6 +16,7 @@ import 'package:evetick/features/location/repos/location_repository.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
+import 'package:evetick/features/profile/logic/profile_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/ui/welcome_screen.dart';
 import 'package:evetick/features/profile/ui/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,10 @@ class AppRouter {
         );
       case Routes.profileScreen:
         return MaterialPageRoute(
-          builder: (_) => const ProfileScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ProfileCubit>()..getUserData(),
+            child: const ProfileScreen(),
+          ),
         );
       default:
         return MaterialPageRoute(
