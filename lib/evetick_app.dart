@@ -1,6 +1,7 @@
 import 'package:evetick/core/routing/app_router.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/features/animated_navbar/test-nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,7 +23,7 @@ class EvetickApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: appRouter.generateRoute,
-          initialRoute: Routes.appStartScreen,
+          home: TestNav(),
         );
       },
     );
