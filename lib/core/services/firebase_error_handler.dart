@@ -69,4 +69,23 @@ class FirebaseErrorHandler {
       );
   }
 }
+
+static FirebaseFailure handleStorage(FirebaseException e) {
+  switch (e.code) {
+    case 'object-not-found':
+      return FirebaseFailure('File not found');
+
+    case 'unauthorized':
+      return FirebaseFailure('Unauthorized');
+
+    case 'canceled':
+      return FirebaseFailure('Upload cancelled');
+
+    case 'unknown':
+      return FirebaseFailure('Unknown storage error');
+
+    default:
+      return FirebaseFailure(e.message ?? 'Storage Error');
+  }
+}
 }

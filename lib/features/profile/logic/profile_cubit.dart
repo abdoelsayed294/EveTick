@@ -23,5 +23,24 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
     );
   }
+
+  Future<void> uploadProfileImage() async {
+  emit(const ProfileState.uploadingImage());
+
+  final result = await profileRepo.uploadProfileImage();
+
+  result.when(
+    success: (imageUrl) {
+      getUserData();
+    },
+    failure: (failure) {
+      emit(
+        ProfileState.error(
+          error: failure.message,
+        ),
+      );
+    },
+  );
+}
   
 }

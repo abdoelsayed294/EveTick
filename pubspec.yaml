@@ -41,8 +41,9 @@ dependencies:
   cloud_firestore: ^6.2.0
   geolocator: ^14.0.3
   geocoding: ^4.0.0
-  supabase_flutter: ^2.9.1
   cached_network_image: ^3.4.1
+  image_picker: ^1.2.3
+  firebase_storage: ^13.2.0
 
 dev_dependencies:
   flutter_test:
