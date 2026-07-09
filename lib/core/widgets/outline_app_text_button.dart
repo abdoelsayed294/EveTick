@@ -23,7 +23,6 @@ class OutlineAppTextButton extends StatelessWidget {
     this.buttonHeight,
     required this.buttonText,
     required this.onPressed,
-    this.textStyle,
     this.trailing,
   });
 
