@@ -4,6 +4,7 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/widgets/app_text_form_field.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,9 +39,8 @@ class _NameEmailAndPasswordState extends State<NameEmailAndPassword> {
       child: Column(
         children: [
           AppTextFormField(
-            label: 'Full Name',
-            hintText: 'Enter your Name',
-            
+            label:  AppLocalizations.of(context)!.authFullNameLabel,
+            hintText: AppLocalizations.of(context)!.authFullNamePlaceholder,
             validator: (value){
               if(value == null || value.isEmpty){
                 return 'Please enter a valid name';
@@ -50,8 +50,8 @@ class _NameEmailAndPasswordState extends State<NameEmailAndPassword> {
           ),
           verticalSpace(16),
           AppTextFormField(
-            label: 'Email Address',
-            hintText: 'Enter your email',
+            label: AppLocalizations.of(context)!.authEmailAddressLabel,
+            hintText: AppLocalizations.of(context)!.authEmailPlaceholder,
             suffixIcon: Icon(
               Icons.email_outlined,
               color: ColorsManager.lightGray,
@@ -67,8 +67,8 @@ class _NameEmailAndPasswordState extends State<NameEmailAndPassword> {
           verticalSpace(16),
 
           AppTextFormField(
-            label: 'Password',
-            hintText: 'Enter your password',
+            label: AppLocalizations.of(context)!.authPasswordLabel,
+            hintText: AppLocalizations.of(context)!.authPasswordPlaceholder,
             isObscureText: isObscureText,
             controller: context.read<SignupCubit>().passwordController,
             suffixIcon: GestureDetector(

@@ -1,6 +1,3 @@
-import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
-import 'package:evetick/features/onboarding/presentation/widgets/image_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
