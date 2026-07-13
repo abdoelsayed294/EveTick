@@ -7,6 +7,7 @@ import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
 import 'package:evetick/features/location/presentation/widgets/location_listener.dart';
 import 'package:evetick/features/location/presentation/widgets/manual_location_bottom_sheet.dart';
 import 'package:evetick/features/location/presentation/widgets/where_are_you.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,7 +39,7 @@ class _SetLocationState extends State<SetLocation> {
                 onPressed: () async {
                   await context.read<LocationCubit>().skipLocation();
                 },
-                child: Text('skip', style: TextStyles.font16LightGrayRegular),
+                child: Text(AppLocalizations.of(context)!.commonSkip, style: TextStyles.font16LightGrayRegular),
               ),
             ),
           ),
@@ -46,7 +47,7 @@ class _SetLocationState extends State<SetLocation> {
           WhereAreYou(),
           verticalSpace(98),
           FilledAppTextButton(
-            buttonText: 'Use Current Location',
+            buttonText: AppLocalizations.of(context)!.locationUseCurrentLocation,
             onPressed: () {
               context.read<LocationCubit>().getCurrentLocation();
             },
@@ -54,7 +55,7 @@ class _SetLocationState extends State<SetLocation> {
           ),
           verticalSpace(16),
           OutlineAppTextButton(
-            buttonText: 'Select Manually',
+            buttonText: AppLocalizations.of(context)!.locationSelectManually,
             onPressed: () {
               showModalBottomSheet(
                 context: context,

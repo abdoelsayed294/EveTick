@@ -4,6 +4,7 @@ import 'package:evetick/features/onboarding/presentation/widgets/CustomButton.da
 import 'package:evetick/features/onboarding/presentation/widgets/custom_indicator.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/image_gradient.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/onboarding1_image.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -37,7 +38,7 @@ class Onboarding1Screen extends StatelessWidget {
               left: 16.w,
               right: 16.w,
               child: Text(
-                'Discover Local \n Events',
+                AppLocalizations.of(context)!.onboardingSlide1Title,
                 style: TextStyles.font24WhiteBold,
                 textAlign: TextAlign.center,
               ),
@@ -47,7 +48,7 @@ class Onboarding1Screen extends StatelessWidget {
               left: 16.w,
               right: 16.w,
               child: Text(
-                'Find and book tickets for concerts, cinema, and more happening right in your city',
+                AppLocalizations.of(context)!.onboardingSlide1Subtitle,
                 style: TextStyles.font16LightGrayRegular,
                 textAlign: TextAlign.center,
               ),
@@ -73,7 +74,7 @@ class Onboarding1Screen extends StatelessWidget {
               bottom: 740.h,
               child: TextButton(
                 onPressed: onSkip,
-                child: Text('Skip', style: TextStyles.font16LightGrayRegular),
+                child: Text(AppLocalizations.of(context)!.commonSkip, style: TextStyles.font16LightGrayRegular),
               ),
             ),
             Padding(
@@ -84,7 +85,7 @@ class Onboarding1Screen extends StatelessWidget {
                 bottom: 117.h,
               ),
               child: CustomButton(
-                action: 'Next',
+                action: AppLocalizations.of(context)!.commonNext,
                 width: double.infinity,
                 onTap: onNext,
               ),

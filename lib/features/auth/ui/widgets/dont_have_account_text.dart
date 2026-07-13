@@ -2,6 +2,7 @@ import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/styles.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,11 +20,11 @@ class DontHaveAccountText extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Don\'t have an account? ',
+              text: AppLocalizations.of(context)!.authNoAccountPrompt,
               style: TextStyles.font12LightGrayRegular
             ),
             TextSpan(
-              text: 'Sign Up',
+              text: AppLocalizations.of(context)!.authNoAccountPromptRemain,
               style: TextStyles.font12OrangeMid
             )
           ]
