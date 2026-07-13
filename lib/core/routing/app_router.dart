@@ -81,8 +81,15 @@ class AppRouter {
         );
       case Routes.profileScreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => getIt<ProfileCubit>()..getUserData(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<ProfileCubit>()..getUserData(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<LoginCubit>(),
+              ),
+            ],
             child: const ProfileScreen(),
           ),
         );

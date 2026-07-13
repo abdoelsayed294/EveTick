@@ -1,4 +1,5 @@
 import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -16,7 +17,7 @@ class PlatformContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: ColorsManager.black.withValues(alpha: 0.25),
+            color: context.colors.black.withValues(alpha: 0.25),
             blurRadius: 4,
             offset: Offset(0, 4),
           ),

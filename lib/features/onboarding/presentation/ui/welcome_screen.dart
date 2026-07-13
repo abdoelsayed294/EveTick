@@ -1,7 +1,8 @@
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/core/widgets/outline_app_text_button.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
@@ -20,7 +21,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsManager.darkBlue,
+      backgroundColor: context.colors.darkBlue,
       body: SingleChildScrollView(
         child: SizedBox(
           height: 812.h,
@@ -36,7 +37,7 @@ class WelcomeScreen extends StatelessWidget {
                     'assets/svgs/google.svg',
                     height: 23.h,
                   ),
-                  textStyle: TextStyles.font16WhiteMid,
+                  textStyle: TextStyles.font16WhiteMid(context),
                   buttonText: AppLocalizations.of(context)!.authContinueWithGoogle,
                   onPressed: () {},
                 ),
@@ -49,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
                     'assets/svgs/facebook.svg',
                     height: 23.h,
                   ),
-                  textStyle: TextStyles.font16WhiteMid,
+                  textStyle: TextStyles.font16WhiteMid(context),
                   buttonText: AppLocalizations.of(context)!.authContinueWithFacebook,
                   onPressed: () {},
                 ),
@@ -74,7 +75,7 @@ class WelcomeScreen extends StatelessWidget {
                   },
                   child: Text(
                     AppLocalizations.of(context)!.authContinueAsGuest,
-                    style: TextStyles.font16LightGrayMid,
+                    style: TextStyles.font16LightGrayMid(context),
                   ),
                 ),
               ),

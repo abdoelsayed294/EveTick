@@ -1,6 +1,7 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,6 +23,7 @@ class LogoAndHook extends StatelessWidget {
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
               height: 1.4,
+              color: context.colors.white
             ),
             children: [
               TextSpan(text: AppLocalizations.of(context)!.onboardingWelcomeTitle),
@@ -35,7 +37,7 @@ class LogoAndHook extends StatelessWidget {
         verticalSpace(8),
         Text(
           AppLocalizations.of(context)!.onboardingWelcomeSubtitle,
-          style: TextStyles.font16LightGrayRegular,
+          style: TextStyles.font16LightGrayRegular(context),
         ),
       ],
     );

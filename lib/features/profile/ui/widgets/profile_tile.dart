@@ -1,6 +1,7 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,8 +12,8 @@ class ProfileTile extends StatelessWidget {
   final String? subtitle;
   final String? trailingText;
   final VoidCallback? onTap;
-
-  ProfileTile({
+  
+  const ProfileTile({
     super.key,
     required this.iconPath,
     required this.title,
@@ -31,7 +32,7 @@ class ProfileTile extends StatelessWidget {
           width: 44.w,
           height: 42.h,
           decoration: BoxDecoration(
-            color: ColorsManager.textBackround,
+            color: context.colors.textBackground,
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Padding(
@@ -39,21 +40,21 @@ class ProfileTile extends StatelessWidget {
             child: SvgPicture.asset(iconPath, fit: BoxFit.contain),
           ),
         ),
-        title: Text(title, style: TextStyles.font16WhiteRegular),
+        title: Text(title, style: TextStyles.font16WhiteRegular(context)),
         subtitle: subtitle == null
       ? null
       : Text(
           subtitle!,
-          style: TextStyles.font12LightGrayRegular,
+          style: TextStyles.font12LightGrayRegular(context),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (trailingText != null) ...[
-              Text(trailingText!, style: TextStyles.font12LightGrayRegular),
+              Text(trailingText!, style: TextStyles.font12LightGrayRegular(context)),
               horizontalSpace(8.w),
             ],
-            Icon(Icons.arrow_forward_ios_rounded, color: ColorsManager.lightGray),
+            Icon(Icons.arrow_forward_ios_rounded, color: context.colors.lightGray),
           ],
         ),
       ),

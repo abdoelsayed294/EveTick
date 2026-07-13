@@ -1,6 +1,7 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -30,7 +31,7 @@ class AppTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.backgroundColor,
     this.controller,
-    required this.validator
+    required this.validator,
   });
 
   @override
@@ -39,53 +40,50 @@ class AppTextFormField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(label, style: TextStyles.font16WhiteRegular),
+        Text(label, style: TextStyles.font16WhiteRegular(context)),
         verticalSpace(8),
         TextFormField(
           controller: controller,
           decoration: InputDecoration(
             isDense: true,
             contentPadding:
-            contentPadding ??
-            EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+                contentPadding ??
+                EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
             focusedBorder:
-            focusedBorder ??
-            OutlineInputBorder(
-              borderSide: BorderSide(color: ColorsManager.orange, width: 1.3),
-              borderRadius: BorderRadius.circular(12.0),
-            ),
+                focusedBorder ??
+                OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.orange,
+                    width: 1.3,
+                  ),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
             enabledBorder:
-            enabledBorder ??
-            OutlineInputBorder(
-              borderSide: BorderSide(
-                color: ColorsManager.lightBlue,
-                width: 1.3,
-              ),
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            errorBorder:OutlineInputBorder(
-              borderSide: BorderSide(
-                color: ColorsManager.red,
-                width: 1.3,
-              ),
+                enabledBorder ??
+                OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: context.colors.lightBlue,
+                    width: 1.3,
+                  ),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: ColorsManager.red, width: 1.3),
               borderRadius: BorderRadius.circular(12.0),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: ColorsManager.red,
-                width: 1.3,
-              ),
+              borderSide: BorderSide(color: ColorsManager.red, width: 1.3),
               borderRadius: BorderRadius.circular(12.0),
             ),
             filled: true,
             fillColor: backgroundColor ?? ColorsManager.fourthBlue,
-            hintStyle: hintStyle ?? TextStyles.font16LightGrayRegular,
+            hintStyle: hintStyle ?? TextStyles.font16LightGrayRegular(context),
             hintText: hintText,
-            suffixIcon: suffixIcon,        
+            suffixIcon: suffixIcon,
           ),
           obscureText: isObscureText ?? false,
-          style: inputTextStyle ?? TextStyles.font16WhiteRegular,
-          validator: (value){
+          style: inputTextStyle ?? TextStyles.font16WhiteRegular(context),
+          validator: (value) {
             return validator(value);
           },
         ),

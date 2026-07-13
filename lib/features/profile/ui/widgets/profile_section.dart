@@ -1,6 +1,7 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/profile/ui/widgets/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,12 +40,12 @@ final VoidCallback? secondAction;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(sectionTitle, style: TextStyles.font16lightGrayMid),
+        Text(sectionTitle, style: TextStyles.font16lightGrayMid(context)),
         verticalSpace(16),
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: ColorsManager.lightBlue,
+            color: context.colors.lightBlue,
             borderRadius: BorderRadius.circular(13.r),
           ),
           child: Padding(
@@ -59,7 +60,7 @@ final VoidCallback? secondAction;
                   onTap: firstAction,
                 ),
 
-                Divider(color: ColorsManager.darkBlue, thickness: 1),
+                Divider(color: context.colors.darkBlue, thickness: 1),
 
                 ProfileTile(
                   iconPath: secondIconPath,

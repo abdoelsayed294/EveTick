@@ -1,5 +1,6 @@
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/CustomButton.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/custom_indicator.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/image_gradient.dart';
@@ -29,7 +30,7 @@ class Onboarding1Screen extends StatelessWidget {
             Onboarding1Image(),
             Positioned.fill(
               child: Container(
-                color: ColorsManager.darkBlue.withValues(alpha: 0.2),
+                color: context.colors.darkBlue.withValues(alpha: 0.2),
               ),
             ),
             ImageGradient(),
@@ -39,7 +40,7 @@ class Onboarding1Screen extends StatelessWidget {
               right: 16.w,
               child: Text(
                 AppLocalizations.of(context)!.onboardingSlide1Title,
-                style: TextStyles.font24WhiteBold,
+                style: TextStyles.font24WhiteBold(context),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -49,7 +50,7 @@ class Onboarding1Screen extends StatelessWidget {
               right: 16.w,
               child: Text(
                 AppLocalizations.of(context)!.onboardingSlide1Subtitle,
-                style: TextStyles.font16LightGrayRegular,
+                style: TextStyles.font16LightGrayRegular(context),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -74,7 +75,7 @@ class Onboarding1Screen extends StatelessWidget {
               bottom: 740.h,
               child: TextButton(
                 onPressed: onSkip,
-                child: Text(AppLocalizations.of(context)!.commonSkip, style: TextStyles.font16LightGrayRegular),
+                child: Text(AppLocalizations.of(context)!.commonSkip, style: TextStyles.font16LightGrayRegular(context)),
               ),
             ),
             Padding(

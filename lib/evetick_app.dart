@@ -1,6 +1,6 @@
 import 'package:evetick/core/routing/app_router.dart';
 import 'package:evetick/core/routing/routes.dart';
-import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/core/theming/app_theme.dart';
 import 'package:evetick/features/localization/logic/locale_cubit.dart';
 import 'package:evetick/features/localization/logic/locale_state.dart';
 import 'package:evetick/l10n/app_localizations.dart';
@@ -22,10 +22,7 @@ class EvetickApp extends StatelessWidget {
           builder: (context, state) {
             return MaterialApp(
               title: 'EveTick',
-              theme: ThemeData(
-                primaryColor: ColorsManager.darkBlue,
-                scaffoldBackgroundColor: ColorsManager.darkBlue,
-              ),
+              theme: AppTheme.darkTheme,
               debugShowCheckedModeBanner: false,
               onGenerateRoute: appRouter.generateRoute,
               initialRoute: Routes.appStartScreen,

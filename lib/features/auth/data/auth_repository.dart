@@ -127,4 +127,8 @@ class AuthRepository {
       return Result.failure(FirebaseErrorHandler.handleGeneric(e));
     }
   }
+
+  Future<void> logout() async {
+    await auth.signOut();
+  }
 }

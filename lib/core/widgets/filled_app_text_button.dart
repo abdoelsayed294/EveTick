@@ -1,5 +1,5 @@
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,7 +38,7 @@ class FilledAppTextButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(buttonText, style: TextStyles.font16WhiteMid),
+      child: Text(buttonText, style: TextStyles.font16WhiteMid(context)),
     );
   }
 }

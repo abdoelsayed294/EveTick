@@ -1,74 +1,85 @@
 import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/font_weight_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextStyles {
-  static TextStyle font18DarkBlueBold = TextStyle(
+  static TextStyle font18DarkBlueBold(BuildContext context) => TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeightHelper.bold,
-    color: ColorsManager.darkBlue,
+    color: context.colors.white,
   );
-  static TextStyle font24WhiteBold = TextStyle(
+
+  static TextStyle font24WhiteBold(BuildContext context) => TextStyle(
     fontSize: 24.sp,
     fontWeight: FontWeightHelper.bold,
-    color: ColorsManager.white,
+    color: context.colors.white,
   );
-  static TextStyle font16LightGrayRegular = TextStyle(
+
+  static TextStyle font16LightGrayRegular(BuildContext context) => TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.regular,
-    color: ColorsManager.lightGray,
+    color: context.colors.lightGray,
   );
-  static TextStyle font16WhiteMid = TextStyle(
+
+  static TextStyle font16WhiteMid(BuildContext context) => TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.medium,
-    color: ColorsManager.white,
+    color: context.colors.white,
   );
   static TextStyle font16RedMid = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.medium,
     color: ColorsManager.red,
   );
-  static TextStyle font16lightGrayMid = TextStyle(
+
+  static TextStyle font16lightGrayMid(BuildContext context) => TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.medium,
-    color: ColorsManager.lightGray,
+    color: context.colors.lightGray,
   );
-  static TextStyle font16WhiteRegular = TextStyle(
+
+  static TextStyle font16WhiteRegular(BuildContext context) => TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.regular,
-    color: ColorsManager.white,
+    color: context.colors.white,
   );
-  static TextStyle font16LightGrayMid = TextStyle(
+
+  static TextStyle font16LightGrayMid(BuildContext context) => TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.medium,
-    color: ColorsManager.lightGray,
+    color: context.colors.lightGray,
   );
-  static TextStyle font18WhiteBold = TextStyle(
+
+  static TextStyle font18WhiteBold(BuildContext context) => TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeightHelper.bold,
-    color: ColorsManager.white,
+    color: context.colors.white,
   );
-  static TextStyle font16WhiteBold = TextStyle(
+  static TextStyle font16WhiteBold(BuildContext context) => TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.bold,
-    color: ColorsManager.white,
+    color: context.colors.white,
   );
-  static TextStyle font12LightGrayRegular = TextStyle(
+  static TextStyle font12LightGrayRegular(BuildContext context) => TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeightHelper.regular,
-    color: ColorsManager.lightGray,
+    color: context.colors.lightGray,
   );
+
   static TextStyle font12OrangeBold = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeightHelper.bold,
     color: ColorsManager.orange,
   );
+
   static TextStyle font12OrangeMid = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeightHelper.medium,
     color: ColorsManager.orange,
   );
+
   static TextStyle font16OrangeRegular = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.regular,

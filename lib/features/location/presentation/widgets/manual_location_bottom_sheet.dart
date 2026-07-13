@@ -1,6 +1,6 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
 import 'package:evetick/l10n/app_localizations.dart';
@@ -32,12 +32,12 @@ class _ManualLocationBottomSheetState extends State<ManualLocationBottomSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(AppLocalizations.of(context)!.locationSelectGovernorate, style: TextStyles.font18WhiteBold),
+          Text(AppLocalizations.of(context)!.locationSelectGovernorate, style: TextStyles.font18WhiteBold(context)),
 
           verticalSpace(24),
 
           DropdownButtonFormField<String>(
-            style: TextStyles.font16WhiteRegular,
+            style: TextStyles.font16WhiteRegular(context),
             value: selectedGovernorate,
             dropdownColor: ColorsManager.darkBlue,
             decoration: InputDecoration(
@@ -49,7 +49,7 @@ class _ManualLocationBottomSheetState extends State<ManualLocationBottomSheet> {
             ),
             hint: Text(
               AppLocalizations.of(context)!.locationSelectGovernorate,
-              style: TextStyles.font16LightGrayRegular,
+              style: TextStyles.font16LightGrayRegular(context),
             ),
             items: governorates.map((governorate) {
               return DropdownMenuItem(

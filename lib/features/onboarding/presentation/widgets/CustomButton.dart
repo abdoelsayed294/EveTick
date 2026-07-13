@@ -1,4 +1,5 @@
 import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -30,7 +31,7 @@ class CustomButton extends StatelessWidget {
         child: Text(
           action,
           style: TextStyle(
-            color: ColorsManager.white,
+            color: context.colors.white,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
