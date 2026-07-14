@@ -1,19 +1,42 @@
 class LocationModel {
-  final String city;
-  final String country;
+  final double latitude;
+  final double longitude;
+  final String? address;
 
-  LocationModel({required this.city, required this.country});
+  const LocationModel({
+    required this.latitude,
+    required this.longitude,
+    this.address,
+  });
 
-  Map<String, dynamic> toJson() {
-    return {'city': city, 'country': country};
-  }
+  factory LocationModel.empty() =>
+      const LocationModel(latitude: 0, longitude: 0);
+
+  bool get isEmpty => latitude == 0 && longitude == 0;
+
+  Map<String, dynamic> toJson() => {
+    'latitude': latitude,
+    'longitude': longitude,
+    'address': address,
+  };
 
   factory LocationModel.fromJson(Map<String, dynamic> json) {
     return LocationModel(
-      city: json['city'] ?? '',
-      country: json['country'] ?? '',
+      latitude: (json['latitude'] as num?)?.toDouble() ?? 0.0,
+      longitude: (json['longitude'] as num?)?.toDouble() ?? 0.0,
+      address: json['address'] as String?,
     );
   }
 
-  bool get isEmpty => city.isEmpty || country.isEmpty;
+  LocationModel copyWith({
+    double? latitude,
+    double? longitude,
+    String? address,
+  }) {
+    return LocationModel(
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      address: address ?? this.address,
+    );
+  }
 }
