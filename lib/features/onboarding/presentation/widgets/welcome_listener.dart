@@ -23,7 +23,7 @@ class WelcomeListener extends StatelessWidget {
           },
         );
       },
-      child: const SizedBox.shrink()
+      child: SizedBox.shrink(),
     );
   }
 }
