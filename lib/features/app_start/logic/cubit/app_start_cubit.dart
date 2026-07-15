@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:evetick/features/app_start/logic/cubit/app_start_state.dart';
 import 'package:evetick/features/auth/data/auth_repository.dart';
-import 'package:evetick/features/location/repos/location_repository.dart';
+import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 
 class AppStartCubit extends Cubit<AppStartState> {

@@ -55,13 +55,15 @@ extension LocationStatePatterns on LocationState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Loaded value)?  loaded,TResult Function( _Saved value)?  saved,TResult Function( _Error value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Loaded value)?  loaded,TResult Function( _LocationSelected value)?  locationSelected,TResult Function( _LocationUpdated value)?  locationUpdated,TResult Function( _Saved value)?  saved,TResult Function( _Error value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
 return loading(_that);case _Loaded() when loaded != null:
-return loaded(_that);case _Saved() when saved != null:
+return loaded(_that);case _LocationSelected() when locationSelected != null:
+return locationSelected(_that);case _LocationUpdated() when locationUpdated != null:
+return locationUpdated(_that);case _Saved() when saved != null:
 return saved(_that);case _Error() when error != null:
 return error(_that);case _:
   return orElse();
@@ -81,13 +83,15 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Loaded value)  loaded,required TResult Function( _Saved value)  saved,required TResult Function( _Error value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Loaded value)  loaded,required TResult Function( _LocationSelected value)  locationSelected,required TResult Function( _LocationUpdated value)  locationUpdated,required TResult Function( _Saved value)  saved,required TResult Function( _Error value)  error,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that);case _Loading():
 return loading(_that);case _Loaded():
-return loaded(_that);case _Saved():
+return loaded(_that);case _LocationSelected():
+return locationSelected(_that);case _LocationUpdated():
+return locationUpdated(_that);case _Saved():
 return saved(_that);case _Error():
 return error(_that);case _:
   throw StateError('Unexpected subclass');
@@ -106,13 +110,15 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Loaded value)?  loaded,TResult? Function( _Saved value)?  saved,TResult? Function( _Error value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Loaded value)?  loaded,TResult? Function( _LocationSelected value)?  locationSelected,TResult? Function( _LocationUpdated value)?  locationUpdated,TResult? Function( _Saved value)?  saved,TResult? Function( _Error value)?  error,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
 return loading(_that);case _Loaded() when loaded != null:
-return loaded(_that);case _Saved() when saved != null:
+return loaded(_that);case _LocationSelected() when locationSelected != null:
+return locationSelected(_that);case _LocationUpdated() when locationUpdated != null:
+return locationUpdated(_that);case _Saved() when saved != null:
 return saved(_that);case _Error() when error != null:
 return error(_that);case _:
   return null;
@@ -131,12 +137,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( LocationModel location)?  loaded,TResult Function()?  saved,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( LocationModel location)?  loaded,TResult Function( LocationModel location)?  locationSelected,TResult Function( LocationModel location)?  locationUpdated,TResult Function()?  saved,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.location);case _Saved() when saved != null:
+return loaded(_that.location);case _LocationSelected() when locationSelected != null:
+return locationSelected(_that.location);case _LocationUpdated() when locationUpdated != null:
+return locationUpdated(_that.location);case _Saved() when saved != null:
 return saved();case _Error() when error != null:
 return error(_that.message);case _:
   return orElse();
@@ -156,12 +164,14 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( LocationModel location)  loaded,required TResult Function()  saved,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( LocationModel location)  loaded,required TResult Function( LocationModel location)  locationSelected,required TResult Function( LocationModel location)  locationUpdated,required TResult Function()  saved,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Loaded():
-return loaded(_that.location);case _Saved():
+return loaded(_that.location);case _LocationSelected():
+return locationSelected(_that.location);case _LocationUpdated():
+return locationUpdated(_that.location);case _Saved():
 return saved();case _Error():
 return error(_that.message);case _:
   throw StateError('Unexpected subclass');
@@ -180,12 +190,14 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( LocationModel location)?  loaded,TResult? Function()?  saved,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( LocationModel location)?  loaded,TResult? Function( LocationModel location)?  locationSelected,TResult? Function( LocationModel location)?  locationUpdated,TResult? Function()?  saved,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.location);case _Saved() when saved != null:
+return loaded(_that.location);case _LocationSelected() when locationSelected != null:
+return locationSelected(_that.location);case _LocationUpdated() when locationUpdated != null:
+return locationUpdated(_that.location);case _Saved() when saved != null:
 return saved();case _Error() when error != null:
 return error(_that.message);case _:
   return null;
@@ -317,6 +329,138 @@ class __$LoadedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? location = null,}) {
   return _then(_Loaded(
+null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as LocationModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _LocationSelected implements LocationState {
+  const _LocationSelected(this.location);
+  
+
+ final  LocationModel location;
+
+/// Create a copy of LocationState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LocationSelectedCopyWith<_LocationSelected> get copyWith => __$LocationSelectedCopyWithImpl<_LocationSelected>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocationSelected&&(identical(other.location, location) || other.location == location));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,location);
+
+@override
+String toString() {
+  return 'LocationState.locationSelected(location: $location)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$LocationSelectedCopyWith<$Res> implements $LocationStateCopyWith<$Res> {
+  factory _$LocationSelectedCopyWith(_LocationSelected value, $Res Function(_LocationSelected) _then) = __$LocationSelectedCopyWithImpl;
+@useResult
+$Res call({
+ LocationModel location
+});
+
+
+
+
+}
+/// @nodoc
+class __$LocationSelectedCopyWithImpl<$Res>
+    implements _$LocationSelectedCopyWith<$Res> {
+  __$LocationSelectedCopyWithImpl(this._self, this._then);
+
+  final _LocationSelected _self;
+  final $Res Function(_LocationSelected) _then;
+
+/// Create a copy of LocationState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? location = null,}) {
+  return _then(_LocationSelected(
+null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
+as LocationModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _LocationUpdated implements LocationState {
+  const _LocationUpdated(this.location);
+  
+
+ final  LocationModel location;
+
+/// Create a copy of LocationState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LocationUpdatedCopyWith<_LocationUpdated> get copyWith => __$LocationUpdatedCopyWithImpl<_LocationUpdated>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocationUpdated&&(identical(other.location, location) || other.location == location));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,location);
+
+@override
+String toString() {
+  return 'LocationState.locationUpdated(location: $location)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$LocationUpdatedCopyWith<$Res> implements $LocationStateCopyWith<$Res> {
+  factory _$LocationUpdatedCopyWith(_LocationUpdated value, $Res Function(_LocationUpdated) _then) = __$LocationUpdatedCopyWithImpl;
+@useResult
+$Res call({
+ LocationModel location
+});
+
+
+
+
+}
+/// @nodoc
+class __$LocationUpdatedCopyWithImpl<$Res>
+    implements _$LocationUpdatedCopyWith<$Res> {
+  __$LocationUpdatedCopyWithImpl(this._self, this._then);
+
+  final _LocationUpdated _self;
+  final $Res Function(_LocationUpdated) _then;
+
+/// Create a copy of LocationState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? location = null,}) {
+  return _then(_LocationUpdated(
 null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
 as LocationModel,
   ));

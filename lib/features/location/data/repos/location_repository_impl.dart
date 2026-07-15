@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evetick/features/location/models/location_model.dart';
-import 'package:evetick/features/location/repos/location_repository.dart';
+import 'package:evetick/features/location/data/models/location_model.dart';
+import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -40,8 +37,9 @@ class LocationRepositoryImpl implements LocationRepository {
 
     final place = placemarks.first;
     return LocationModel(
-      city: place.locality ?? '',
-      country: place.country ?? '',
+      latitude: position.latitude,
+      longitude: position.longitude,
+      address: [place.locality, place.country].whereType<String>().join(', '),
     );
   }
 
@@ -50,8 +48,7 @@ class LocationRepositoryImpl implements LocationRepository {
     final uid = auth.currentUser!.uid;
 
     await firestore.collection('users').doc(uid).update({
-      'city': location.city,
-      'country': location.country,
+      'location': location.toJson(),
       'locationSkipped': false,
     });
   }
@@ -67,28 +64,34 @@ class LocationRepositoryImpl implements LocationRepository {
 
     final data = doc.data();
     if (data?['locationSkipped'] == true) {
-      return LocationModel(country: '', city: '');
+      return LocationModel(latitude: 0, longitude: 0, address: 'Not Defined');
     }
-    if (data == null || data['city'] == null || data['country'] == null) {
-      return null;
-    }
+    final location = data?['location'];
 
-    return LocationModel.fromJson(data);
-  }
+    if (location == null) return null;
 
-  @override
-  Future<List<String>> getGovernorates() async {
-    final jsonString = await rootBundle.loadString(
-      'assets/json/egypt_governorates.json',
-    );
-    return List<String>.from(jsonDecode(jsonString));
+    return LocationModel.fromJson(location);
   }
 
   @override
   Future<void> skipLocation() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update({'locationSkipped': true});
+    await firestore.collection('users').doc(auth.currentUser!.uid).update({
+      'locationSkipped': true,
+    });
+  }
+
+  @override
+  Future<LocationModel> getLocationFromCoordinates({
+    required double latitude,
+    required double longitude,
+  }) async {
+    final placemarks = await placemarkFromCoordinates(latitude, longitude);
+    final place = placemarks.first;
+
+    return LocationModel(
+      latitude: latitude,
+      longitude: longitude,
+      address: [place.locality, place.country].whereType<String>().join(', '),
+    );
   }
 }
