@@ -11,8 +11,9 @@ import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
 import 'package:evetick/features/home/home_screen.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
+import 'package:evetick/features/location/presentation/screens/map_picker_screen.dart';
 import 'package:evetick/features/location/presentation/screens/set_location.dart';
-import 'package:evetick/features/location/repos/location_repository.dart';
+import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
@@ -84,6 +85,13 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<ProfileCubit>()..getUserData(),
             child: const ProfileScreen(),
+          ),
+        );
+      case Routes.mapPickerScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<LocationCubit>(),
+            child: MapPickerScreen(),
           ),
         );
       default:

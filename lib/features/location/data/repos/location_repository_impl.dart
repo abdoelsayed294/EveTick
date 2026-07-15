@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evetick/features/location/models/location_model.dart';
-import 'package:evetick/features/location/repos/location_repository.dart';
+import 'package:evetick/features/location/data/models/location_model.dart';
+import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -78,5 +78,20 @@ class LocationRepositoryImpl implements LocationRepository {
     await firestore.collection('users').doc(auth.currentUser!.uid).update({
       'locationSkipped': true,
     });
+  }
+
+  @override
+  Future<LocationModel> getLocationFromCoordinates({
+    required double latitude,
+    required double longitude,
+  }) async {
+    final placemarks = await placemarkFromCoordinates(latitude, longitude);
+    final place = placemarks.first;
+
+    return LocationModel(
+      latitude: latitude,
+      longitude: longitude,
+      address: [place.locality, place.country].whereType<String>().join(', '),
+    );
   }
 }
