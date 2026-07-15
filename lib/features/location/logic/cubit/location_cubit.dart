@@ -36,7 +36,7 @@ class LocationCubit extends Cubit<LocationState> {
 
   void setSelectedLocation(LocationModel location) {
     selectedLocation = location;
-    emit(LocationState.loaded(location));
+    emit(LocationState.locationSelected(location));
   }
 
   Future<void> updateSelectedLocation({
@@ -51,7 +51,7 @@ class LocationCubit extends Cubit<LocationState> {
 
       selectedLocation = location;
 
-      emit(LocationState.loaded(location));
+      emit(LocationState.locationUpdated(location));
     } catch (e) {
       emit(LocationState.error(e.toString()));
     }

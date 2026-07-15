@@ -21,6 +21,7 @@ class WhereAreYou extends StatelessWidget {
         Text(AppLocalizations.of(context)!.locationSetLocationTitle, style: TextStyles.font18WhiteBold),
         verticalSpace(16),
         Text(
+          textAlign: TextAlign.center,
           AppLocalizations.of(context)!.onboardingLocationPermissionNotice,
           style: TextStyles.font16LightGrayRegular,
         ),

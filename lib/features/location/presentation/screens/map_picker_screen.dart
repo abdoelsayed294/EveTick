@@ -1,11 +1,9 @@
-import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
 import 'package:evetick/features/location/presentation/widgets/selected_location_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapPickerScreen extends StatefulWidget {
