@@ -10,6 +10,7 @@ class ProfileTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final String? trailingText;
+  final VoidCallback? onTap;
 
   ProfileTile({
     super.key,
@@ -17,39 +18,44 @@ class ProfileTile extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.trailingText,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-        width: 44.w,
-        height: 42.h,
-        decoration: BoxDecoration(
-          color: ColorsManager.textBackround,
-          borderRadius: BorderRadius.circular(12.r),
+    return Material(
+      color: Colors.transparent,
+      child: ListTile(
+        onTap: onTap,
+        leading: Container(
+          width: 44.w,
+          height: 42.h,
+          decoration: BoxDecoration(
+            color: ColorsManager.textBackround,
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: SvgPicture.asset(iconPath, fit: BoxFit.contain),
+          ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: SvgPicture.asset(iconPath, fit: BoxFit.contain),
+        title: Text(title, style: TextStyles.font16WhiteRegular),
+        subtitle: subtitle == null
+      ? null
+      : Text(
+          subtitle!,
+          style: TextStyles.font12LightGrayRegular,
         ),
-      ),
-      title: Text(title, style: TextStyles.font16WhiteRegular),
-      subtitle: subtitle == null
-    ? null
-    : Text(
-        subtitle!,
-        style: TextStyles.font12LightGrayRegular,
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (trailingText != null) ...[
-            Text(trailingText!, style: TextStyles.font12LightGrayRegular),
-            horizontalSpace(8.w),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (trailingText != null) ...[
+              Text(trailingText!, style: TextStyles.font12LightGrayRegular),
+              horizontalSpace(8.w),
+            ],
+            Icon(Icons.arrow_forward_ios_rounded, color: ColorsManager.lightGray),
           ],
-          Icon(Icons.arrow_forward_ios_rounded, color: ColorsManager.lightGray),
-        ],
+        ),
       ),
     );
   }

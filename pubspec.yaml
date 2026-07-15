@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   # State management
   flutter_bloc: ^9.1.1
   # Code generator (mainly used with cubit & retrofit)
@@ -41,16 +43,19 @@ dependencies:
   cloud_firestore: ^6.2.0
   geolocator: ^14.0.3
   geocoding: ^4.0.0
-  supabase_flutter: ^2.9.1
   cached_network_image: ^3.4.1
+  image_picker: ^1.2.3
+  firebase_storage: ^13.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
   build_runner: ^2.15.0
+  
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/images/

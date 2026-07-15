@@ -16,6 +16,8 @@ class ProfileSection extends StatelessWidget {
   final String? secondSubtitle;
   final String? firstTrailingText;
   final String? secondTrailingText;
+  final VoidCallback? firstAction;
+final VoidCallback? secondAction;
 
   ProfileSection({
     super.key,
@@ -28,6 +30,8 @@ class ProfileSection extends StatelessWidget {
     this.secondSubtitle,
     this.firstTrailingText,
     this.secondTrailingText,
+    this.firstAction,
+    this.secondAction,
   });
 
   @override
@@ -52,6 +56,7 @@ class ProfileSection extends StatelessWidget {
                   title: firstTitle,
                   subtitle: firstSubtitle,
                   trailingText: firstTrailingText,
+                  onTap: firstAction,
                 ),
 
                 Divider(color: ColorsManager.darkBlue, thickness: 1),
@@ -61,6 +66,7 @@ class ProfileSection extends StatelessWidget {
                   title: secondTitle,
                   subtitle: secondSubtitle,
                   trailingText: secondTrailingText,
+                  onTap: secondAction,
                 ),
                 
               ],

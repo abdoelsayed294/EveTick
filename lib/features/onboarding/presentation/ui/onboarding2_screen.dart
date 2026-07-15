@@ -4,6 +4,7 @@ import 'package:evetick/features/onboarding/presentation/widgets/CustomButton.da
 import 'package:evetick/features/onboarding/presentation/widgets/custom_indicator.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/image_gradient.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/onboarding2_image.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -35,7 +36,7 @@ class Onboarding2Screen extends StatelessWidget {
               left: 16.w,
               right: 16.w,
               child: Text(
-                'Seamless Booking',
+                AppLocalizations.of(context)!.onboardingSlide2Title,
                 style: TextStyles.font24WhiteBold,
                 textAlign: TextAlign.center,
               ),
@@ -45,7 +46,7 @@ class Onboarding2Screen extends StatelessWidget {
               left: 16.w,
               right: 16.w,
               child: Text(
-                'Secure your spot in seconds with our fast and easy checkout process',
+                AppLocalizations.of(context)!.onboardingSlide2Subtitle,
                 style: TextStyles.font16LightGrayRegular,
                 textAlign: TextAlign.center,
               ),
@@ -66,7 +67,7 @@ class Onboarding2Screen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(top: 675.h, left: 16.w, right: 16.w),
-              child: CustomButton(action: 'Next', width: 343.w, onTap: onNext),
+              child: CustomButton(action: AppLocalizations.of(context)!.commonNext, width: 343.w, onTap: onNext),
             ),
           ],
         ),

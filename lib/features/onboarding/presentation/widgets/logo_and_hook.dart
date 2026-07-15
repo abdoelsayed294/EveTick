@@ -1,6 +1,7 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,9 +24,9 @@ class LogoAndHook extends StatelessWidget {
               height: 1.4,
             ),
             children: [
-              TextSpan(text: 'Discover Events\nYou '),
+              TextSpan(text: AppLocalizations.of(context)!.onboardingWelcomeTitle),
               TextSpan(
-                text: 'Love',
+                text: AppLocalizations.of(context)!.onboardingWelcomeTitleRemain,
                 style: TextStyle(color: ColorsManager.orange),
               ),
             ],
@@ -33,7 +34,7 @@ class LogoAndHook extends StatelessWidget {
         ),
         verticalSpace(8),
         Text(
-          'Join the community of event seekers',
+          AppLocalizations.of(context)!.onboardingWelcomeSubtitle,
           style: TextStyles.font16LightGrayRegular,
         ),
       ],

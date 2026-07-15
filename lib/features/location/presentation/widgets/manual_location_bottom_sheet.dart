@@ -3,6 +3,7 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +32,7 @@ class _ManualLocationBottomSheetState extends State<ManualLocationBottomSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Select Governorate', style: TextStyles.font18WhiteBold),
+          Text(AppLocalizations.of(context)!.locationSelectGovernorate, style: TextStyles.font18WhiteBold),
 
           verticalSpace(24),
 
@@ -47,7 +48,7 @@ class _ManualLocationBottomSheetState extends State<ManualLocationBottomSheet> {
               ),
             ),
             hint: Text(
-              'Choose Governorate',
+              AppLocalizations.of(context)!.locationSelectGovernorate,
               style: TextStyles.font16LightGrayRegular,
             ),
             items: governorates.map((governorate) {
@@ -66,7 +67,7 @@ class _ManualLocationBottomSheetState extends State<ManualLocationBottomSheet> {
           verticalSpace(24),
 
           FilledAppTextButton(
-            buttonText: 'Save',
+            buttonText: AppLocalizations.of(context)!.commonSave,
             onPressed: () {
               if (selectedGovernorate == null) return;
 

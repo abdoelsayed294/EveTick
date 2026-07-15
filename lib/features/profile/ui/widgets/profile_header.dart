@@ -4,6 +4,7 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/styles.dart';
 import 'package:evetick/features/profile/logic/profile_cubit.dart';
 import 'package:evetick/features/profile/logic/profile_state.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,7 +49,9 @@ class ProfileHeader extends StatelessWidget {
                                 imageUrl: user.imageUrl!,
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator(color: ColorsManager.orange),
+                                  child: CircularProgressIndicator(
+                                    color: ColorsManager.orange,
+                                  ),
                                 ),
                                 errorWidget: (context, url, error) =>
                                     Image.asset(
@@ -63,7 +66,9 @@ class ProfileHeader extends StatelessWidget {
                       bottom: 0,
                       right: 8.w,
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          context.read<ProfileCubit>().uploadProfileImage();
+                        },
                         child: Container(
                           width: 30.w,
                           height: 30.h,
@@ -85,11 +90,15 @@ class ProfileHeader extends StatelessWidget {
                 Text(user.name, style: TextStyles.font18WhiteBold),
                 verticalSpace(4.h),
                 Text(
-                  'Premium Attendee',
+                  AppLocalizations.of(context)!.profilePremiumAttendee,
                   style: TextStyles.font16LightGrayRegular,
                 ),
               ],
             );
+          },
+
+          uploadingImage: () {
+            return const CircularProgressIndicator(strokeWidth: 2);
           },
 
           error: (error) => Center(child: Text(error)),

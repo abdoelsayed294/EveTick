@@ -8,6 +8,7 @@ import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/logo_and_hook.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/welcome_image.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/welcome_listener.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,7 +37,7 @@ class WelcomeScreen extends StatelessWidget {
                     height: 23.h,
                   ),
                   textStyle: TextStyles.font16WhiteMid,
-                  buttonText: 'Continue with Google',
+                  buttonText: AppLocalizations.of(context)!.authContinueWithGoogle,
                   onPressed: () {},
                 ),
               ),
@@ -49,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
                     height: 23.h,
                   ),
                   textStyle: TextStyles.font16WhiteMid,
-                  buttonText: 'Continue with Facebook',
+                  buttonText: AppLocalizations.of(context)!.authContinueWithFacebook,
                   onPressed: () {},
                 ),
               ),
@@ -57,7 +58,7 @@ class WelcomeScreen extends StatelessWidget {
                 top: 630.h,
                 left: 20.w,
                 child: FilledAppTextButton(
-                  buttonText: 'Sign in',
+                  buttonText: AppLocalizations.of(context)!.authSignIn,
                   onPressed: () {
                     context.pushNamed(Routes.loginScreen);
                   },
@@ -72,7 +73,7 @@ class WelcomeScreen extends StatelessWidget {
                     context.read<LoginCubit>().continueAsGuest();
                   },
                   child: Text(
-                    'Continue as guest',
+                    AppLocalizations.of(context)!.authContinueAsGuest,
                     style: TextStyles.font16LightGrayMid,
                   ),
                 ),
