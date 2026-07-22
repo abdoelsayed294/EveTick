@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/profile/logic/profile_cubit.dart';
 import 'package:evetick/features/profile/logic/profile_state.dart';
 import 'package:evetick/l10n/app_localizations.dart';
@@ -78,7 +79,7 @@ class ProfileHeader extends StatelessWidget {
                           ),
                           child: Icon(
                             Icons.camera_alt_rounded,
-                            color: ColorsManager.white,
+                            color: context.colors.white,
                             size: 24.sp,
                           ),
                         ),
@@ -87,11 +88,11 @@ class ProfileHeader extends StatelessWidget {
                   ],
                 ),
                 verticalSpace(16.h),
-                Text(user.name, style: TextStyles.font18WhiteBold),
+                Text(user.name, style: TextStyles.font18WhiteBold(context)),
                 verticalSpace(4.h),
                 Text(
                   AppLocalizations.of(context)!.profilePremiumAttendee,
-                  style: TextStyles.font16LightGrayRegular,
+                  style: TextStyles.font16LightGrayRegular(context),
                 ),
               ],
             );

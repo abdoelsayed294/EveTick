@@ -1,5 +1,6 @@
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,13 +22,13 @@ class LanguageTile extends StatelessWidget {
       height: 80.h,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: ColorsManager.lightBlue,
+        color: context.colors.lightBlue,
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Center(
         child: ListTile(
-          title: Text(title, style: TextStyles.font16WhiteBold),
-          subtitle: Text(subtitle, style: TextStyles.font16LightGrayRegular),
+          title: Text(title, style: TextStyles.font16WhiteBold(context)),
+          subtitle: Text(subtitle, style: TextStyles.font16LightGrayRegular(context)),
           trailing: Radio<String>(value: value),
         ),
       ),

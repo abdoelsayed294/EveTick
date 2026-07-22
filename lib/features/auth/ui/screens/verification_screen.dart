@@ -1,6 +1,7 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/auth/ui/widgets/verification_widgets/check_email_text.dart';
 import 'package:evetick/features/auth/ui/widgets/verification_widgets/didnt_receive_the_code.dart';
@@ -25,11 +26,11 @@ class VerificationScreen extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.arrow_back_ios,
-                      color: ColorsManager.white,
+                      color: context.colors.white,
                       size: 24.sp,
                     ),
                     horizontalSpace(121),
-                    Text('Verify', style: TextStyles.font18WhiteBold),
+                    Text('Verify', style: TextStyles.font18WhiteBold(context)),
                   ],
                 ),
                 verticalSpace(56),
@@ -38,7 +39,7 @@ class VerificationScreen extends StatelessWidget {
                   child: SvgPicture.asset('assets/svgs/dark_logo.svg'),
                 ),
                 verticalSpace(56),
-                Text('Verifiaction Code', style: TextStyles.font18WhiteBold),
+                Text('Verifiaction Code', style: TextStyles.font18WhiteBold(context)),
                 verticalSpace(16),
                 CheckEmailText(),
                 verticalSpace(56),

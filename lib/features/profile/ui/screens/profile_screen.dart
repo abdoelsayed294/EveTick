@@ -1,10 +1,13 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/core/widgets/outline_app_text_button.dart';
+import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/localization/logic/locale_cubit.dart';
 import 'package:evetick/features/localization/ui/language_bottom_sheet.dart';
+import 'package:evetick/features/profile/logic/profile_cubit.dart';
 import 'package:evetick/features/profile/ui/widgets/profile_header.dart';
 import 'package:evetick/features/profile/ui/widgets/profile_section.dart';
 import 'package:evetick/l10n/app_localizations.dart';
@@ -26,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.center,
-                  child: Text(AppLocalizations.of(context)!.profileMyProfile, style: TextStyles.font18WhiteBold),
+                  child: Text(AppLocalizations.of(context)!.profileMyProfile, style: TextStyles.font18WhiteBold(context)),
                 ),
                 verticalSpace(24.h),
                 ProfileHeader(),
@@ -58,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: ColorsManager.darkBlue,
+                      backgroundColor: context.colors.darkBlue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.vertical(
                           top: Radius.circular(20.r),
@@ -79,7 +82,9 @@ class ProfileScreen extends StatelessWidget {
                 verticalSpace(24),
                 OutlineAppTextButton(
                   buttonText: AppLocalizations.of(context)!.profileLogOut,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<LoginCubit>().logOut();
+                  },
                   borderColor: ColorsManager.red,
                   textStyle: TextStyles.font16RedMid,
                   buttonWidth: 193.w,

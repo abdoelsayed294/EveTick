@@ -1,5 +1,5 @@
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -40,7 +40,7 @@ class OutlineAppTextButton extends StatelessWidget {
           ),
         ),
         side: WidgetStatePropertyAll(
-          BorderSide(color: borderColor?? ColorsManager.orange, width: 1.5),
+          BorderSide(color: borderColor ?? ColorsManager.orange, width: 1.5),
         ),
       ),
       child: Stack(

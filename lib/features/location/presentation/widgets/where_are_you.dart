@@ -1,5 +1,5 @@
 import 'package:evetick/core/helpers/spacing.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,12 +18,15 @@ class WhereAreYou extends StatelessWidget {
           child: SvgPicture.asset('assets/svgs/setLocation.svg'),
         ),
         verticalSpace(45),
-        Text(AppLocalizations.of(context)!.locationSetLocationTitle, style: TextStyles.font18WhiteBold),
+        Text(
+          AppLocalizations.of(context)!.locationSetLocationTitle,
+          style: TextStyles.font18WhiteBold(context),
+        ),
         verticalSpace(16),
         Text(
           textAlign: TextAlign.center,
           AppLocalizations.of(context)!.onboardingLocationPermissionNotice,
-          style: TextStyles.font16LightGrayRegular,
+          style: TextStyles.font16LightGrayRegular(context),
         ),
       ],
     );

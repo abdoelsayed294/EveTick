@@ -1,7 +1,7 @@
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/helpers/spacing.dart';
-import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/ui/widgets/dont_have_account_text.dart';
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: Icon(
                                 Icons.arrow_back_ios,
-                                color: ColorsManager.white,
+                                color: context.colors.white,
                                 size: 24.sp,
                               ),
                             )
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     verticalSpace(24),
                     Align(
                       alignment: Alignment.center,
-                      child: Text(AppLocalizations.of(context)!.authSignIn, style: TextStyles.font24WhiteBold),
+                      child: Text(AppLocalizations.of(context)!.authSignIn, style: TextStyles.font24WhiteBold(context)),
                     ),
                     verticalSpace(32),
                     const LoginBlocListener(),

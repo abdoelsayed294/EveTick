@@ -1,5 +1,5 @@
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class OrDevider extends StatelessWidget {
@@ -10,7 +10,7 @@ class OrDevider extends StatelessWidget {
     return Row(
       children: [
         Expanded(child: Divider(color: ColorsManager.lightGray, thickness: 1)),
-        Text(' or ', style: TextStyles.font16LightGrayMid),
+        Text(' or ', style: TextStyles.font16LightGrayMid(context)),
         Expanded(child: Divider(color: ColorsManager.lightGray, thickness: 1)),
       ],
     );
