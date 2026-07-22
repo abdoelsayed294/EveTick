@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:evetick/features/location/models/location_model.dart';
-import 'package:evetick/features/location/repos/location_repository.dart';
+import 'package:evetick/features/location/data/models/location_model.dart';
+import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'location_state.dart';
@@ -9,7 +9,6 @@ part 'location_cubit.freezed.dart';
 class LocationCubit extends Cubit<LocationState> {
   final LocationRepository locationRepository;
   LocationModel? selectedLocation;
-  List<String> governorates = [];
   LocationCubit({required this.locationRepository, this.selectedLocation})
     : super(LocationState.initial());
 
@@ -35,12 +34,27 @@ class LocationCubit extends Cubit<LocationState> {
     }
   }
 
-  Future<void> loadGovernorates() async {
-    governorates = await locationRepository.getGovernorates();
+  void setSelectedLocation(LocationModel location) {
+    selectedLocation = location;
+    emit(LocationState.locationSelected(location));
   }
 
-  void selectGovernorate(String governorate) {
-    selectedLocation = LocationModel(country: 'Egypt', city: governorate);
+  Future<void> updateSelectedLocation({
+    required double latitude,
+    required double longitude,
+  }) async {
+    try {
+      final location = await locationRepository.getLocationFromCoordinates(
+        latitude: latitude,
+        longitude: longitude,
+      );
+
+      selectedLocation = location;
+
+      emit(LocationState.locationUpdated(location));
+    } catch (e) {
+      emit(LocationState.error(e.toString()));
+    }
   }
 
   Future<void> skipLocation() async {
