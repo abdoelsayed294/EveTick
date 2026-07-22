@@ -10,13 +10,14 @@ class FilledAppTextButton extends StatelessWidget {
   final double? buttonHeight;
   final String buttonText;
   final VoidCallback onPressed;
-
+  final Color? textColor;
   const FilledAppTextButton({
     super.key,
     this.borderRadius,
     this.backgroundColor,
     this.buttonWidth,
     this.buttonHeight,
+    this.textColor,
     required this.buttonText,
     required this.onPressed,
   });
@@ -38,7 +39,7 @@ class FilledAppTextButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(buttonText, style: TextStyles.font16WhiteMid(context)),
+      child: Text(buttonText, style: TextStyles.font16DarkBlueMid(context)),
     );
   }
 }

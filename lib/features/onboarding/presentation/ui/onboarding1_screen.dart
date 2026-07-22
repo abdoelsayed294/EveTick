@@ -1,7 +1,6 @@
-import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
-import 'package:evetick/features/onboarding/presentation/widgets/CustomButton.dart';
+import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/custom_indicator.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/image_gradient.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/onboarding1_image.dart';
@@ -85,10 +84,10 @@ class Onboarding1Screen extends StatelessWidget {
                 top: 676.h,
                 bottom: 117.h,
               ),
-              child: CustomButton(
-                action: AppLocalizations.of(context)!.commonNext,
-                width: double.infinity,
-                onTap: onNext,
+              child: FilledAppTextButton(
+                buttonText: AppLocalizations.of(context)!.commonNext,
+                onPressed: onNext,
+
               ),
             ),
           ],

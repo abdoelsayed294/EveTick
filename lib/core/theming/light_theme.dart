@@ -13,6 +13,7 @@ const lightAppColors = AppColors(
   hotBackground: ColorsManager.defaultWhite,
   darkBlue: ColorsManager.white,
   black:Colors.black,
+  fourthBlue: Colors.white
 );
 final ThemeData lightThemeData = ThemeData(
   brightness: Brightness.light,

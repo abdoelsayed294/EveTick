@@ -13,6 +13,7 @@ const darkAppColors = AppColors(
   textBackground: ColorsManager.textBackround,
   hotBackground: ColorsManager.hotBackground,
   darkBlue: ColorsManager.darkBlue,
+  fourthBlue: ColorsManager.fourthBlue,
 );
 final ThemeData darkThemeData = ThemeData(
   scaffoldBackgroundColor: ColorsManager.darkBlue,

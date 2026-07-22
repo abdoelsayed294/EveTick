@@ -28,6 +28,11 @@ class TextStyles {
     fontWeight: FontWeightHelper.medium,
     color: context.colors.white,
   );
+  static TextStyle font16DarkBlueMid(BuildContext context) => TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.medium,
+    color: context.colors.darkBlue,
+  );
   static TextStyle font16RedMid = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.medium,

@@ -1,5 +1,4 @@
 import 'package:evetick/core/helpers/spacing.dart';
-import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/profile/ui/widgets/profile_tile.dart';
@@ -19,8 +18,8 @@ class ProfileSection extends StatelessWidget {
   final String? secondTrailingText;
   final VoidCallback? firstAction;
 final VoidCallback? secondAction;
-
-  ProfileSection({
+  
+  const ProfileSection({
     super.key,
     required this.sectionTitle,
     required this.firstIconPath,

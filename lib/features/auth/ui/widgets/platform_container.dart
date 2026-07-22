@@ -1,6 +1,7 @@
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PlatformContainer extends StatelessWidget {
@@ -10,15 +11,15 @@ class PlatformContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 64,
-      width: 64,
+      height: 64.h,
+      width: 64.w,
       decoration: BoxDecoration(
-        color: ColorsManager.darkBlue,
-        borderRadius: BorderRadius.circular(12),
+        color: context.colors.darkBlue,
+        borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
             color: context.colors.black.withValues(alpha: 0.25),
-            blurRadius: 4,
+            blurRadius: 4.r,
             offset: Offset(0, 4),
           ),
         ],

@@ -1,9 +1,9 @@
+import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class WelcomeListener extends StatelessWidget {
   const WelcomeListener({super.key});
@@ -14,7 +14,7 @@ class WelcomeListener extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           success: (_) {
-            context.pushReplacementNamed(Routes.setLocationScreen);
+            context.pushReplacedNamed(Routes.setLocationScreen);
           },
           error: (message) {
             ScaffoldMessenger.of(context).showSnackBar(

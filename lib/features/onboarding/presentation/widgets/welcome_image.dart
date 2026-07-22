@@ -1,3 +1,4 @@
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/image_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,23 @@ class WelcomeImage extends StatelessWidget {
           ),
         ),
         ImageGradient(),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 100.h,
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, context.colors.darkBlue],
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

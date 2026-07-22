@@ -18,7 +18,10 @@ class WhereAreYou extends StatelessWidget {
           child: SvgPicture.asset('assets/svgs/setLocation.svg'),
         ),
         verticalSpace(45),
-        Text(AppLocalizations.of(context)!.locationSetLocationTitle, style: TextStyles.font18WhiteBold(context)),
+        Text(
+          AppLocalizations.of(context)!.locationSetLocationTitle,
+          style: TextStyles.font18WhiteBold(context),
+        ),
         verticalSpace(16),
         Text(
           textAlign: TextAlign.center,

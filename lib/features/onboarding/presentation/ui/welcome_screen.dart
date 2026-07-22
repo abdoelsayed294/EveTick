@@ -1,6 +1,5 @@
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
-import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
@@ -38,7 +37,9 @@ class WelcomeScreen extends StatelessWidget {
                     height: 23.h,
                   ),
                   textStyle: TextStyles.font16WhiteMid(context),
-                  buttonText: AppLocalizations.of(context)!.authContinueWithGoogle,
+                  buttonText: AppLocalizations.of(
+                    context,
+                  )!.authContinueWithGoogle,
                   onPressed: () {},
                 ),
               ),
@@ -51,7 +52,9 @@ class WelcomeScreen extends StatelessWidget {
                     height: 23.h,
                   ),
                   textStyle: TextStyles.font16WhiteMid(context),
-                  buttonText: AppLocalizations.of(context)!.authContinueWithFacebook,
+                  buttonText: AppLocalizations.of(
+                    context,
+                  )!.authContinueWithFacebook,
                   onPressed: () {},
                 ),
               ),
@@ -68,14 +71,17 @@ class WelcomeScreen extends StatelessWidget {
               WelcomeListener(),
               Positioned(
                 top: 680.h,
-                left: 110.w,
-                child: TextButton(
-                  onPressed: () {
-                    context.read<LoginCubit>().continueAsGuest();
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.authContinueAsGuest,
-                    style: TextStyles.font16LightGrayMid(context),
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      context.read<LoginCubit>().continueAsGuest();
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)!.authContinueAsGuest,
+                      style: TextStyles.font16LightGrayMid(context),
+                    ),
                   ),
                 ),
               ),
