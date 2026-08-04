@@ -23,6 +23,8 @@ class EvetickApp extends StatelessWidget {
             return MaterialApp(
               title: 'EveTick',
               theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              themeMode: ThemeMode.system,
               debugShowCheckedModeBanner: false,
               onGenerateRoute: appRouter.generateRoute,
               initialRoute: Routes.appStartScreen,

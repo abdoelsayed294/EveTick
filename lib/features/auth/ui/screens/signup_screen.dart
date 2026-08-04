@@ -1,5 +1,5 @@
+import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/helpers/spacing.dart';
-import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
@@ -15,7 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:evetick/core/helpers/extentions.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -52,12 +51,17 @@ class SignupScreen extends StatelessWidget {
                     verticalSpace(16),
                     Align(
                       alignment: Alignment.center,
-                      child: SvgPicture.asset('assets/svgs/dark_logo.svg'),
+                      child: Theme.of(context).brightness == Brightness.dark
+                          ? SvgPicture.asset('assets/svgs/dark_logo.svg')
+                          : SvgPicture.asset('assets/svgs/light_logo.svg'),
                     ),
                     verticalSpace(24),
                     Align(
                       alignment: Alignment.center,
-                      child: Text(AppLocalizations.of(context)!.authSignUp, style: TextStyles.font24WhiteBold(context)),
+                      child: Text(
+                        AppLocalizations.of(context)!.authSignUp,
+                        style: TextStyles.font24WhiteBold(context),
+                      ),
                     ),
                     verticalSpace(24),
                     const SignupBlocListener(),

@@ -4,11 +4,11 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
+import 'package:evetick/features/auth/ui/widgets/auth_background.dart';
+import 'package:evetick/features/auth/ui/widgets/auth_with_other_platforms.dart';
 import 'package:evetick/features/auth/ui/widgets/dont_have_account_text.dart';
 import 'package:evetick/features/auth/ui/widgets/email_and_password.dart';
-import 'package:evetick/features/auth/ui/widgets/auth_background.dart';
 import 'package:evetick/features/auth/ui/widgets/login_bloc_listener.dart';
-import 'package:evetick/features/auth/ui/widgets/auth_with_other_platforms.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,12 +56,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     verticalSpace(24),
                     Align(
                       alignment: Alignment.center,
-                      child: SvgPicture.asset('assets/svgs/dark_logo.svg'),
+                      child: Theme.of(context).brightness == Brightness.dark
+                          ? SvgPicture.asset('assets/svgs/dark_logo.svg')
+                          : SvgPicture.asset('assets/svgs/light_logo.svg'),
                     ),
                     verticalSpace(24),
                     Align(
                       alignment: Alignment.center,
-                      child: Text(AppLocalizations.of(context)!.authSignIn, style: TextStyles.font24WhiteBold(context)),
+                      child: Text(
+                        AppLocalizations.of(context)!.authSignIn,
+                        style: TextStyles.font24WhiteBold(context),
+                      ),
                     ),
                     verticalSpace(32),
                     const LoginBlocListener(),
