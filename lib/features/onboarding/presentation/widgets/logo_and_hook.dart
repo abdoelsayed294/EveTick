@@ -16,7 +16,11 @@ class LogoAndHook extends StatelessWidget {
       padding: EdgeInsetsDirectional.only(end: 28.w),
       child: Column(
         children: [
-          SizedBox(child: SvgPicture.asset('assets/svgs/dark_logo.svg')),
+          SizedBox(
+            child: Theme.of(context).brightness == Brightness.dark
+                ? SvgPicture.asset('assets/svgs/dark_logo.svg')
+                : SvgPicture.asset('assets/svgs/light_logo.svg'),
+          ),
           verticalSpace(4),
           RichText(
             textAlign: TextAlign.center,
