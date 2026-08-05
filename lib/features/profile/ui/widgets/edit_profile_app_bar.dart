@@ -5,6 +5,7 @@ import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditProfileAppBar extends StatelessWidget {
@@ -22,6 +23,7 @@ class EditProfileAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: context.colors.darkBlue,
       title: Text(AppLocalizations.of(context)!.profilePersonalInfoTitle),
       centerTitle: true,
       titleTextStyle: TextStyles.font18DarkBlueBold(context),
@@ -34,16 +36,22 @@ class EditProfileAppBar extends StatelessWidget {
           onTap: onActionPressed,
           child: isEditing
               ? isLoading
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        color: ColorsManager.orange,
-                        strokeWidth: 2,
-                      ),
-                    )
-                  : Text(AppLocalizations.of(context)!.profileSave, style: TextStyles.font16OrangeRegular)
-              : SvgPicture.asset('assets/svgs/enable_edit.svg'),
+                    ? SizedBox(
+                        width: 20.w,
+                        height: 20.h,
+                        child: CircularProgressIndicator(
+                          color: ColorsManager.orange,
+                          strokeWidth: 2.sp,
+                        ),
+                      )
+                    : Text(
+                        AppLocalizations.of(context)!.profileSave,
+                        style: TextStyles.font16OrangeRegular,
+                      )
+              : SvgPicture.asset(
+                  'assets/svgs/enable_edit.svg',
+                  color: context.colors.lightGray,
+                ),
         ),
         horizontalSpace(16),
       ],
