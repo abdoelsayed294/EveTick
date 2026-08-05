@@ -11,7 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+  final bool isEditable;
+  const ProfileHeader({super.key, this.isEditable = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class ProfileHeader extends StatelessWidget {
       builder: (context, state) {
         return state.when(
           initial: () => const SizedBox.shrink(),
-
+          updatingProfile: () => const SizedBox.shrink(),
           loading: () => const Center(
             child: CircularProgressIndicator(color: ColorsManager.orange),
           ),
@@ -62,29 +63,29 @@ class ProfileHeader extends StatelessWidget {
                               ),
                       ),
                     ),
-
-                    Positioned(
-                      bottom: 0,
-                      right: 8.w,
-                      child: GestureDetector(
-                        onTap: () {
-                          context.read<ProfileCubit>().uploadProfileImage();
-                        },
-                        child: Container(
-                          width: 30.w,
-                          height: 30.h,
-                          decoration: BoxDecoration(
-                            color: ColorsManager.orange,
-                            borderRadius: BorderRadius.circular(100.r),
-                          ),
-                          child: Icon(
-                            Icons.camera_alt_rounded,
-                            color: context.colors.white,
-                            size: 24.sp,
+                    if (isEditable)
+                      Positioned(
+                        bottom: 0,
+                        right: 8.w,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.read<ProfileCubit>().uploadProfileImage();
+                          },
+                          child: Container(
+                            width: 30.w,
+                            height: 30.h,
+                            decoration: BoxDecoration(
+                              color: ColorsManager.orange,
+                              borderRadius: BorderRadius.circular(100.r),
+                            ),
+                            child: Icon(
+                              Icons.camera_alt_rounded,
+                              color: context.colors.darkBlue,
+                              size: 24.sp,
+                            ),
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
                 verticalSpace(16.h),
@@ -92,7 +93,7 @@ class ProfileHeader extends StatelessWidget {
                 verticalSpace(4.h),
                 Text(
                   AppLocalizations.of(context)!.profilePremiumAttendee,
-                  style: TextStyles.font16LightGrayRegular(context),
+                  style: TextStyles.font16OrangeRegular,
                 ),
               ],
             );

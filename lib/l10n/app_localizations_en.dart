@@ -1160,4 +1160,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get termsAgreeAndContinue => 'Agree & Continue';
+
+  @override
+  String get profilePersonalInfoTitle => 'Personal Info';
+
+  @override
+  String get profileFullName => 'Full Name';
+
+  @override
+  String get profileFullNameHint => 'Enter your full name';
+
+  @override
+  String get profileFullNameRequired => 'Name is required';
+
+  @override
+  String get profileEmail => 'Email';
+
+  @override
+  String get profileEmailHint => 'Enter your email';
+
+  @override
+  String get profilePhone => 'Phone Number';
+
+  @override
+  String get profilePhoneHint => 'Enter your phone number';
+
+  @override
+  String get profilePhoneInvalid => 'Invalid phone number';
+
+  @override
+  String get profileAddress => 'Physical Address';
+
+  @override
+  String get profileAddressHint => 'Enter your address';
+
+  @override
+  String get profileAddressRequired => 'Address is required';
+
+  @override
+  String get profileSave => 'Save';
+
+  @override
+  String get profileUpdatedSuccess => 'Profile updated successfully.';
 }

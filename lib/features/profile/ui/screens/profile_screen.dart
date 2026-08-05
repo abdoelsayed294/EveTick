@@ -1,4 +1,6 @@
+import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/helpers/spacing.dart';
+import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
@@ -29,7 +31,10 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.center,
-                  child: Text(AppLocalizations.of(context)!.profileMyProfile, style: TextStyles.font18WhiteBold(context)),
+                  child: Text(
+                    AppLocalizations.of(context)!.profileMyProfile,
+                    style: TextStyles.font18WhiteBold(context),
+                  ),
                 ),
                 verticalSpace(24.h),
                 ProfileHeader(),
@@ -37,25 +42,48 @@ class ProfileScreen extends StatelessWidget {
                 FilledAppTextButton(
                   buttonWidth: 151.w,
                   buttonText: AppLocalizations.of(context)!.profileEditProfile,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushNamed(
+                      Routes.editProfileScreen,
+                      arguments: context.read<ProfileCubit>(),
+                    );
+                  },
                 ),
                 verticalSpace(24),
                 ProfileSection(
-                  sectionTitle: AppLocalizations.of(context)!.profileAccountSection,
+                  sectionTitle: AppLocalizations.of(
+                    context,
+                  )!.profileAccountSection,
                   firstIconPath: 'assets/icons/personal_info.svg',
                   secondIconPath: 'assets/icons/following_organizers.svg',
                   firstTitle: AppLocalizations.of(context)!.profilePersonalInfo,
-                  secondTitle: AppLocalizations.of(context)!.profileTabsFollowingOrganizers,
-                  firstSubtitle: AppLocalizations.of(context)!.profilePersonalInfoSubtitle,
+                  secondTitle: AppLocalizations.of(
+                    context,
+                  )!.profileTabsFollowingOrganizers,
+                  firstSubtitle: AppLocalizations.of(
+                    context,
+                  )!.profilePersonalInfoSubtitle,
+                  firstAction: () => context.pushNamed(
+                    Routes.editProfileScreen,
+                    arguments: context.read<ProfileCubit>(),
+                  ),
                 ),
                 verticalSpace(24),
                 ProfileSection(
-                  sectionTitle: AppLocalizations.of(context)!.profilePreferencesSection,
+                  sectionTitle: AppLocalizations.of(
+                    context,
+                  )!.profilePreferencesSection,
                   firstIconPath: 'assets/icons/language.svg',
                   secondIconPath: 'assets/icons/appearance.svg',
-                  firstTitle: AppLocalizations.of(context)!.profilePreferencesRowsLanguage,
-                  secondTitle: AppLocalizations.of(context)!.profilePreferencesRowsAppearance,
-                  firstTrailingText: context.watch<LocaleCubit>().currentLanguageName,
+                  firstTitle: AppLocalizations.of(
+                    context,
+                  )!.profilePreferencesRowsLanguage,
+                  secondTitle: AppLocalizations.of(
+                    context,
+                  )!.profilePreferencesRowsAppearance,
+                  firstTrailingText: context
+                      .watch<LocaleCubit>()
+                      .currentLanguageName,
                   secondTrailingText: 'Dark Mode',
                   firstAction: () {
                     showModalBottomSheet(
@@ -73,11 +101,15 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 verticalSpace(24),
                 ProfileSection(
-                  sectionTitle: AppLocalizations.of(context)!.profileSupportSection,
+                  sectionTitle: AppLocalizations.of(
+                    context,
+                  )!.profileSupportSection,
                   firstIconPath: 'assets/icons/help_center.svg',
                   secondIconPath: 'assets/icons/terms_of_service.svg',
                   firstTitle: AppLocalizations.of(context)!.profileHelpCenter,
-                  secondTitle: AppLocalizations.of(context)!.profileTermsOfService,
+                  secondTitle: AppLocalizations.of(
+                    context,
+                  )!.profileTermsOfService,
                 ),
                 verticalSpace(24),
                 OutlineAppTextButton(

@@ -1160,5 +1160,47 @@ class AppLocalizationsAr extends AppLocalizations {
   String get termsDecline => 'رفض';
 
   @override
-  String get termsAgreeAndContinue => 'موافقة ومتابعة';
+  String get termsAgreeAndContinue => 'موافق ومتابعة';
+
+  @override
+  String get profilePersonalInfoTitle => 'المعلومات الشخصية';
+
+  @override
+  String get profileFullName => 'الاسم الكامل';
+
+  @override
+  String get profileFullNameHint => 'أدخل اسمك الكامل';
+
+  @override
+  String get profileFullNameRequired => 'الاسم مطلوب';
+
+  @override
+  String get profileEmail => 'البريد الإلكتروني';
+
+  @override
+  String get profileEmailHint => 'أدخل بريدك الإلكتروني';
+
+  @override
+  String get profilePhone => 'رقم الهاتف';
+
+  @override
+  String get profilePhoneHint => 'أدخل رقم هاتفك';
+
+  @override
+  String get profilePhoneInvalid => 'رقم الهاتف غير صالح';
+
+  @override
+  String get profileAddress => 'العنوان';
+
+  @override
+  String get profileAddressHint => 'أدخل عنوانك';
+
+  @override
+  String get profileAddressRequired => 'العنوان مطلوب';
+
+  @override
+  String get profileSave => 'حفظ';
+
+  @override
+  String get profileUpdatedSuccess => 'تم تحديث الملف الشخصي بنجاح.';
 }

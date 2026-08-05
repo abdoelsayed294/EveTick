@@ -80,6 +80,26 @@ class ProfileRepository {
     }
   }
 
+  Future<Result<void>> updateProfile({
+    required String name,
+    required String address,
+    String? phone,
+  }) async {
+    try {
+      final uid = auth.currentUser!.uid;
+      await firestore.collection('users').doc(uid).update({
+        'name': name,
+        'address': address,
+        if (phone != null) 'phone': phone,
+      });
+      return Result.success(null);
+    } on FirebaseException catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleFirestore(e));
+    } catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleGeneric(e));
+    }
+  }
+
   Future<Result<String>> uploadProfileImage() async {
     final pickedImage = await pickImage();
 
