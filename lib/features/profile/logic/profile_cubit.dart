@@ -42,5 +42,28 @@ class ProfileCubit extends Cubit<ProfileState> {
     },
   );
 }
+
+  Future<void> updateProfile({
+    required String name,
+    required String address,
+    String? phone,
+  }) async {
+    emit(const ProfileState.updatingProfile());
+
+    final result = await profileRepo.updateProfile(
+      name: name,
+      address: address,
+      phone: phone,
+    );
+
+    result.when(
+      success: (_) {
+        getUserData(); // Refresh user data on success
+      },
+      failure: (failure) {
+        emit(ProfileState.error(error: failure.message));
+      },
+    );
+  }
   
 }

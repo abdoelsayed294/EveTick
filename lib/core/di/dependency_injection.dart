@@ -4,6 +4,8 @@ import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/localization/data/locale_repository.dart';
 import 'package:evetick/features/localization/logic/locale_cubit.dart';
+import 'package:evetick/core/theming/data/theme_repository.dart';
+import 'package:evetick/core/theming/logic/theme_cubit.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
 import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:evetick/features/location/data/repos/location_repository_impl.dart';
@@ -59,4 +61,8 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton(() => LocaleRepository());
 
   getIt.registerLazySingleton(() => LocaleCubit(getIt()));
+
+  // theme
+  getIt.registerLazySingleton(() => ThemeRepository());
+  getIt.registerLazySingleton(() => ThemeCubit(getIt()));
 }

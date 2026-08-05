@@ -4,21 +4,21 @@ import 'package:evetick/features/app_start/logic/cubit/app_start_cubit.dart';
 import 'package:evetick/features/app_start/presentation/app_start.dart';
 import 'package:evetick/features/auth/data/auth_repository.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
-import 'package:evetick/features/auth/logic/login_cubit/login_state.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
 import 'package:evetick/features/home/home_screen.dart';
+import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
 import 'package:evetick/features/location/presentation/screens/map_picker_screen.dart';
 import 'package:evetick/features/location/presentation/screens/set_location.dart';
-import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
-import 'package:evetick/features/profile/logic/profile_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/ui/welcome_screen.dart';
+import 'package:evetick/features/profile/logic/profile_cubit.dart';
+import 'package:evetick/features/profile/ui/screens/edit_profile_screen.dart';
 import 'package:evetick/features/profile/ui/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,9 +87,7 @@ class AppRouter {
               BlocProvider(
                 create: (context) => getIt<ProfileCubit>()..getUserData(),
               ),
-              BlocProvider(
-                create: (context) => getIt<LoginCubit>(),
-              ),
+              BlocProvider(create: (context) => getIt<LoginCubit>()),
             ],
             child: const ProfileScreen(),
           ),
@@ -99,6 +97,14 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<LocationCubit>(),
             child: MapPickerScreen(),
+          ),
+        );
+      case Routes.editProfileScreen:
+        final profileCubit = arguments as ProfileCubit;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: profileCubit,
+            child: EditProfileScreen(),
           ),
         );
       default:

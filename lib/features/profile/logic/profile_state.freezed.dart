@@ -55,14 +55,15 @@ extension ProfileStatePatterns<T> on ProfileState<T> {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial<T> value)?  initial,TResult Function( Loading<T> value)?  loading,TResult Function( Success<T> value)?  success,TResult Function( Error<T> value)?  error,TResult Function( UploadingImage<T> value)?  uploadingImage,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial<T> value)?  initial,TResult Function( Loading<T> value)?  loading,TResult Function( Success<T> value)?  success,TResult Function( Error<T> value)?  error,TResult Function( UpdatingProfile<T> value)?  updatingProfile,TResult Function( UploadingImage<T> value)?  uploadingImage,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case Loading() when loading != null:
 return loading(_that);case Success() when success != null:
 return success(_that);case Error() when error != null:
-return error(_that);case UploadingImage() when uploadingImage != null:
+return error(_that);case UpdatingProfile() when updatingProfile != null:
+return updatingProfile(_that);case UploadingImage() when uploadingImage != null:
 return uploadingImage(_that);case _:
   return orElse();
 
@@ -81,14 +82,15 @@ return uploadingImage(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial<T> value)  initial,required TResult Function( Loading<T> value)  loading,required TResult Function( Success<T> value)  success,required TResult Function( Error<T> value)  error,required TResult Function( UploadingImage<T> value)  uploadingImage,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial<T> value)  initial,required TResult Function( Loading<T> value)  loading,required TResult Function( Success<T> value)  success,required TResult Function( Error<T> value)  error,required TResult Function( UpdatingProfile<T> value)  updatingProfile,required TResult Function( UploadingImage<T> value)  uploadingImage,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that);case Loading():
 return loading(_that);case Success():
 return success(_that);case Error():
-return error(_that);case UploadingImage():
+return error(_that);case UpdatingProfile():
+return updatingProfile(_that);case UploadingImage():
 return uploadingImage(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -106,14 +108,15 @@ return uploadingImage(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial<T> value)?  initial,TResult? Function( Loading<T> value)?  loading,TResult? Function( Success<T> value)?  success,TResult? Function( Error<T> value)?  error,TResult? Function( UploadingImage<T> value)?  uploadingImage,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial<T> value)?  initial,TResult? Function( Loading<T> value)?  loading,TResult? Function( Success<T> value)?  success,TResult? Function( Error<T> value)?  error,TResult? Function( UpdatingProfile<T> value)?  updatingProfile,TResult? Function( UploadingImage<T> value)?  uploadingImage,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case Loading() when loading != null:
 return loading(_that);case Success() when success != null:
 return success(_that);case Error() when error != null:
-return error(_that);case UploadingImage() when uploadingImage != null:
+return error(_that);case UpdatingProfile() when updatingProfile != null:
+return updatingProfile(_that);case UploadingImage() when uploadingImage != null:
 return uploadingImage(_that);case _:
   return null;
 
@@ -131,13 +134,14 @@ return uploadingImage(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( T data)?  success,TResult Function( String error)?  error,TResult Function()?  uploadingImage,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( T data)?  success,TResult Function( String error)?  error,TResult Function()?  updatingProfile,TResult Function()?  uploadingImage,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case Loading() when loading != null:
 return loading();case Success() when success != null:
 return success(_that.data);case Error() when error != null:
-return error(_that.error);case UploadingImage() when uploadingImage != null:
+return error(_that.error);case UpdatingProfile() when updatingProfile != null:
+return updatingProfile();case UploadingImage() when uploadingImage != null:
 return uploadingImage();case _:
   return orElse();
 
@@ -156,13 +160,14 @@ return uploadingImage();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( T data)  success,required TResult Function( String error)  error,required TResult Function()  uploadingImage,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( T data)  success,required TResult Function( String error)  error,required TResult Function()  updatingProfile,required TResult Function()  uploadingImage,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case Loading():
 return loading();case Success():
 return success(_that.data);case Error():
-return error(_that.error);case UploadingImage():
+return error(_that.error);case UpdatingProfile():
+return updatingProfile();case UploadingImage():
 return uploadingImage();case _:
   throw StateError('Unexpected subclass');
 
@@ -180,13 +185,14 @@ return uploadingImage();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( T data)?  success,TResult? Function( String error)?  error,TResult? Function()?  uploadingImage,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( T data)?  success,TResult? Function( String error)?  error,TResult? Function()?  updatingProfile,TResult? Function()?  uploadingImage,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case Loading() when loading != null:
 return loading();case Success() when success != null:
 return success(_that.data);case Error() when error != null:
-return error(_that.error);case UploadingImage() when uploadingImage != null:
+return error(_that.error);case UpdatingProfile() when updatingProfile != null:
+return updatingProfile();case UploadingImage() when uploadingImage != null:
 return uploadingImage();case _:
   return null;
 
@@ -390,6 +396,38 @@ as String,
 
 
 }
+
+/// @nodoc
+
+
+class UpdatingProfile<T> implements ProfileState<T> {
+  const UpdatingProfile();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdatingProfile<T>);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ProfileState<$T>.updatingProfile()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 

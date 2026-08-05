@@ -3,6 +3,7 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextFormField extends StatelessWidget {
@@ -18,6 +19,9 @@ class AppTextFormField extends StatelessWidget {
   final Color? backgroundColor;
   final TextEditingController? controller;
   final Function(String?) validator;
+  final bool readOnly;
+  final TextInputType? keyboardType;
+      final List<TextInputFormatter>? inputFormatters;
   const AppTextFormField({
     super.key,
     required this.label,
@@ -32,6 +36,9 @@ class AppTextFormField extends StatelessWidget {
     this.backgroundColor,
     this.controller,
     required this.validator,
+    this.readOnly = false,
+    this.keyboardType,
+    this.inputFormatters,
   });
 
   @override
@@ -43,6 +50,9 @@ class AppTextFormField extends StatelessWidget {
         Text(label, style: TextStyles.font16WhiteRegular(context)),
         verticalSpace(8),
         TextFormField(
+          inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
+          readOnly: readOnly,
           controller: controller,
           decoration: InputDecoration(
             isDense: true,
