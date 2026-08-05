@@ -3,6 +3,8 @@ import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/app_theme.dart';
 import 'package:evetick/features/localization/logic/locale_cubit.dart';
 import 'package:evetick/features/localization/logic/locale_state.dart';
+import 'package:evetick/core/theming/logic/theme_cubit.dart';
+import 'package:evetick/core/theming/logic/theme_state.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,18 +21,25 @@ class EvetickApp extends StatelessWidget {
       minTextAdapt: true,
       builder: (context, child) {
         return BlocBuilder<LocaleCubit, LocaleState>(
-          builder: (context, state) {
-            return MaterialApp(
-              title: 'EveTick',
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
-              themeMode: ThemeMode.system,
-              debugShowCheckedModeBanner: false,
-              onGenerateRoute: appRouter.generateRoute,
-              initialRoute: Routes.appStartScreen,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              locale: state.locale,
+          builder: (context, localeState) {
+            return BlocBuilder<ThemeCubit, ThemeState>(
+              builder: (context, themeState) {
+                return MaterialApp(
+                  title: 'EveTick',
+                  theme: themeState.themeMode == ThemeMode.light
+                      ? AppTheme.lightTheme
+                      : AppTheme.darkTheme,
+                  darkTheme: AppTheme.darkTheme,
+                  themeMode: themeState.themeMode,
+                  debugShowCheckedModeBanner: false,
+                  onGenerateRoute: appRouter.generateRoute,
+                  initialRoute: Routes.appStartScreen,
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  locale: localeState.locale,
+                );
+              },
             );
           },
         );

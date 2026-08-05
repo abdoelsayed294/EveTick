@@ -2,6 +2,7 @@ import 'package:evetick/core/di/dependency_injection.dart';
 import 'package:evetick/core/routing/app_router.dart';
 import 'package:evetick/evetick_app.dart';
 import 'package:evetick/features/localization/logic/locale_cubit.dart';
+import 'package:evetick/core/theming/logic/theme_cubit.dart';
 import 'package:evetick/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>  getIt<LocaleCubit>()..loadLocale(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<LocaleCubit>()..loadLocale(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<ThemeCubit>()..loadTheme(),
+        ),
+      ],
       child: EvetickApp(appRouter: AppRouter()),
     );
   }

@@ -362,5 +362,9 @@
   "profileAddressHint": "أدخل عنوانك",
   "profileAddressRequired": "العنوان مطلوب",
   "profileSave": "حفظ",
-  "profileUpdatedSuccess": "تم تحديث الملف الشخصي بنجاح."
+  "profileUpdatedSuccess": "تم تحديث الملف الشخصي بنجاح.",
+  "profileTheme": "المظهر",
+  "profileThemeSystem": "تلقائي",
+  "profileThemeLight": "الوضع الفاتح",
+  "profileThemeDark": "الوضع الداكن"
 }

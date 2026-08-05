@@ -1202,4 +1202,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileUpdatedSuccess => 'Profile updated successfully.';
+
+  @override
+  String get profileTheme => 'Theme';
+
+  @override
+  String get profileThemeSystem => 'System Default';
+
+  @override
+  String get profileThemeLight => 'Light Mode';
+
+  @override
+  String get profileThemeDark => 'Dark Mode';
 }

@@ -914,5 +914,13 @@
   "profileSave": "Save",
   "@profileSave": {},
   "profileUpdatedSuccess": "Profile updated successfully.",
-  "@profileUpdatedSuccess": {}
+  "@profileUpdatedSuccess": {},
+  "profileTheme": "Theme",
+  "@profileTheme": {},
+  "profileThemeSystem": "System Default",
+  "@profileThemeSystem": {},
+  "profileThemeLight": "Light Mode",
+  "@profileThemeLight": {},
+  "profileThemeDark": "Dark Mode",
+  "@profileThemeDark": {}
 }

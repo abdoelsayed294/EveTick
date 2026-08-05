@@ -2281,6 +2281,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile updated successfully.'**
   String get profileUpdatedSuccess;
+
+  /// No description provided for @profileTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get profileTheme;
+
+  /// No description provided for @profileThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System Default'**
+  String get profileThemeSystem;
+
+  /// No description provided for @profileThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get profileThemeLight;
+
+  /// No description provided for @profileThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get profileThemeDark;
 }
 
 class _AppLocalizationsDelegate

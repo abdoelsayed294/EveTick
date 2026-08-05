@@ -1203,4 +1203,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileUpdatedSuccess => 'تم تحديث الملف الشخصي بنجاح.';
+
+  @override
+  String get profileTheme => 'المظهر';
+
+  @override
+  String get profileThemeSystem => 'تلقائي';
+
+  @override
+  String get profileThemeLight => 'الوضع الفاتح';
+
+  @override
+  String get profileThemeDark => 'الوضع الداكن';
 }

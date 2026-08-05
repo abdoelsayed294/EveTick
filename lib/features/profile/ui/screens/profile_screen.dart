@@ -12,6 +12,8 @@ import 'package:evetick/features/localization/ui/language_bottom_sheet.dart';
 import 'package:evetick/features/profile/logic/profile_cubit.dart';
 import 'package:evetick/features/profile/ui/widgets/profile_header.dart';
 import 'package:evetick/features/profile/ui/widgets/profile_section.dart';
+import 'package:evetick/features/profile/ui/widgets/theme_bottom_sheet.dart';
+import 'package:evetick/core/theming/logic/theme_cubit.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,7 +86,11 @@ class ProfileScreen extends StatelessWidget {
                   firstTrailingText: context
                       .watch<LocaleCubit>()
                       .currentLanguageName,
-                  secondTrailingText: 'Dark Mode',
+                  secondTrailingText: context.watch<ThemeCubit>().state.themeMode == ThemeMode.light
+                      ? AppLocalizations.of(context)!.profileThemeLight
+                      : context.watch<ThemeCubit>().state.themeMode == ThemeMode.dark
+                          ? AppLocalizations.of(context)!.profileThemeDark
+                          : AppLocalizations.of(context)!.profileThemeSystem,
                   firstAction: () {
                     showModalBottomSheet(
                       context: context,
@@ -96,6 +102,19 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       builder: (context) => const LanguageBottomSheet(),
+                    );
+                  },
+                  secondAction: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: context.colors.darkBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20.r),
+                        ),
+                      ),
+                      builder: (context) => const ThemeBottomSheet(),
                     );
                   },
                 ),
