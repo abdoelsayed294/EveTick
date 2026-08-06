@@ -1,4 +1,5 @@
 import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
 class LoginBackground extends StatelessWidget {
@@ -15,16 +16,16 @@ class LoginBackground extends StatelessWidget {
             ),
           ),
           Positioned.fill(
-            child: Container(color: ColorsManager.darkBlue.withValues(alpha: 0.4)),
+            child: Container(color: context.colors.darkBlue.withValues(alpha: 0.4)),
           ),
           Positioned.fill(
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    ColorsManager.darkBlue.withValues(alpha: 1),
-                    ColorsManager.darkBlue.withValues(alpha: 0.8),
-                    ColorsManager.darkBlue.withValues(alpha: 0.85),
+                    context.colors.darkBlue.withValues(alpha: 1),
+                    context.colors.darkBlue.withValues(alpha: 0.8),
+                    context.colors.darkBlue.withValues(alpha: 0.85),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,

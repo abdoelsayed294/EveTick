@@ -1,5 +1,6 @@
+import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
-import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding1_screen.dart';
 import 'package:evetick/features/onboarding/presentation/ui/onboarding2_screen.dart';
@@ -25,28 +26,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         currentIndex = pageController.page!.round();
       });
     });
-    context.read<OnboardingCubit>().finishOnboarding();
   }
 
-  void _goToNext() {
+  Future<void> _goToNext() async {
     if (currentIndex < 1) {
       pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.pushReplacementNamed(context, Routes.loginScreen);
+      await context.read<OnboardingCubit>().finishOnboarding();
+      context.pushReplacedNamed(Routes.welcomeScreen);
     }
   }
 
   void _skip() {
-    Navigator.pushReplacementNamed(context, Routes.loginScreen);
+    context.pushReplacedNamed(Routes.welcomeScreen);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsManager.darkBlue,
+      backgroundColor: context.colors.darkBlue,
       body: Column(
         children: [
           Expanded(

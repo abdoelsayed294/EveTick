@@ -1,9 +1,10 @@
-import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
-import 'package:evetick/features/onboarding/presentation/widgets/CustomButton.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/core/theming/text_styles.dart';
+import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/custom_indicator.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/image_gradient.dart';
 import 'package:evetick/features/onboarding/presentation/widgets/onboarding2_image.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +27,7 @@ class Onboarding2Screen extends StatelessWidget {
             Onboarding2Image(),
             Positioned.fill(
               child: Container(
-                color: ColorsManager.darkBlue.withValues(alpha: 0.2),
+                color: context.colors.darkBlue.withValues(alpha: 0.2),
               ),
             ),
             ImageGradient(),
@@ -35,8 +36,8 @@ class Onboarding2Screen extends StatelessWidget {
               left: 16.w,
               right: 16.w,
               child: Text(
-                'Seamless Booking',
-                style: TextStyles.font24WhiteBold,
+                AppLocalizations.of(context)!.onboardingSlide2Title,
+                style: TextStyles.font24WhiteBold(context),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -45,8 +46,8 @@ class Onboarding2Screen extends StatelessWidget {
               left: 16.w,
               right: 16.w,
               child: Text(
-                'Secure your spot in seconds with our fast and easy checkout process',
-                style: TextStyles.font16LightGrayRegular,
+                AppLocalizations.of(context)!.onboardingSlide2Subtitle,
+                style: TextStyles.font16LightGrayRegular(context),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -66,7 +67,10 @@ class Onboarding2Screen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(top: 675.h, left: 16.w, right: 16.w),
-              child: CustomButton(action: 'Next', width: 343.w, onTap: onNext),
+              child: FilledAppTextButton(
+                buttonText: AppLocalizations.of(context)!.commonNext,
+                onPressed: onNext,
+              ),
             ),
           ],
         ),

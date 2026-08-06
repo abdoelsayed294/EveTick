@@ -75,6 +75,7 @@ class AuthRepository {
         email: email.trim(),
         name: name.trim(),
         isEmailVerified: false,
+        isGuest: false,
       );
       await firestore.collection('users').doc(user.uid).set(user.toJson());
 
@@ -89,10 +90,45 @@ class AuthRepository {
   }
 
   Future<AppUserModel?> getCurrentUser() async {
-    final user = auth.currentUser;
+    final firebaseUser = auth.currentUser;
 
-    if (user == null) return null;
+    if (firebaseUser == null) return null;
 
-    return AppUserModel(uid: user.uid, email: user.email ?? '');
+    final doc = await firestore.collection('users').doc(firebaseUser.uid).get();
+
+    if (!doc.exists) return null;
+
+    return AppUserModel.fromJson(doc.data()!);
+  }
+
+  Future<Result<AppUserModel>> continueAsGuest() async {
+    try {
+      final credential = await auth.signInAnonymously();
+
+      final user = AppUserModel(
+        uid: credential.user!.uid,
+        email: '',
+        name: 'Guest',
+        isEmailVerified: false,
+        isGuest: true,
+      );
+
+      final docRef = firestore.collection('users').doc(user.uid);
+      final doc = await docRef.get();
+
+      if (!doc.exists) {
+        await docRef.set(user.toJson());
+      }
+
+      return Result.success(user);
+    } on FirebaseAuthException catch (e) {
+      return Result.failure(FirebaseErrorHandler.handle(e));
+    } catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleGeneric(e));
+    }
+  }
+
+  Future<void> logout() async {
+    await auth.signOut();
   }
 }

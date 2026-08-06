@@ -22,11 +22,13 @@ class LocationListener extends StatelessWidget {
 
           saved: () {
             context.pop();
-            context.pushReplacedNamed(Routes.homeScreen);
+            context.pushNamed(Routes.appStartScreen);
           },
           loaded: (location) {
             context.pop();
-
+            context.read<LocationCubit>().saveLocation();
+          },
+          locationSelected: (location) {
             context.read<LocationCubit>().saveLocation();
           },
           error: (message) {

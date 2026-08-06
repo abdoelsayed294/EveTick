@@ -1,4 +1,5 @@
 import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,7 +13,7 @@ class CustomIndicator extends StatelessWidget {
       duration: Duration(milliseconds: 250),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        color: active ? ColorsManager.orange : ColorsManager.lightGray,
+        color: active ? ColorsManager.orange : context.colors.lightGray,
       ),
       width: active ? 30.w : 10.w,
       height: 10.h,

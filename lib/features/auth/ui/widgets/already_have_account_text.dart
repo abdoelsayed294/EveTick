@@ -1,6 +1,7 @@
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/text_styles.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class AlreadyHaveAccountText extends StatelessWidget {
@@ -16,11 +17,11 @@ class AlreadyHaveAccountText extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Already have an account? ',
-              style: TextStyles.font12LightGrayRegular
+              text: AppLocalizations.of(context)!.authHasAccountPrompt,
+              style: TextStyles.font12LightGrayRegular(context)
             ),
             TextSpan(
-              text: 'Log In',
+              text: AppLocalizations.of(context)!.authHasAccountPromptRemain,
               style: TextStyles.font12OrangeMid
             )
           ]

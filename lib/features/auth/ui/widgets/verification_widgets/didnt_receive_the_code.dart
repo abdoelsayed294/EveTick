@@ -1,5 +1,5 @@
-import 'package:evetick/core/theming/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 
 class DidntReceiveTheCode extends StatelessWidget {
   const DidntReceiveTheCode({super.key});
@@ -8,7 +8,7 @@ class DidntReceiveTheCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: TextStyles.font12LightGrayRegular,
+        style: TextStyles.font12LightGrayRegular(context),
         children: [
           TextSpan(text: 'Didn\'t receive the code? '),
           TextSpan(

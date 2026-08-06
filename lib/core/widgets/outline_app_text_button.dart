@@ -1,23 +1,29 @@
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/styles.dart';
+import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OutlineAppTextButton extends StatelessWidget {
   final double? borderRadius;
   final Color? backgroundColor;
+  final Color? borderColor;
+  final TextStyle? textStyle;
   final double? buttonWidth;
   final double? buttonHeight;
   final String buttonText;
   final VoidCallback onPressed;
+  final Widget? trailing;
   const OutlineAppTextButton({
     super.key,
     this.borderRadius,
     this.backgroundColor,
+    this.borderColor,
+    this.textStyle,
     this.buttonWidth,
     this.buttonHeight,
     required this.buttonText,
     required this.onPressed,
+    this.trailing,
   });
 
   @override
@@ -30,15 +36,27 @@ class OutlineAppTextButton extends StatelessWidget {
         ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? 16.0),
+            borderRadius: BorderRadius.circular(borderRadius ?? 16),
           ),
         ),
         side: WidgetStatePropertyAll(
-          BorderSide(color: ColorsManager.orange, width: 1.5),
+          BorderSide(color: borderColor ?? ColorsManager.orange, width: 1.5),
         ),
       ),
-
-      child: Text(buttonText, style: TextStyles.font16OrangeRegular),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Text(buttonText, style: textStyle ?? TextStyles.font16OrangeRegular),
+          if (trailing != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: EdgeInsets.only(left: 16.w),
+                child: trailing,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
