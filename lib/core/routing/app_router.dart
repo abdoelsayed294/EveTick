@@ -12,6 +12,7 @@ import 'package:evetick/features/home/home_screen.dart';
 import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
 import 'package:evetick/features/location/presentation/screens/map_picker_screen.dart';
+import 'package:evetick/main_container.dart';
 import 'package:evetick/features/location/presentation/screens/set_location.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
@@ -51,7 +52,19 @@ class AppRouter {
           ),
         );
       case Routes.homeScreen:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<ProfileCubit>()..getUserData(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<LoginCubit>(),
+              ),
+            ],
+            child: const MainContainer(),
+          ),
+        );
       case Routes.verificationScreen:
         return MaterialPageRoute(builder: (_) => const VerificationScreen());
       case Routes.appStartScreen:
