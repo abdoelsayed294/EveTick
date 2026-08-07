@@ -1,17 +1,12 @@
-import 'dart:ui';
-
 import 'package:evetick/features/animated_navbar/arc_path.dart';
+import 'package:evetick/features/animated_navbar/spotlight_painter.dart';
 import 'package:flutter/material.dart';
 
-import 'spotlight_painter.dart';
 
 class Spotlight extends StatelessWidget {
   final double progress;
-
   final double startX;
-
   final double endX;
-
   final Color color;
 
   const Spotlight({
@@ -25,10 +20,10 @@ class Spotlight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final offset = ArcPath.calculate(
-  progress: progress,
-  startX: startX,
-  endX: endX,
-);
+      progress: progress,
+      startX: startX,
+      endX: endX,
+    );
 
     return IgnorePointer(
       child: SizedBox.expand(

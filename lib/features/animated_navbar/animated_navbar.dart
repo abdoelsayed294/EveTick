@@ -1,58 +1,48 @@
+import 'package:evetick/core/theming/app_colors.dart';
+import 'package:evetick/core/theming/colors.dart';
+
 import 'package:evetick/features/animated_navbar/indicator.dart';
 import 'package:evetick/features/animated_navbar/navbar_icon.dart';
 import 'package:evetick/features/animated_navbar/navbar_item.dart';
 import 'package:evetick/features/animated_navbar/spotlight.dart';
 import 'package:flutter/material.dart';
 
-
-
 class AnimatedSpotlightNavbar extends StatefulWidget {
+  final List<AnimatedNavbarItem> items;
+  final int currentIndex;
+  final ValueChanged<int> onTap;
+  final double height;
+  final double borderRadius;
+  final Color backgroundColor;
+  final Color activeColor;
+  final Color inactiveColor;
+  final Duration animationDuration;
+
   const AnimatedSpotlightNavbar({
     super.key,
     required this.items,
     required this.currentIndex,
     required this.onTap,
-    this.height = 80,
-    this.backgroundColor = const Color(0xff173A5E),
-    this.activeColor = Colors.orange,
-    this.inactiveColor = Colors.white,
+    this.height = 72,
+    this.backgroundColor = ColorsManager.lightBlue,
+    this.activeColor = ColorsManager.orange,
+    this.inactiveColor = ColorsManager.lightGray,
     this.borderRadius = 24,
     this.animationDuration = const Duration(milliseconds: 500),
   });
-
-  final List<AnimatedNavbarItem> items;
-
-  final int currentIndex;
-
-  final ValueChanged<int> onTap;
-
-  final double height;
-
-  final double borderRadius;
-
-  final Color backgroundColor;
-
-  final Color activeColor;
-
-  final Color inactiveColor;
-
-  final Duration animationDuration;
 
   @override
   State<AnimatedSpotlightNavbar> createState() =>
       _AnimatedSpotlightNavbarState();
 }
 
-class _AnimatedSpotlightNavbarState
-    extends State<AnimatedSpotlightNavbar>
+class _AnimatedSpotlightNavbarState extends State<AnimatedSpotlightNavbar>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
 
-  late Animation<double> _animation;
-
-  double _start = 0;
-
-  double _end = 0;
+  double _startX = 0;
+  double _endX = 0;
 
   @override
   void initState() {
@@ -69,9 +59,11 @@ class _AnimatedSpotlightNavbarState
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _start = _calculateCenter(widget.currentIndex);
-      _end = _start;
-      setState(() {});
+      final center = _calculateCenterX(widget.currentIndex);
+      setState(() {
+        _startX = center;
+        _endX = center;
+      });
     });
   }
 
@@ -80,21 +72,12 @@ class _AnimatedSpotlightNavbarState
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.currentIndex != widget.currentIndex) {
-      _start = _end;
-      _end = _calculateCenter(widget.currentIndex);
-
+      _startX = _endX;
+      _endX = _calculateCenterX(widget.currentIndex);
       _controller
         ..reset()
         ..forward();
     }
-  }
-
-  double _calculateCenter(int index) {
-    final width = MediaQuery.of(context).size.width;
-
-    final itemWidth = width / widget.items.length;
-
-    return itemWidth * index + itemWidth / 2;
   }
 
   @override
@@ -103,74 +86,85 @@ class _AnimatedSpotlightNavbarState
     super.dispose();
   }
 
+  double _calculateCenterX(int index) {
+    final totalWidth = MediaQuery.of(context).size.width;
+    final itemWidth = totalWidth / widget.items.length;
+    return itemWidth * index + itemWidth / 2;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+
     return Container(
-      height: widget.height,
+      height: widget.height + bottomPadding,
       decoration: BoxDecoration(
         color: widget.backgroundColor,
-        borderRadius: BorderRadius.circular(
-          widget.borderRadius,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(widget.borderRadius),
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(
-          widget.borderRadius,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(widget.borderRadius),
         ),
         child: Stack(
           children: [
-
-            /// Spotlight
-            AnimatedBuilder(
-              animation: _animation,
-              builder: (_, __) {
-                return Spotlight(
-                  progress: _animation.value,
-                  startX: _start,
-                  endX: _end,
-                  color: widget.activeColor,
-                );
-              },
-            ),
-
-            /// Indicator
-            AnimatedBuilder(
-              animation: _animation,
-              builder: (_, __) {
-                return Indicator(
-                  progress: _animation.value,
-                  startX: _start,
-                  endX: _end,
-                  color: widget.activeColor,
-                );
-              },
-            ),
-
-            /// Icons
-            Row(
-              children: List.generate(
-                widget.items.length,
-                (index) {
-                  return Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () => widget.onTap(index),
-                      child: AnimatedNavbarIcon(
-                        item: widget.items[index],
-                        selected:
-                            widget.currentIndex == index,
-                        activeColor: widget.activeColor,
-                        inactiveColor:
-                            widget.inactiveColor,
-                      ),
-                    ),
-                  );
-                },
-              ),
+            _buildSpotlight(),
+            Padding(
+              padding: EdgeInsets.only(bottom: bottomPadding),
+              child: Stack(children: [_buildIndicator(), _buildIcons()]),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSpotlight() {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (_, __) {
+        return Spotlight(
+          progress: _animation.value,
+          startX: _startX,
+          endX: _endX,
+          color: widget.activeColor,
+        );
+      },
+    );
+  }
+
+  Widget _buildIndicator() {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (_, __) {
+        return Indicator(
+          progress: _animation.value,
+          startX: _startX,
+          endX: _endX,
+          color: widget.activeColor,
+        );
+      },
+    );
+  }
+
+  Widget _buildIcons() {
+    return Row(
+      children: List.generate(widget.items.length, (index) {
+        return Expanded(
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => widget.onTap(index),
+            child: AnimatedNavbarIcon(
+              item: widget.items[index],
+              selected: widget.currentIndex == index,
+              activeColor: widget.activeColor,
+              inactiveColor: widget.inactiveColor,
+            ),
+          ),
+        );
+      }),
     );
   }
 }
