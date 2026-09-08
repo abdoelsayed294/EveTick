@@ -25,7 +25,11 @@ class _MainContainerState extends State<MainContainer> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: IndexedStack(index: _currentIndex, children: _pages),
+      backgroundColor: Colors.transparent,
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: AnimatedSpotlightNavbar(
         currentIndex: _currentIndex,
         onTap: (index) {
