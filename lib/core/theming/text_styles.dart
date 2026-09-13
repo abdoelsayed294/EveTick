@@ -73,6 +73,24 @@ class TextStyles {
     color: context.colors.lightGray,
   );
 
+  static TextStyle font18DarkGrayBold(BuildContext context) => TextStyle(
+    fontSize: 18.sp,
+    fontWeight: FontWeightHelper.bold,
+    color: context.colors.darkGray,
+  );
+
+  static TextStyle font16WhiteMidium = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.medium,
+    color: ColorsManager.white,
+  );
+
+  static TextStyle font16GrayRegular = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.regular,
+    color: ColorsManager.gray,
+  );
+
   static TextStyle font12OrangeBold = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeightHelper.bold,
@@ -85,9 +103,31 @@ class TextStyles {
     color: ColorsManager.orange,
   );
 
+  static TextStyle font12OrangeRegular = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeightHelper.regular,
+    color: ColorsManager.orange,
+  );
+
   static TextStyle font16OrangeRegular = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.regular,
     color: ColorsManager.orange,
   );
+  static TextStyle font16OrangeBold = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.bold,
+    color: ColorsManager.orange,
+  );
+  static TextStyle font18OrangeBold = TextStyle(
+    fontSize: 18.sp,
+    fontWeight: FontWeightHelper.bold,
+    color: ColorsManager.orange,
+  );
+  static TextStyle font12GrayRegular = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeightHelper.regular,
+    color: ColorsManager.gray,
+  );
+  
 }

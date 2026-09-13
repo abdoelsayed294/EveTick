@@ -8,7 +8,8 @@ import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
-import 'package:evetick/features/home/home_screen.dart';
+import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
+import 'package:evetick/features/event_booking/ui/screens/booking_flow_screen.dart';
 import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
 import 'package:evetick/features/location/presentation/screens/map_picker_screen.dart';
@@ -58,13 +59,20 @@ class AppRouter {
               BlocProvider(
                 create: (context) => getIt<ProfileCubit>()..getUserData(),
               ),
-              BlocProvider(
-                create: (context) => getIt<LoginCubit>(),
-              ),
+              BlocProvider(create: (context) => getIt<LoginCubit>()),
             ],
             child: const MainContainer(),
           ),
         );
+
+      case Routes.bookingFlowScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<SelectChairCubit>(),
+            child: BookingFlowScreen(),
+          ),
+        );
+
       case Routes.verificationScreen:
         return MaterialPageRoute(builder: (_) => const VerificationScreen());
       case Routes.appStartScreen:
