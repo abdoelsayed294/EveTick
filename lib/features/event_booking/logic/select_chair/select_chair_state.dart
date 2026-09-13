@@ -13,15 +13,13 @@ class SelectChairState {
       rowLabels: const ['A', 'B', 'C', 'D', 'E'],
       seatPrice: 79.0,
       leftSeats: [
-        
-        List.filled(5, SeatStatus.available),
-        List.filled(5, SeatStatus.available),
-        List.filled(5, SeatStatus.available),
-        List.filled(5, SeatStatus.available),
-        List.filled(5, SeatStatus.available),
+        List.filled(8, SeatStatus.available),
+        List.filled(8, SeatStatus.available),
+        List.filled(8, SeatStatus.available),
+        List.filled(8, SeatStatus.reserved),
+        List.filled(8, SeatStatus.available),
       ],
       rightSeats: [
-        
         List.filled(5, SeatStatus.available),
         List.filled(5, SeatStatus.available),
         List.filled(5, SeatStatus.available),
