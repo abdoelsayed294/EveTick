@@ -39,7 +39,7 @@ class FilledAppTextButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(buttonText, style: TextStyles.font16DarkBlueMid(context)),
+      child: Text(buttonText, style: TextStyles.font16WhiteMidium),
     );
   }
 }
