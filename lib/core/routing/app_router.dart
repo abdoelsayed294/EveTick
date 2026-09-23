@@ -9,6 +9,7 @@ import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
+import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
 import 'package:evetick/features/event_booking/ui/screens/booking_flow_screen.dart';
 import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
@@ -67,8 +68,12 @@ class AppRouter {
 
       case Routes.bookingFlowScreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => getIt<SelectChairCubit>(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<SelectChairCubit>()),
+              BlocProvider(create: (context) => getIt<SelectTicketsCubit>()..getTicketTier("LKGhJxYCHeTCAFisXZLr")),
+
+            ],
             child: BookingFlowScreen(),
           ),
         );

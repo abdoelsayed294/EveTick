@@ -70,6 +70,11 @@ class FirebaseErrorHandler {
   }
 }
 
+static FirebaseFailure notFound(String message) {
+  return FirebaseFailure(message);
+}
+
+
 static FirebaseFailure handleStorage(FirebaseException e) {
   switch (e.code) {
     case 'object-not-found':

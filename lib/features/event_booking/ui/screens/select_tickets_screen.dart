@@ -1,7 +1,7 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/selected_tickets_bar.dart';
-import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/ticket_type_container.dart';
+import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/ticket_tiers_bloc_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,34 +29,7 @@ class SelectTicketsScreen extends StatelessWidget {
                       style: TextStyles.font18WhiteBold(context),
                     ),
                     verticalSpace(24),
-                    TicketTypeContainer(
-                      name: 'Early Brid',
-                      description:
-                          'Limited quantities for our early supporters. includes standard entry.',
-                      price: 35,
-                    ),
-                    verticalSpace(16),
-                    TicketTypeContainer(
-                      name: 'General Admission',
-                      description:
-                          'Limited quantities for our early supporters. includes standard entry.',
-                      price: 45,
-                    ),
-                    verticalSpace(16),
-                    TicketTypeContainer(
-                      name: 'VIP Access',
-                      description:
-                          '-Backstage lounge access. \n -2 Complimentary drink vouchers. \n -Premium viewing area.',
-                      price: 120,
-                    ),
-                    verticalSpace(16),
-                    TicketTypeContainer(
-                      name: 'Backstage Pass',
-                      description:
-                          'Meet and Greet with performers. includes all VIP perks.',
-                      price: 250,
-                      isSoldOut: true,
-                    ),
+                    const TicketTiersBlocBuilder(),
                   ],
                 ),
               ),
