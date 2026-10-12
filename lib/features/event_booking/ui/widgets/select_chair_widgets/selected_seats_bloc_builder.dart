@@ -13,13 +13,21 @@ class SelectedSeatsBarBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SelectChairCubit, SelectChairState>(
       builder: (context, state) {
-        final selectedLabels = state.selectedSeatLabels;
-
         return SelectedSeatsBar(
-          selectedSeatLabels: selectedLabels,
+          selectedSeatLabels: state.selectedSeatLabels,
+          maxSeats: state.maxSeats,
           totalPrice: state.totalPrice,
           onProceed: () {
-            if (selectedLabels.isEmpty) return;
+            if (!state.isSelectionComplete) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text('Please select ${state.maxSeats} seat(s)'),
+                  ),
+                );
+              return;
+            }
             onNext?.call();
           },
         );

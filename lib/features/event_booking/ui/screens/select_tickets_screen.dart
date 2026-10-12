@@ -1,8 +1,11 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/text_styles.dart';
-import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/selected_tickets_bar.dart';
+import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/selected_tickets_bar_builder.dart';
 import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/ticket_tiers_bloc_builder.dart';
+import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
+import 'package:evetick/features/event_booking/logic/checkout/checkout_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectTicketsScreen extends StatelessWidget {
@@ -24,9 +27,11 @@ class SelectTicketsScreen extends StatelessWidget {
                   children: [
                     Text('Booking For', style: TextStyles.font16GrayRegular),
                     verticalSpace(4),
-                    Text(
-                      'Summer Echoes Music Festival',
-                      style: TextStyles.font18WhiteBold(context),
+                    BlocBuilder<CheckoutCubit, CheckoutState>(
+                      builder: (context, state) => Text(
+                        state.event?.title ?? '',
+                        style: TextStyles.font18WhiteBold(context),
+                      ),
                     ),
                     verticalSpace(24),
                     const TicketTiersBlocBuilder(),
@@ -35,7 +40,7 @@ class SelectTicketsScreen extends StatelessWidget {
               ),
             ),
           ),
-          SelectedTicketsBar(onNext: onNext),
+          SelectedTicketsBarBuilder(onNext: onNext),
         ],
       ),
     );

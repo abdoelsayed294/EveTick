@@ -11,12 +11,20 @@ class TicketTypeContainer extends StatelessWidget {
     required this.name,
     required this.description,
     required this.price,
+    required this.quantity,
+    required this.onIncrease,
+    required this.onDecrease,
+    this.canIncrease = true,
     this.isSoldOut = false,
   });
 
   final String name;
   final String description;
   final double price;
+  final int quantity;
+  final VoidCallback onIncrease;
+  final VoidCallback onDecrease;
+  final bool canIncrease;
   final bool isSoldOut;
 
   @override
@@ -40,16 +48,24 @@ class TicketTypeContainer extends StatelessWidget {
           ),
           verticalSpace(8),
           Text(
-            '\$$price',
+            '\$${price.toStringAsFixed(2)}',
             style: isSoldOut
                 ? TextStyles.font18DarkGrayBold(context)
                 : TextStyles.font16OrangeBold,
           ),
-          if (isSoldOut == false) ...[
+          if (!isSoldOut) ...[
             verticalSpace(24),
             Divider(color: context.colors.darkBlue, height: 1, thickness: 1),
             verticalSpace(24),
-            Align(alignment: Alignment.centerRight, child: QuantitySelector()),
+            Align(
+              alignment: Alignment.centerRight,
+              child: QuantitySelector(
+                quantity: quantity,
+                canIncrease: canIncrease,
+                onIncrease: onIncrease,
+                onDecrease: onDecrease,
+              ),
+            ),
           ],
         ],
       ),

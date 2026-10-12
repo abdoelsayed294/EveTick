@@ -8,9 +8,14 @@ import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
+import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
+import 'package:evetick/features/event_booking/data/models/confirmation_args.dart';
 import 'package:evetick/features/event_booking/ui/screens/booking_flow_screen.dart';
+import 'package:evetick/features/event_booking/logic/ticket/ticket_cubit.dart';
+import 'package:evetick/features/event_booking/ui/screens/confirmation_screen.dart';
+import 'package:evetick/features/event_booking/ui/screens/ticket_screen.dart';
 import 'package:evetick/features/location/data/repos/location_repository.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
 import 'package:evetick/features/location/presentation/screens/map_picker_screen.dart';
@@ -67,14 +72,39 @@ class AppRouter {
         );
 
       case Routes.bookingFlowScreen:
+        
+        const eventId = '7v6CwIrr403T1rrgWGv6';
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider(create: (context) => getIt<SelectChairCubit>()),
-              BlocProvider(create: (context) => getIt<SelectTicketsCubit>()..getTicketTier("LKGhJxYCHeTCAFisXZLr")),
-
+              BlocProvider(
+                create: (context) =>
+                    getIt<SelectChairCubit>()..getSeatingConfig(eventId),
+              ),
+              BlocProvider(
+                create: (context) =>
+                    getIt<SelectTicketsCubit>()..getTicketTier(eventId),
+              ),
+              BlocProvider(
+                create: (context) => getIt<CheckoutCubit>()..getEvent(eventId),
+              ),
             ],
             child: BookingFlowScreen(),
+          ),
+        );
+
+      case Routes.confirmationScreen:
+        return MaterialPageRoute(
+          builder: (_) =>
+              ConfirmationScreen(args: arguments as ConfirmationArgs),
+        );
+
+      case Routes.ticketScreen:
+        final orderId = arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<TicketCubit>()..getOrder(orderId),
+            child: const TicketScreen(),
           ),
         );
 

@@ -4,37 +4,19 @@ import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class QuantitySelector extends StatefulWidget {
-  QuantitySelector({super.key, this.initialQuantity = 0});
+class QuantitySelector extends StatelessWidget {
+  const QuantitySelector({
+    super.key,
+    required this.quantity,
+    required this.onIncrease,
+    required this.onDecrease,
+    this.canIncrease = true,
+  });
 
-  final int initialQuantity;
-
-  @override
-  State<QuantitySelector> createState() => _QuantitySelectorState();
-}
-
-class _QuantitySelectorState extends State<QuantitySelector> {
-  late int quantity;
-
-  @override
-  void initState() {
-    super.initState();
-    quantity = widget.initialQuantity;
-  }
-
-  void increase() {
-    setState(() {
-      quantity++;
-    });
-  }
-
-  void decrease() {
-    if (quantity > 0) {
-      setState(() {
-        quantity--;
-      });
-    }
-  }
+  final int quantity;
+  final VoidCallback onIncrease;
+  final VoidCallback onDecrease;
+  final bool canIncrease;
 
   @override
   Widget build(BuildContext context) {
@@ -51,17 +33,17 @@ class _QuantitySelectorState extends State<QuantitySelector> {
           Expanded(
             child: Center(
               child: InkWell(
-                onTap: decrease,
+                onTap: quantity > 0 ? onDecrease : null,
                 child: Icon(
                   Icons.remove,
-                  color: context.colors.lightGray,
+                  color: quantity > 0
+                      ? context.colors.lightGray
+                      : context.colors.darkGray,
                   size: 24.sp,
                 ),
               ),
             ),
           ),
-
-          // number
           Expanded(
             child: Center(
               child: Text(
@@ -70,17 +52,17 @@ class _QuantitySelectorState extends State<QuantitySelector> {
               ),
             ),
           ),
-
-          // +
           SizedBox(
             width: 44.w,
             height: 44.h,
             child: Material(
-              color: ColorsManager.orange,
+              color: canIncrease
+                  ? ColorsManager.orange
+                  : ColorsManager.orange.withValues(alpha: 0.4),
               borderRadius: BorderRadius.circular(6.r),
               child: InkWell(
                 borderRadius: BorderRadius.circular(6.r),
-                onTap: increase,
+                onTap: canIncrease ? onIncrease : null,
                 child: Center(
                   child: Icon(
                     Icons.add,

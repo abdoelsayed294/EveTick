@@ -1,41 +1,45 @@
 import 'package:evetick/features/event_booking/ui/widgets/select_chair_widgets/seat_widget.dart';
 
-class SelectChairState {
-  const SelectChairState({
-    required this.rowLabels,
-    required this.leftSeats,
-    required this.rightSeats,
-    required this.seatPrice,
+enum SelectChairStatus { loading, success, error }
+
+/// A picked seat: its position in `seatMap` and its display label (A1, B7...).
+class SelectedSeat {
+  const SelectedSeat({
+    required this.rowIndex,
+    required this.seatIndex,
+    required this.label,
   });
 
-  factory SelectChairState.initial() {
-    return SelectChairState(
-      rowLabels: const ['A', 'B', 'C', 'D', 'E'],
-      seatPrice: 79.0,
-      leftSeats: [
-        List.filled(8, SeatStatus.available),
-        List.filled(8, SeatStatus.available),
-        List.filled(8, SeatStatus.available),
-        List.filled(8, SeatStatus.reserved),
-        List.filled(8, SeatStatus.available),
-      ],
-      rightSeats: [
-        List.filled(5, SeatStatus.available),
-        List.filled(5, SeatStatus.available),
-        List.filled(5, SeatStatus.available),
-        List.filled(5, SeatStatus.available),
-        List.filled(5, SeatStatus.available),
-      ],
-    );
-  }
+  final int rowIndex;
+  final int seatIndex;
+  final String label;
+}
 
+class SelectChairState {
+  const SelectChairState({
+    this.status = SelectChairStatus.loading,
+    this.errorMessage,
+    this.rowLabels = const [],
+    this.leftSeats = const [],
+    this.rightSeats = const [],
+    this.maxSeats = 0,
+    this.totalPrice = 0,
+  });
+
+  final SelectChairStatus status;
+  final String? errorMessage;
   final List<String> rowLabels;
   final List<List<SeatStatus>> leftSeats;
   final List<List<SeatStatus>> rightSeats;
-  final double seatPrice;
 
-  List<String> get selectedSeatLabels {
-    final labels = <String>[];
+  /// Number of tickets bought in the previous step = seats the user must pick.
+  final int maxSeats;
+
+  /// Price of the tickets chosen in the previous step.
+  final double totalPrice;
+
+  List<SelectedSeat> get selectedSeats {
+    final seats = <SelectedSeat>[];
 
     for (var row = 0; row < rowLabels.length; row++) {
       final leftRow = leftSeats[row];
@@ -43,32 +47,51 @@ class SelectChairState {
 
       for (var i = 0; i < leftRow.length; i++) {
         if (leftRow[i] == SeatStatus.selected) {
-          labels.add('${rowLabels[row]}${i + 1}');
+          seats.add(SelectedSeat(
+            rowIndex: row,
+            seatIndex: i,
+            label: '${rowLabels[row]}${i + 1}',
+          ));
         }
       }
       for (var i = 0; i < rightRow.length; i++) {
         if (rightRow[i] == SeatStatus.selected) {
-          labels.add('${rowLabels[row]}${leftRow.length + i + 1}');
+          final flatIndex = leftRow.length + i;
+          seats.add(SelectedSeat(
+            rowIndex: row,
+            seatIndex: flatIndex,
+            label: '${rowLabels[row]}${flatIndex + 1}',
+          ));
         }
       }
     }
 
-    return labels;
+    return seats;
   }
 
-  double get totalPrice => selectedSeatLabels.length * seatPrice;
+  List<String> get selectedSeatLabels =>
+      selectedSeats.map((s) => s.label).toList();
+
+  bool get isSelectionComplete =>
+      maxSeats > 0 && selectedSeatLabels.length == maxSeats;
 
   SelectChairState copyWith({
+    SelectChairStatus? status,
+    String? errorMessage,
     List<String>? rowLabels,
     List<List<SeatStatus>>? leftSeats,
     List<List<SeatStatus>>? rightSeats,
-    double? seatPrice,
+    int? maxSeats,
+    double? totalPrice,
   }) {
     return SelectChairState(
+      status: status ?? this.status,
+      errorMessage: errorMessage ?? this.errorMessage,
       rowLabels: rowLabels ?? this.rowLabels,
       leftSeats: leftSeats ?? this.leftSeats,
       rightSeats: rightSeats ?? this.rightSeats,
-      seatPrice: seatPrice ?? this.seatPrice,
+      maxSeats: maxSeats ?? this.maxSeats,
+      totalPrice: totalPrice ?? this.totalPrice,
     );
   }
 }

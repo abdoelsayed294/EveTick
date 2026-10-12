@@ -10,12 +10,14 @@ class SelectedSeatsBar extends StatelessWidget {
   const SelectedSeatsBar({
     super.key,
     required this.selectedSeatLabels,
+    required this.maxSeats,
     required this.totalPrice,
     required this.onProceed,
     this.maxVisibleSeats = 3,
   });
 
   final List<String> selectedSeatLabels;
+  final int maxSeats;
   final double totalPrice;
   final VoidCallback onProceed;
   final int maxVisibleSeats;
@@ -90,7 +92,7 @@ class SelectedSeatsBar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Selected Seats',
+                      'Selected Seats (${selectedSeatLabels.length}/$maxSeats)',
                       style: TextStyles.font12LightGrayRegular(context),
                     ),
                     verticalSpace(8),
