@@ -14,4 +14,6 @@ class Routes {
   static const String editProfileScreen='/editProfileScreen';
   static const String selectTicketsScreen='/selectTicketsScreen';
   static const String bookingFlowScreen='/bookingFlowScreen';
+  static const String confirmationScreen='/confirmationScreen';
+  static const String ticketScreen='/ticketScreen';
 }

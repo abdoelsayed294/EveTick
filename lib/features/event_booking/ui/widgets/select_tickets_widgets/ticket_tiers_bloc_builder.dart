@@ -10,40 +10,41 @@ class TicketTiersBlocBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SelectTicketsCubit, SelectTicketsState>(
-      listener: (context, state) {
-        state.whenOrNull(
-          error: (error) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(SnackBar(content: Text(error)));
-          },
-        );
-      },
+    return BlocBuilder<SelectTicketsCubit, SelectTicketsState>(
       builder: (context, state) {
-        return state.when(
-          initial: () => const SizedBox.shrink(),
-          loading: () => const Padding(
-            padding: EdgeInsets.symmetric(vertical: 24),
-            child: Center(child: CircularProgressIndicator()),
-          ),
-          success: (ticketTiers) => Column(
-            children: [
-              for (final tier in ticketTiers) ...[
-                TicketTypeContainer(
-                  name: tier.name,
-                  description: tier.description,
-                  price: tier.price,
-                  isSoldOut: tier.quantity == 0,
-                ),
-                verticalSpace(16),
+        switch (state.status) {
+          case SelectTicketsStatus.loading:
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: Center(child: CircularProgressIndicator()),
+            );
+          case SelectTicketsStatus.error:
+            return Center(
+              child: Text(
+                state.errorMessage ?? 'Something went wrong',
+                style: const TextStyle(color: Colors.red),
+              ),
+            );
+          case SelectTicketsStatus.success:
+            final cubit = context.read<SelectTicketsCubit>();
+            return Column(
+              children: [
+                for (var i = 0; i < state.ticketTiers.length; i++) ...[
+                  TicketTypeContainer(
+                    name: state.ticketTiers[i].name,
+                    description: state.ticketTiers[i].description,
+                    price: state.ticketTiers[i].price,
+                    quantity: state.quantities[i],
+                    canIncrease: cubit.canIncrease(i),
+                    isSoldOut: state.ticketTiers[i].quantity == 0,
+                    onIncrease: () => cubit.increase(i),
+                    onDecrease: () => cubit.decrease(i),
+                  ),
+                  verticalSpace(16),
+                ],
               ],
-            ],
-          ),
-          error: (error) => Center(
-            child: Text(error, style: const TextStyle(color: Colors.red)),
-          ),
-        );
+            );
+        }
       },
     );
   }

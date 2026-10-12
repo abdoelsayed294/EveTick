@@ -4,7 +4,9 @@ import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/event_booking/data/data_sources/remote/event_booking_data_source_impl.dart';
 import 'package:evetick/features/event_booking/data/repo/event_booking_repo.dart';
+import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
+import 'package:evetick/features/event_booking/logic/ticket/ticket_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
 import 'package:evetick/features/localization/data/locale_repository.dart';
 import 'package:evetick/features/localization/logic/locale_cubit.dart';
@@ -71,9 +73,11 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton(() => ThemeCubit(getIt()));
 
    // event booking
-  getIt.registerFactory<SelectChairCubit>(() => SelectChairCubit());
   getIt.registerLazySingleton<EventBookingDataSourceImpl>(() => EventBookingDataSourceImpl());
   getIt.registerLazySingleton<EventBookingRepo>(() => EventBookingRepo(getIt<EventBookingDataSourceImpl>()));
+  getIt.registerFactory<SelectChairCubit>(() => SelectChairCubit(getIt<EventBookingRepo>()));
   getIt.registerFactory<SelectTicketsCubit>(() => SelectTicketsCubit(getIt<EventBookingRepo>()));
+  getIt.registerFactory<CheckoutCubit>(() => CheckoutCubit(getIt<EventBookingRepo>()));
+  getIt.registerFactory<TicketCubit>(() => TicketCubit(getIt<EventBookingRepo>()));
 
 }

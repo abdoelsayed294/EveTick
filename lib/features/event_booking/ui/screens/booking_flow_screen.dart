@@ -2,7 +2,13 @@ import 'package:evetick/features/event_booking/ui/screens/checkout_screen.dart';
 import 'package:evetick/features/event_booking/ui/screens/select_chair_screen.dart';
 import 'package:evetick/features/event_booking/ui/screens/select_tickets_screen.dart';
 import 'package:evetick/features/event_booking/ui/widgets/custom_app_bar.dart';
+import 'package:evetick/core/routing/routes.dart';
+import 'package:evetick/features/event_booking/data/models/confirmation_args.dart';
+import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
+import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
+import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookingFlowScreen extends StatefulWidget {
   const BookingFlowScreen({
@@ -42,6 +48,24 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     }
   }
 
+  /// Hand the chosen tickets over to the seat step, then move on.
+  void _onTicketsNext() {
+    final tickets = context.read<SelectTicketsCubit>().state;
+    context.read<SelectChairCubit>().setTicketSelection(
+          count: tickets.totalQuantity,
+          totalPrice: tickets.totalPrice,
+        );
+    _nextStep();
+  }
+
+  /// Hand tickets + seats to the checkout step, then move on.
+  void _onSeatsNext() {
+    final tickets = context.read<SelectTicketsCubit>().state.selectedTickets;
+    final seats = context.read<SelectChairCubit>().state.selectedSeats;
+    context.read<CheckoutCubit>().setSelection(tickets: tickets, seats: seats);
+    _nextStep();
+  }
+
   void _previousStep() {
     if (_currentStep > 0) {
       _pageController.previousPage(
@@ -59,32 +83,23 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     });
   }
 
-  void _onPay() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF163352),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text(
-          'Payment Successful',
-          style: TextStyle(color: Color(0xFFFAFAFA), fontWeight: FontWeight.bold),
-        ),
-        content: const Text(
-          'Your tickets have been booked successfully.',
-          style: TextStyle(color: Color(0xFFC9CFD4)),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            },
-            child: const Text(
-              'Done',
-              style: TextStyle(color: Color(0xFFF05A28), fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
+  /// Payment done: replace the flow with the confirmation screen
+  /// so "back" never returns to the checkout.
+  void _onOrderPlaced() {
+    final checkout = context.read<CheckoutCubit>().state;
+    final event = checkout.event;
+    final orderId = checkout.orderId;
+    if (event == null || orderId == null) return;
+
+    Navigator.of(context).pushReplacementNamed(
+      Routes.confirmationScreen,
+      arguments: ConfirmationArgs(
+        orderId: orderId,
+        eventTitle: event.title,
+        totalPaid: checkout.pricing.total,
+        paidAt: DateTime.now(),
+        coverImageUrl: event.coverImageUrl,
+        location: event.location,
       ),
     );
   }
@@ -107,15 +122,15 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
 
         children: [
           SelectTicketsScreen(
-            onNext: _nextStep,
+            onNext: _onTicketsNext,
           ),
 
           SelectChairScreen(
-            onNext: _nextStep,
+            onNext: _onSeatsNext,
           ),
 
           CheckoutScreen(
-            onPay: _onPay,
+            onOrderPlaced: _onOrderPlaced,
           ),
         ],
       ),

@@ -7,9 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CheckoutBottomBar extends StatelessWidget {
-  const CheckoutBottomBar({super.key, required this.onPay});
+  const CheckoutBottomBar({
+    super.key,
+    required this.onPay,
+    this.isLoading = false,
+  });
 
   final VoidCallback onPay;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,10 @@ class CheckoutBottomBar extends StatelessWidget {
             ],
           ),
           verticalSpace(8),
-          FilledAppTextButton(buttonText: 'Pay Now', onPressed: onPay),
+          FilledAppTextButton(
+            buttonText: isLoading ? 'Processing...' : 'Pay Now',
+            onPressed: isLoading ? () {} : onPay,
+          ),
         ],
       ),
     );

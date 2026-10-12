@@ -15,43 +15,62 @@ class SeatMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SelectChairCubit, SelectChairState>(
       builder: (context, state) {
-        final cubit = context.read<SelectChairCubit>();
-
-        return SizedBox(
-          height: _viewportHeight.h,
-          width: double.infinity,
-          child: InteractiveViewer(
-            constrained: false,
-            minScale: 0.6,
-            maxScale: 2.5,
-            boundaryMargin: EdgeInsets.symmetric(
-              horizontal: 80.w,
-              vertical: 40.h,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: List.generate(state.rowLabels.length, (rowIndex) {
-                final bool isLast = rowIndex == state.rowLabels.length - 1;
-
-                return Padding(
-                  padding: EdgeInsets.only(bottom: isLast ? 0 : 26.h),
-                  child: SeatRow(
-                    label: state.rowLabels[rowIndex],
-                    leftSeats: state.leftSeats[rowIndex],
-                    rightSeats: state.rightSeats[rowIndex],
-                    aisleWidth: _aisleWidth,
-                    onSeatTap: (isLeft, seatIndex) => cubit.toggleSeat(
-                      rowIndex: rowIndex,
-                      isLeft: isLeft,
-                      seatIndex: seatIndex,
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ),
-        );
+        switch (state.status) {
+          case SelectChairStatus.loading:
+            return SizedBox(
+              height: _viewportHeight.h,
+              child: const Center(child: CircularProgressIndicator()),
+            );
+          case SelectChairStatus.error:
+            return SizedBox(
+              height: _viewportHeight.h,
+              child: Center(
+                child: Text(
+                  state.errorMessage ?? 'Something went wrong',
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+            );
+          case SelectChairStatus.success:
+            return _buildSeats(context, state);
+        }
       },
+    );
+  }
+
+  Widget _buildSeats(BuildContext context, SelectChairState state) {
+    final cubit = context.read<SelectChairCubit>();
+
+    return SizedBox(
+      height: _viewportHeight.h,
+      width: double.infinity,
+      child: InteractiveViewer(
+        constrained: false,
+        minScale: 0.6,
+        maxScale: 2.5,
+        boundaryMargin: EdgeInsets.symmetric(horizontal: 80.w, vertical: 40.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(state.rowLabels.length, (rowIndex) {
+            final bool isLast = rowIndex == state.rowLabels.length - 1;
+
+            return Padding(
+              padding: EdgeInsets.only(bottom: isLast ? 0 : 26.h),
+              child: SeatRow(
+                label: state.rowLabels[rowIndex],
+                leftSeats: state.leftSeats[rowIndex],
+                rightSeats: state.rightSeats[rowIndex],
+                aisleWidth: _aisleWidth,
+                onSeatTap: (isLeft, seatIndex) => cubit.toggleSeat(
+                  rowIndex: rowIndex,
+                  isLeft: isLeft,
+                  seatIndex: seatIndex,
+                ),
+              ),
+            );
+          }),
+        ),
+      ),
     );
   }
 }
