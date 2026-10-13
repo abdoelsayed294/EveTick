@@ -1,6 +1,6 @@
 import 'package:evetick/features/animated_navbar/animated_navbar.dart';
 import 'package:evetick/features/animated_navbar/navbar_item.dart';
-import 'package:evetick/features/home/home_screen.dart';
+import 'package:evetick/features/home/ui/screens/home_screen.dart';
 import 'package:evetick/features/profile/ui/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 

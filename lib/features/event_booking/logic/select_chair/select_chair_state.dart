@@ -19,6 +19,8 @@ class SelectChairState {
   const SelectChairState({
     this.status = SelectChairStatus.loading,
     this.errorMessage,
+    this.layoutType = 'seating',
+    this.sectionNames = const [],
     this.rowLabels = const [],
     this.leftSeats = const [],
     this.rightSeats = const [],
@@ -28,6 +30,10 @@ class SelectChairState {
 
   final SelectChairStatus status;
   final String? errorMessage;
+
+  /// "seating" = user picks seats, anything else = sections / tickets only.
+  final String layoutType;
+  final List<String> sectionNames;
   final List<String> rowLabels;
   final List<List<SeatStatus>> leftSeats;
   final List<List<SeatStatus>> rightSeats;
@@ -37,6 +43,8 @@ class SelectChairState {
 
   /// Price of the tickets chosen in the previous step.
   final double totalPrice;
+
+  bool get isSeated => layoutType == 'seating';
 
   List<SelectedSeat> get selectedSeats {
     final seats = <SelectedSeat>[];
@@ -78,6 +86,8 @@ class SelectChairState {
   SelectChairState copyWith({
     SelectChairStatus? status,
     String? errorMessage,
+    String? layoutType,
+    List<String>? sectionNames,
     List<String>? rowLabels,
     List<List<SeatStatus>>? leftSeats,
     List<List<SeatStatus>>? rightSeats,
@@ -87,6 +97,8 @@ class SelectChairState {
     return SelectChairState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
+      layoutType: layoutType ?? this.layoutType,
+      sectionNames: sectionNames ?? this.sectionNames,
       rowLabels: rowLabels ?? this.rowLabels,
       leftSeats: leftSeats ?? this.leftSeats,
       rightSeats: rightSeats ?? this.rightSeats,

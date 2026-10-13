@@ -9,6 +9,7 @@ import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
 import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
+import 'package:evetick/features/home/logic/home_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
 import 'package:evetick/features/event_booking/data/models/confirmation_args.dart';
@@ -66,14 +67,15 @@ class AppRouter {
                 create: (context) => getIt<ProfileCubit>()..getUserData(),
               ),
               BlocProvider(create: (context) => getIt<LoginCubit>()),
+              BlocProvider(create: (context) => getIt<HomeCubit>()..load()),
             ],
             child: const MainContainer(),
           ),
         );
 
       case Routes.bookingFlowScreen:
-        
-        const eventId = '7v6CwIrr403T1rrgWGv6';
+        // The event id comes from the home screen (Navigator arguments).
+        final eventId = arguments as String;
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [

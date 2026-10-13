@@ -33,7 +33,7 @@ class EvetickApp extends StatelessWidget {
                   themeMode: themeState.themeMode,
                   debugShowCheckedModeBanner: false,
                   onGenerateRoute: appRouter.generateRoute,
-                  initialRoute: Routes.bookingFlowScreen,
+                  initialRoute: Routes.appStartScreen,
                   localizationsDelegates:
                       AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,

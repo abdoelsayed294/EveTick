@@ -25,3 +25,10 @@ String formatTimeRange(String startIso, String? endIso) {
       ? format.format(start)
       : '${format.format(start)} - ${format.format(end)}';
 }
+
+/// "2026-10-24T19:00:00" -> "Oct 24  •  07:00 PM"
+String formatShortDateTime(String iso) {
+  final date = DateTime.tryParse(iso);
+  if (date == null) return iso;
+  return '${DateFormat('MMM d').format(date)}  •  ${DateFormat('hh:mm a').format(date)}';
+}

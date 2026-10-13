@@ -129,8 +129,8 @@ class TicketCard extends StatelessWidget {
                     ),
                     Expanded(
                       child: TicketInfoItem(
-                        label: 'Seat',
-                        value: ticket.seatsText,
+                        label: ticket.accessLabel,
+                        value: ticket.accessText,
                         valueColor: ColorsManager.orange,
                       ),
                     ),

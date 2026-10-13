@@ -18,6 +18,9 @@ import 'package:evetick/features/location/data/repos/location_repository_impl.da
 import 'package:evetick/features/onboarding/data/onboarding_repository_impl.dart';
 import 'package:evetick/features/onboarding/domain/onboarding_repository.dart';
 import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:evetick/features/home/data/data_sources/home_data_source_impl.dart';
+import 'package:evetick/features/home/data/repo/home_repo.dart';
+import 'package:evetick/features/home/logic/home_cubit.dart';
 import 'package:evetick/features/profile/data/profile_repository.dart';
 import 'package:evetick/features/profile/logic/profile_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -79,5 +82,9 @@ Future<void> setupGetIt() async {
   getIt.registerFactory<SelectTicketsCubit>(() => SelectTicketsCubit(getIt<EventBookingRepo>()));
   getIt.registerFactory<CheckoutCubit>(() => CheckoutCubit(getIt<EventBookingRepo>()));
   getIt.registerFactory<TicketCubit>(() => TicketCubit(getIt<EventBookingRepo>()));
+
+  // home
+  getIt.registerLazySingleton<HomeRepo>(() => HomeRepo(HomeDataSourceImpl()));
+  getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt<HomeRepo>()));
 
 }

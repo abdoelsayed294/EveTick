@@ -31,8 +31,15 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   void setSelection({
     required List<SelectedTicket> tickets,
     required List<SelectedSeat> seats,
+    List<String?> ticketSections = const [],
   }) {
-    emit(state.copyWith(tickets: tickets, seats: seats));
+    emit(
+      state.copyWith(
+        tickets: tickets,
+        seats: seats,
+        ticketSections: ticketSections,
+      ),
+    );
   }
 
   Future<void> placeOrder(String paymentMethod) async {
