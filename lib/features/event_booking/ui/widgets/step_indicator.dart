@@ -9,9 +9,15 @@ class StepIndicator extends StatelessWidget {
   const StepIndicator({
     super.key,
     required this.stepNum,
+    required this.stepTitles,
   });
 
   final int stepNum;
+
+  /// One title per step; its length is the total number of steps.
+  final List<String> stepTitles;
+
+  int get _total => stepTitles.length;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class StepIndicator extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Step $stepNum OF 3',
+              'Step $stepNum OF $_total',
               style: TextStyles.font12OrangeRegular,
             ),
             Text(
@@ -35,7 +41,7 @@ class StepIndicator extends StatelessWidget {
 
         LinearProgressIndicator(
           backgroundColor: context.colors.darkGray,
-          value: stepNum / 3,
+          value: stepNum / _total,
           color: ColorsManager.orange,
           minHeight: 7.h,
           borderRadius: BorderRadius.circular(12.r),
@@ -45,15 +51,7 @@ class StepIndicator extends StatelessWidget {
   }
 
   String _getStepTitle() {
-    switch (stepNum) {
-      case 1:
-        return 'Ticket Selection';
-      case 2:
-        return 'Seat Selection';
-      case 3:
-        return 'Checkout';
-      default:
-        return '';
-    }
+    final index = stepNum - 1;
+    return index >= 0 && index < stepTitles.length ? stepTitles[index] : '';
   }
 }

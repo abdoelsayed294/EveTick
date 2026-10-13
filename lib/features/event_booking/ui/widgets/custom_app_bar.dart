@@ -12,11 +12,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.onPrevious,
     required this.title,
     required this.stepNum,
+    required this.stepTitles,
   });
 
   final VoidCallback onPrevious;
   final String title;
   final int stepNum;
+  final List<String> stepTitles;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           child: StepIndicator(
             stepNum: stepNum,
+            stepTitles: stepTitles,
           ),
         ),
       ),

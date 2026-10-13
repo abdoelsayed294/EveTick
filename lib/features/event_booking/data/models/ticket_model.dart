@@ -6,6 +6,7 @@ class TicketModel {
     required this.eventStartAt,
     required this.status,
     required this.seats,
+    required this.sectionLines,
     this.eventCategory,
     this.eventEndAt,
     this.eventLocation,
@@ -17,6 +18,7 @@ class TicketModel {
   final String eventStartAt;
   final String status;
   final List<String> seats; // labels: A1, A2...
+  final List<String> sectionLines; // "VIP Zone × 2" (events without seats)
   final String? eventCategory;
   final String? eventEndAt;
   final String? eventLocation;
@@ -31,12 +33,24 @@ class TicketModel {
       seats: (json['seats'] as List<dynamic>? ?? [])
           .map((s) => (s as Map)['label'].toString())
           .toList(),
+      sectionLines: (json['tickets'] as List<dynamic>? ?? [])
+          .map((t) => Map<String, dynamic>.from(t as Map))
+          .map((t) =>
+              '${t['sectionName'] ?? t['ticketName'] ?? ''} × ${t['quantity'] ?? 1}')
+          .toList(),
       eventCategory: json['eventCategory'] as String?,
       eventEndAt: json['eventEndAt'] as String?,
       eventLocation: json['eventLocation'] as String?,
       attendeeName: json['attendeeName'] as String?,
     );
   }
+
+  bool get hasSeats => seats.isNotEmpty;
+
+  /// "Seat" for seated events, "Section" otherwise.
+  String get accessLabel => hasSeats ? 'Seat' : 'Section';
+
+  String get accessText => hasSeats ? seatsText : sectionLines.join('  •  ');
 
   String get statusText =>
       status.isEmpty ? '' : status[0].toUpperCase() + status.substring(1);

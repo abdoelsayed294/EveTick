@@ -88,7 +88,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           final ticketLabel = state.tickets
               .map((t) => '${t.quantity}X ${t.tier.name.toUpperCase()}')
               .join(' • ');
-          final seatLabels = state.seats.map((s) => s.label).join(', ');
+          final accessSummary = state.accessSummary;
           final pricing = state.pricing;
 
           return Form(
@@ -110,11 +110,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           time: formatEventTime(event.startAt),
                           imageUrl: event.coverImageUrl,
                         ),
-                        verticalSpace(8),
-                        Text(
-                          'Seats: $seatLabels',
-                          style: TextStyles.font12LightGrayRegular(context),
-                        ),
+                        if (accessSummary.isNotEmpty) ...[
+                          verticalSpace(8),
+                          Text(
+                            accessSummary,
+                            style: TextStyles.font12LightGrayRegular(context),
+                          ),
+                        ],
                         verticalSpace(24),
                         Text('Payment Method', style: TextStyles.font16WhiteBold(context)),
                         verticalSpace(16),

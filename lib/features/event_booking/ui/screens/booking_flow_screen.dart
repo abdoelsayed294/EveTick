@@ -2,10 +2,12 @@ import 'package:evetick/features/event_booking/ui/screens/checkout_screen.dart';
 import 'package:evetick/features/event_booking/ui/screens/select_chair_screen.dart';
 import 'package:evetick/features/event_booking/ui/screens/select_tickets_screen.dart';
 import 'package:evetick/features/event_booking/ui/widgets/custom_app_bar.dart';
+import 'package:evetick/core/helpers/section_resolver.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/features/event_booking/data/models/confirmation_args.dart';
 import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
+import 'package:evetick/features/event_booking/logic/select_chair/select_chair_state.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +26,13 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
 
   int _currentStep = 0;
 
-  final int totalSteps = 3;
+  /// Seated events: tickets -> seats -> checkout.
+  /// Other events (sections): tickets -> checkout.
+  /// Until the layout is loaded we assume the seated flow.
+  bool _isSeated(SelectChairState chair) =>
+      chair.status != SelectChairStatus.success || chair.isSeated;
+
+  int _totalSteps(SelectChairState chair) => _isSeated(chair) ? 3 : 2;
 
   @override
   void initState() {
@@ -40,7 +48,8 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   }
 
   void _nextStep() {
-    if (_currentStep < totalSteps - 1) {
+    final chair = context.read<SelectChairCubit>().state;
+    if (_currentStep < _totalSteps(chair) - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -48,13 +57,48 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     }
   }
 
-  /// Hand the chosen tickets over to the seat step, then move on.
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  /// Seated events: hand the tickets to the seat step.
+  /// Sections events: no seats, hand everything to checkout directly.
   void _onTicketsNext() {
+    final chair = context.read<SelectChairCubit>().state;
+    if (chair.status == SelectChairStatus.loading) {
+      _showMessage('Loading event details, try again in a moment');
+      return;
+    }
+    if (chair.status == SelectChairStatus.error) {
+      _showMessage(chair.errorMessage ?? 'Could not load the event');
+      return;
+    }
+
     final tickets = context.read<SelectTicketsCubit>().state;
-    context.read<SelectChairCubit>().setTicketSelection(
-          count: tickets.totalQuantity,
-          totalPrice: tickets.totalPrice,
-        );
+
+    if (chair.isSeated) {
+      context.read<SelectChairCubit>().setTicketSelection(
+            count: tickets.totalQuantity,
+            totalPrice: tickets.totalPrice,
+          );
+    } else {
+      final selected = tickets.selectedTickets;
+      context.read<CheckoutCubit>().setSelection(
+            tickets: selected,
+            seats: const [],
+            ticketSections: [
+              for (final t in selected)
+                resolveSectionName(
+                  ticketName: t.tier.name,
+                  tierIndex: t.tierIndex,
+                  tiersCount: tickets.ticketTiers.length,
+                  sectionNames: chair.sectionNames,
+                ),
+            ],
+          );
+    }
     _nextStep();
   }
 
@@ -106,50 +150,38 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: _getAppBarTitle(),
-        stepNum: _currentStep + 1,
-        onPrevious: _previousStep,
-      ),
+    return BlocBuilder<SelectChairCubit, SelectChairState>(
+      builder: (context, chair) {
+        final isSeated = _isSeated(chair);
+        final stepTitles = isSeated
+            ? const ['Ticket Selection', 'Seat Selection', 'Checkout']
+            : const ['Ticket Selection', 'Checkout'];
 
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-
-        
-        physics: const NeverScrollableScrollPhysics(),
-
-        children: [
-          SelectTicketsScreen(
-            onNext: _onTicketsNext,
+        return Scaffold(
+          appBar: CustomAppBar(
+            title: _getAppBarTitle(isSeated),
+            stepNum: _currentStep + 1,
+            stepTitles: stepTitles,
+            onPrevious: _previousStep,
           ),
-
-          SelectChairScreen(
-            onNext: _onSeatsNext,
+          body: PageView(
+            controller: _pageController,
+            onPageChanged: _onPageChanged,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              SelectTicketsScreen(onNext: _onTicketsNext),
+              if (isSeated) SelectChairScreen(onNext: _onSeatsNext),
+              CheckoutScreen(onOrderPlaced: _onOrderPlaced),
+            ],
           ),
-
-          CheckoutScreen(
-            onOrderPlaced: _onOrderPlaced,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  String _getAppBarTitle() {
-    switch (_currentStep) {
-      case 0:
-        return 'Select Tickets';
-
-      case 1:
-        return 'Main Arena Hall';
-
-      case 2:
-        return 'Checkout';
-
-      default:
-        return '';
-    }
+  String _getAppBarTitle(bool isSeated) {
+    if (_currentStep == 0) return 'Select Tickets';
+    final isCheckout = _currentStep == (isSeated ? 2 : 1);
+    return isCheckout ? 'Checkout' : 'Select Seats';
   }
 }

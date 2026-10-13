@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evetick/core/helpers/sales_day_key.dart';
+import 'package:evetick/core/helpers/section_resolver.dart';
 import 'package:evetick/core/services/failure.dart';
 import 'package:evetick/core/services/firebase_error_handler.dart';
 import 'package:evetick/core/services/result.dart';
@@ -35,9 +37,8 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
   Future<Result<SeatingConfig>> getSeatingConfig(String eventId) {
     return _fetchFromEvent(eventId, (data) {
       final seatingConfig = data['seatingConfig'];
-      if (seatingConfig == null) {
-        throw _BookingException('This event has no seating map');
-      }
+      // No seating info = tickets only, no seat picking.
+      if (seatingConfig == null) return SeatingConfig.general();
       return SeatingConfig.fromJson(
         Map<String, dynamic>.from(seatingConfig as Map),
       );
@@ -86,33 +87,67 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
           throw _BookingException('Ticket prices changed, please try again');
         }
 
-        // ---- seats
-        final seatingConfig = Map<String, dynamic>.from(data['seatingConfig'] as Map);
-        final seatMap = (seatingConfig['seatMap'] as List<dynamic>)
-            .map((r) => Map<String, dynamic>.from(r as Map))
-            .toList();
+        // ---- layout: seated events reserve seats, others only use sections
+        final rawConfig = data['seatingConfig'];
+        final config = rawConfig == null
+            ? SeatingConfig.general()
+            : SeatingConfig.fromJson(Map<String, dynamic>.from(rawConfig as Map));
 
-        for (final seat in order.seats) {
-          final seats = List<dynamic>.from(seatMap[seat.rowIndex]['seats'] as List);
-          if (seats[seat.seatIndex] != 'available') {
-            throw _BookingException(
-              'Seat ${seat.label} was just taken, please choose another one',
-            );
-          }
-          seats[seat.seatIndex] = 'reserved';
-          seatMap[seat.rowIndex]['seats'] = seats;
-        }
-        seatingConfig['seatMap'] = seatMap;
-
-        tx.update(eventRef, {
+        final updates = <String, dynamic>{
           'ticketTiers': tiers,
-          'seatingConfig': seatingConfig,
-        });
+          'ticketsSold': FieldValue.increment(order.ticketCount),
+          // Sales counters used by the home screen (TOP SELLING / TRENDING).
+          'salesByDay.${salesDayKey(DateTime.now())}':
+              FieldValue.increment(order.ticketCount),
+        };
+        final sectionByTier = <int, String>{};
+
+        if (config.isSeated) {
+          if (order.seats.length != order.ticketCount) {
+            throw _BookingException('Please select a seat for every ticket');
+          }
+
+          final seatingConfig = Map<String, dynamic>.from(rawConfig as Map);
+          final seatMap = (seatingConfig['seatMap'] as List<dynamic>)
+              .map((r) => Map<String, dynamic>.from(r as Map))
+              .toList();
+
+          for (final seat in order.seats) {
+            final seats =
+                List<dynamic>.from(seatMap[seat.rowIndex]['seats'] as List);
+            if (seats[seat.seatIndex] != 'available') {
+              throw _BookingException(
+                'Seat ${seat.label} was just taken, please choose another one',
+              );
+            }
+            seats[seat.seatIndex] = 'reserved';
+            seatMap[seat.rowIndex]['seats'] = seats;
+          }
+          seatingConfig['seatMap'] = seatMap;
+          updates['seatingConfig'] = seatingConfig;
+        } else {
+          if (order.seats.isNotEmpty) {
+            throw _BookingException('This event has no seat selection');
+          }
+          // Remember which section each ticket type gives access to.
+          for (final item in order.tickets) {
+            final section = resolveSectionName(
+              ticketName: tiers[item.tierIndex]['ticketName'] as String? ?? item.name,
+              tierIndex: item.tierIndex,
+              tiersCount: tiers.length,
+              sectionNames: config.sectionNames,
+            );
+            if (section != null) sectionByTier[item.tierIndex] = section;
+          }
+        }
+
+        tx.update(eventRef, updates);
         tx.set(orderRef, {
           ...order.toMap(
             orderId: orderRef.id,
             userId: user.uid,
             attendeeName: attendeeName,
+            sectionByTier: sectionByTier,
           ),
           'createdAt': FieldValue.serverTimestamp(),
         });

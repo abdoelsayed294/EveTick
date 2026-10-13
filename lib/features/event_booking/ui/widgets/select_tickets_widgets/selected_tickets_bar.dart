@@ -11,11 +11,13 @@ class SelectedTicketsBar extends StatelessWidget {
     required this.ticketCount,
     required this.totalPrice,
     required this.onNext,
+    required this.buttonText,
   });
 
   final int ticketCount;
   final double totalPrice;
   final VoidCallback onNext;
+  final String buttonText;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class SelectedTicketsBar extends StatelessWidget {
           ),
           verticalSpace(24),
           FilledAppTextButton(
-            buttonText: 'Continue to select Chair',
+            buttonText: buttonText,
             onPressed: onNext,
           ),
         ],

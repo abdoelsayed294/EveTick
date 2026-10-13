@@ -60,7 +60,7 @@ class SelectChairCubit extends Cubit<SelectChairState> {
     emit(state.copyWith(leftSeats: leftSeats, rightSeats: rightSeats));
   }
 
- 
+
   SelectChairState _buildState(SeatingConfig config) {
     final leftSeats = <List<SeatStatus>>[];
     final rightSeats = <List<SeatStatus>>[];
@@ -74,18 +74,21 @@ class SelectChairCubit extends Cubit<SelectChairState> {
 
     return SelectChairState(
       status: SelectChairStatus.success,
+      layoutType: config.layoutType,
+      sectionNames: config.sectionNames,
       rowLabels: List.generate(config.seatMap.length, _rowLabel),
       leftSeats: leftSeats,
       rightSeats: rightSeats,
     );
   }
 
-  
+  /// "available" -> available, anything else (reserved / booked / sold ...)
+  /// is treated as not selectable.
   SeatStatus _parseStatus(String value) {
     return value == 'available' ? SeatStatus.available : SeatStatus.reserved;
   }
 
- 
+  /// 0 -> A, 1 -> B, ... 25 -> Z, 26 -> AA
   String _rowLabel(int index) {
     const letters = 26;
     final last = String.fromCharCode(65 + index % letters);

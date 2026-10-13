@@ -31,10 +31,12 @@ class OrderTicketItem {
   final double price;
   final int quantity;
 
-  Map<String, dynamic> toMap() => {
+  /// [sectionName]: venue section for events without seat picking.
+  Map<String, dynamic> toMap({String? sectionName}) => {
         'ticketName': name,
         'ticketPrice': price,
         'quantity': quantity,
+        if (sectionName != null) 'sectionName': sectionName,
       };
 }
 
@@ -103,6 +105,7 @@ class OrderModel {
     required String orderId,
     required String userId,
     String? attendeeName,
+    Map<int, String> sectionByTier = const {},
   }) {
     return {
       'orderId': orderId,
@@ -115,7 +118,9 @@ class OrderModel {
       'eventCategory': eventCategory,
       'attendeeName': attendeeName,
       'eventLocation': eventLocation,
-      'tickets': tickets.map((t) => t.toMap()).toList(),
+      'tickets': tickets
+          .map((t) => t.toMap(sectionName: sectionByTier[t.tierIndex]))
+          .toList(),
       'seats': seats.map((s) => s.toMap()).toList(),
       'ticketCount': ticketCount,
       'subtotal': subtotal,
