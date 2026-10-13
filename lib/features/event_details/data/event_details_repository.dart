@@ -22,7 +22,8 @@ class EventDetailsRepository {
     }
   }
 
-  
+  /// Turns the event address into coordinates for the map preview.
+  /// The map is a nice-to-have, so any failure just returns null.
   Future<LocationModel?> findCoordinates(String address) async {
     try {
       final results = await locationFromAddress(address);

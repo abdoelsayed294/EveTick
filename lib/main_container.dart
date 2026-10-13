@@ -1,8 +1,14 @@
 import 'package:evetick/features/animated_navbar/animated_navbar.dart';
 import 'package:evetick/features/animated_navbar/navbar_item.dart';
+import 'package:evetick/features/favorites/logic/favorites_cubit.dart';
+import 'package:evetick/features/favorites/ui/screens/favorites_screen.dart';
+import 'package:evetick/features/home/logic/home_cubit.dart';
 import 'package:evetick/features/home/ui/screens/home_screen.dart';
+import 'package:evetick/features/my_tickets/logic/my_tickets_cubit.dart';
+import 'package:evetick/features/my_tickets/ui/screens/my_tickets_screen.dart';
 import 'package:evetick/features/profile/ui/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainContainer extends StatefulWidget {
   const MainContainer({super.key});
@@ -12,12 +18,16 @@ class MainContainer extends StatefulWidget {
 }
 
 class _MainContainerState extends State<MainContainer> {
+  static const int _homeTabIndex = 0;
+  static const int _favoritesTabIndex = 1;
+  static const int _ticketsTabIndex = 2;
+
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
     HomeScreen(),
-    Center(child: Text('Favorites Screen')),
-    Center(child: Text('Tickets Screen')),
+    FavoritesScreen(),
+    MyTicketsScreen(),
     ProfileScreen(),
   ];
 
@@ -36,6 +46,15 @@ class _MainContainerState extends State<MainContainer> {
           setState(() {
             _currentIndex = index;
           });
+          // Data may have changed on another tab since the last visit.
+          switch (index) {
+            case _homeTabIndex: // hearts toggled in Favorites
+              context.read<HomeCubit>().load(silent: true);
+            case _favoritesTabIndex: // hearts toggled in Home
+              context.read<FavoritesCubit>().load(silent: true);
+            case _ticketsTabIndex: // a ticket may have been booked
+              context.read<MyTicketsCubit>().load(silent: true);
+          }
         },
         items: const [
           AnimatedNavbarItem(
