@@ -2305,6 +2305,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark Mode'**
   String get profileThemeDark;
+
+  /// No description provided for @termsLastUpdatedValue.
+  ///
+  /// In en, this message translates to:
+  /// **'October 2026'**
+  String get termsLastUpdatedValue;
+
+  /// No description provided for @termsSectionsTicketPurchaseSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'All sales are final unless an event is cancelled or rescheduled. EveTick acts as an intermediary between event organizers and attendees.'**
+  String get termsSectionsTicketPurchaseSummary;
+
+  /// No description provided for @termsRefundNotePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Please review our '**
+  String get termsRefundNotePrefix;
+
+  /// No description provided for @termsRefundPolicyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund Policy'**
+  String get termsRefundPolicyLink;
+
+  /// No description provided for @termsRefundNoteSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **' for specific details regarding venue-specific cancellations.'**
+  String get termsRefundNoteSuffix;
+
+  /// No description provided for @termsCheckboxPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to the '**
+  String get termsCheckboxPrefix;
+
+  /// No description provided for @termsCheckboxRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You must accept the Terms of Service to create an account'**
+  String get termsCheckboxRequired;
+
+  /// No description provided for @termsAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'You have accepted the Terms of Service'**
+  String get termsAccepted;
+
+  /// No description provided for @termsAcceptedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'You accepted the terms on {date}'**
+  String termsAcceptedOn(String date);
+
+  /// No description provided for @helpSupportCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get helpSupportCategories;
+
+  /// No description provided for @helpSupportNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching questions found'**
+  String get helpSupportNoResults;
+
+  /// No description provided for @helpSupportFaqQrCodeAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the \'My Tickets\' tab and tap the ticket you want. Its QR code is shown on the ticket, ready to be scanned at the venue entrance.'**
+  String get helpSupportFaqQrCodeAnswer;
+
+  /// No description provided for @helpSupportFaqTransferAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Each ticket is linked to the account that booked it. If you can\'t use a ticket, contact our support team and we\'ll help you.'**
+  String get helpSupportFaqTransferAnswer;
+
+  /// No description provided for @helpSupportFaqProfilePhotoAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Profile > Edit Profile, then tap your profile photo to choose a new one from your gallery.'**
+  String get helpSupportFaqProfilePhotoAnswer;
+
+  /// No description provided for @helpSupportFaqSectionLink.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ section'**
+  String get helpSupportFaqSectionLink;
+
+  /// No description provided for @helpSupportCategoryRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a category'**
+  String get helpSupportCategoryRequired;
+
+  /// No description provided for @helpSupportMessageRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your message'**
+  String get helpSupportMessageRequired;
+
+  /// No description provided for @helpSupportAttachmentInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Only PNG or JPG images up to 5MB are supported'**
+  String get helpSupportAttachmentInvalid;
+
+  /// No description provided for @helpSupportMessageSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message has been sent. We\'ll get back to you soon.'**
+  String get helpSupportMessageSent;
 }
 
 class _AppLocalizationsDelegate

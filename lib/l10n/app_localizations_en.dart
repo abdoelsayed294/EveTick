@@ -1214,4 +1214,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileThemeDark => 'Dark Mode';
+
+  @override
+  String get termsLastUpdatedValue => 'October 2026';
+
+  @override
+  String get termsSectionsTicketPurchaseSummary =>
+      'All sales are final unless an event is cancelled or rescheduled. EveTick acts as an intermediary between event organizers and attendees.';
+
+  @override
+  String get termsRefundNotePrefix => 'Please review our ';
+
+  @override
+  String get termsRefundPolicyLink => 'Refund Policy';
+
+  @override
+  String get termsRefundNoteSuffix =>
+      ' for specific details regarding venue-specific cancellations.';
+
+  @override
+  String get termsCheckboxPrefix => 'I agree to the ';
+
+  @override
+  String get termsCheckboxRequired =>
+      'You must accept the Terms of Service to create an account';
+
+  @override
+  String get termsAccepted => 'You have accepted the Terms of Service';
+
+  @override
+  String termsAcceptedOn(String date) {
+    return 'You accepted the terms on $date';
+  }
+
+  @override
+  String get helpSupportCategories => 'Categories';
+
+  @override
+  String get helpSupportNoResults => 'No matching questions found';
+
+  @override
+  String get helpSupportFaqQrCodeAnswer =>
+      'Open the \'My Tickets\' tab and tap the ticket you want. Its QR code is shown on the ticket, ready to be scanned at the venue entrance.';
+
+  @override
+  String get helpSupportFaqTransferAnswer =>
+      'Each ticket is linked to the account that booked it. If you can\'t use a ticket, contact our support team and we\'ll help you.';
+
+  @override
+  String get helpSupportFaqProfilePhotoAnswer =>
+      'Go to Profile > Edit Profile, then tap your profile photo to choose a new one from your gallery.';
+
+  @override
+  String get helpSupportFaqSectionLink => 'FAQ section';
+
+  @override
+  String get helpSupportCategoryRequired => 'Please select a category';
+
+  @override
+  String get helpSupportMessageRequired => 'Please enter your message';
+
+  @override
+  String get helpSupportAttachmentInvalid =>
+      'Only PNG or JPG images up to 5MB are supported';
+
+  @override
+  String get helpSupportMessageSent =>
+      'Your message has been sent. We\'ll get back to you soon.';
 }

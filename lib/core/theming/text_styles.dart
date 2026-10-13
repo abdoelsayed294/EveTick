@@ -57,6 +57,18 @@ class TextStyles {
     color: context.colors.lightGray,
   );
 
+  static TextStyle font20WhiteBold(BuildContext context) => TextStyle(
+    fontSize: 20.sp,
+    fontWeight: FontWeightHelper.bold,
+    color: context.colors.white,
+  );
+
+  static TextStyle font14LightGrayRegular(BuildContext context) => TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.regular,
+    color: context.colors.lightGray,
+  );
+
   static TextStyle font18WhiteBold(BuildContext context) => TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeightHelper.bold,
