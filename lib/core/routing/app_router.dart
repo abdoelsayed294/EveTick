@@ -11,7 +11,11 @@ import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
 import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
 import 'package:evetick/features/event_details/logic/event_details_cubit.dart';
 import 'package:evetick/features/event_details/ui/screens/event_details_screen.dart';
+import 'package:evetick/features/favorites/logic/favorites_cubit.dart';
 import 'package:evetick/features/home/logic/home_cubit.dart';
+import 'package:evetick/features/search/logic/search_cubit.dart';
+import 'package:evetick/features/search/ui/screens/search_screen.dart';
+import 'package:evetick/features/my_tickets/logic/my_tickets_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
 import 'package:evetick/features/event_booking/data/models/confirmation_args.dart';
@@ -70,8 +74,25 @@ class AppRouter {
               ),
               BlocProvider(create: (context) => getIt<LoginCubit>()),
               BlocProvider(create: (context) => getIt<HomeCubit>()..load()),
+              BlocProvider(
+                create: (context) => getIt<FavoritesCubit>()..load(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<MyTicketsCubit>()..load(),
+              ),
             ],
             child: const MainContainer(),
+          ),
+        );
+
+      case Routes.searchScreen:
+        // true = open with the filter panel (home filter button).
+        final openFilters = arguments as bool? ?? false;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<SearchCubit>()..load(openFilters: openFilters),
+            child: SearchScreen(openFilters: openFilters),
           ),
         );
 

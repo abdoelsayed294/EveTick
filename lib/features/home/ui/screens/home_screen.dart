@@ -25,6 +25,17 @@ class HomeScreen extends StatelessWidget {
     cubit.load(silent: true);
   }
 
+  Future<void> _openSearch(
+    BuildContext context, {
+    bool openFilters = false,
+  }) async {
+    final cubit = context.read<HomeCubit>();
+    await Navigator.of(context)
+        .pushNamed(Routes.searchScreen, arguments: openFilters);
+    // Hearts may have changed in the search results.
+    cubit.load(silent: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +77,10 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 8.h),
                 const HomeHeader(),
                 SizedBox(height: 24.h),
-                HomeSearchField(onChanged: cubit.search),
+                HomeSearchField(
+                  onSearchTap: () => _openSearch(context),
+                  onFilterTap: () => _openSearch(context, openFilters: true),
+                ),
                 SizedBox(height: 24.h),
                 CategoryChips(
                   categories: state.categories,

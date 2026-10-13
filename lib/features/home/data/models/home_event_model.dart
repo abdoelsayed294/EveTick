@@ -95,8 +95,9 @@ class HomeEvent {
     return isOnline ? 'Online event' : '';
   }
 
-  String get priceText {
-    if (isSoldOut) return 'Sold out';
+  /// "Free" / "From $45", also for sold out events (list cards show a
+  /// separate "Sold Out" tag).
+  String get startingPriceText {
     final price = minPrice;
     if (price == null) return '';
     if (price == 0) return 'Free';
@@ -105,4 +106,6 @@ class HomeEvent {
         : price.toStringAsFixed(2);
     return 'From \$$shown';
   }
+
+  String get priceText => isSoldOut ? 'Sold out' : startingPriceText;
 }
