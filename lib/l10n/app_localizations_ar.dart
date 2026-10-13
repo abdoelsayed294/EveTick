@@ -1215,4 +1215,70 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileThemeDark => 'الوضع الداكن';
+
+  @override
+  String get termsLastUpdatedValue => 'أكتوبر 2023';
+
+  @override
+  String get termsSectionsTicketPurchaseSummary =>
+      'جميع المبيعات نهائية ما لم يتم إلغاء الفعالية أو إعادة جدولتها. تعمل إيفتيك كوسيط بين منظمي الفعاليات والحضور.';
+
+  @override
+  String get termsRefundNotePrefix => 'يُرجى مراجعة ';
+
+  @override
+  String get termsRefundPolicyLink => 'سياسة الاسترداد';
+
+  @override
+  String get termsRefundNoteSuffix =>
+      ' الخاصة بنا للاطلاع على التفاصيل المتعلقة بإلغاءات أماكن محددة.';
+
+  @override
+  String get termsCheckboxPrefix => 'أوافق على ';
+
+  @override
+  String get termsCheckboxRequired =>
+      'يجب الموافقة على شروط الخدمة لإنشاء حساب';
+
+  @override
+  String get termsAccepted => 'لقد وافقت على شروط الخدمة';
+
+  @override
+  String termsAcceptedOn(String date) {
+    return 'وافقت على الشروط بتاريخ $date';
+  }
+
+  @override
+  String get helpSupportCategories => 'الفئات';
+
+  @override
+  String get helpSupportNoResults => 'لا توجد أسئلة مطابقة';
+
+  @override
+  String get helpSupportFaqQrCodeAnswer =>
+      'افتح تبويب \"تذاكري\" واضغط على التذكرة المطلوبة. يظهر رمز QR على التذكرة وجاهز للمسح عند مدخل المكان.';
+
+  @override
+  String get helpSupportFaqTransferAnswer =>
+      'كل تذكرة مرتبطة بالحساب الذي قام بالحجز. إذا لم تتمكن من استخدام تذكرة، تواصل مع فريق الدعم وسنساعدك.';
+
+  @override
+  String get helpSupportFaqProfilePhotoAnswer =>
+      'انتقل إلى الملف الشخصي > تعديل الملف الشخصي، ثم اضغط على صورتك لاختيار صورة جديدة من معرض الصور.';
+
+  @override
+  String get helpSupportFaqSectionLink => 'قسم الأسئلة الشائعة';
+
+  @override
+  String get helpSupportCategoryRequired => 'يرجى اختيار الفئة';
+
+  @override
+  String get helpSupportMessageRequired => 'يرجى كتابة رسالتك';
+
+  @override
+  String get helpSupportAttachmentInvalid =>
+      'يتم دعم صور PNG أو JPG فقط بحد أقصى 5 ميجابايت';
+
+  @override
+  String get helpSupportMessageSent => 'تم إرسال رسالتك. سنرد عليك قريبًا.';
 }

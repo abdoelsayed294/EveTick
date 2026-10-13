@@ -9,6 +9,7 @@ import 'package:evetick/features/auth/ui/widgets/auth_background.dart';
 import 'package:evetick/features/auth/ui/widgets/auth_with_other_platforms.dart';
 import 'package:evetick/features/auth/ui/widgets/name_email_and_password.dart';
 import 'package:evetick/features/auth/ui/widgets/signup_bloc_listener.dart';
+import 'package:evetick/features/auth/ui/widgets/terms_checkbox.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,6 +67,8 @@ class SignupScreen extends StatelessWidget {
                     verticalSpace(24),
                     const SignupBlocListener(),
                     NameEmailAndPassword(),
+                    verticalSpace(16),
+                    const TermsCheckbox(),
                     verticalSpace(24),
                     FilledAppTextButton(
                       buttonText: AppLocalizations.of(context)!.authSignUp,
@@ -88,11 +91,14 @@ class SignupScreen extends StatelessWidget {
   }
 
   void validateThenDoSignup(BuildContext context) {
-    if (context.read<SignupCubit>().formKey.currentState!.validate()) {
-      context.read<SignupCubit>().emitSignupStates(
-        name: context.read<SignupCubit>().nameController.text,
-        email: context.read<SignupCubit>().emailController.text,
-        password: context.read<SignupCubit>().passwordController.text,
+    final cubit = context.read<SignupCubit>();
+    final isFormValid = cubit.formKey.currentState!.validate();
+    final isTermsAccepted = cubit.validateTerms();
+    if (isFormValid && isTermsAccepted) {
+      cubit.emitSignupStates(
+        name: cubit.nameController.text,
+        email: cubit.emailController.text,
+        password: cubit.passwordController.text,
       );
     }
   }

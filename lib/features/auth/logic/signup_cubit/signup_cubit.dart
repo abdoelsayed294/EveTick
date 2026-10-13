@@ -13,16 +13,32 @@ class SignupCubit extends Cubit<SignupState> {
   TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
+  final acceptedTerms = ValueNotifier<bool>(false);
+  final showTermsError = ValueNotifier<bool>(false);
+
+  void setTermsAccepted(bool value) {
+    acceptedTerms.value = value;
+    if (value) showTermsError.value = false;
+  }
+
+  /// Shows the error under the checkbox when the terms aren't accepted.
+  bool validateTerms() {
+    showTermsError.value = !acceptedTerms.value;
+    return acceptedTerms.value;
+  }
+
   void emitSignupStates({
     required String name,
     required String email,
     required String password,
   }) async {
+    if (!acceptedTerms.value) return;
     emit(const SignupState.loading());
     final result = await authRepo.signup(
       name: name,
       email: email,
       password: password,
+      acceptedTerms: acceptedTerms.value,
     );
     result.when(
       success: (user) {
@@ -32,5 +48,12 @@ class SignupCubit extends Cubit<SignupState> {
         emit(SignupState.error(error: failure.message));
       },
     );
+  }
+
+  @override
+  Future<void> close() {
+    acceptedTerms.dispose();
+    showTermsError.dispose();
+    return super.close();
   }
 }

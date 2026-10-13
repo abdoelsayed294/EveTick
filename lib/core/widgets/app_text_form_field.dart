@@ -21,6 +21,7 @@ class AppTextFormField extends StatelessWidget {
   final Function(String?) validator;
   final bool readOnly;
   final TextInputType? keyboardType;
+  final int maxLines;
       final List<TextInputFormatter>? inputFormatters;
   const AppTextFormField({
     super.key,
@@ -39,6 +40,7 @@ class AppTextFormField extends StatelessWidget {
     this.readOnly = false,
     this.keyboardType,
     this.inputFormatters,
+    this.maxLines = 1,
   });
 
   @override
@@ -53,6 +55,7 @@ class AppTextFormField extends StatelessWidget {
           inputFormatters: inputFormatters,
           keyboardType: keyboardType,
           readOnly: readOnly,
+          maxLines: isObscureText == true ? 1 : maxLines,
           controller: controller,
           decoration: InputDecoration(
             isDense: true,

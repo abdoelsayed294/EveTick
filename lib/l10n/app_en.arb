@@ -922,5 +922,49 @@
   "profileThemeLight": "Light Mode",
   "@profileThemeLight": {},
   "profileThemeDark": "Dark Mode",
-  "@profileThemeDark": {}
+  "@profileThemeDark": {},
+  "termsLastUpdatedValue": "October 2026",
+  "@termsLastUpdatedValue": {},
+  "termsSectionsTicketPurchaseSummary": "All sales are final unless an event is cancelled or rescheduled. EveTick acts as an intermediary between event organizers and attendees.",
+  "@termsSectionsTicketPurchaseSummary": {},
+  "termsRefundNotePrefix": "Please review our ",
+  "@termsRefundNotePrefix": {},
+  "termsRefundPolicyLink": "Refund Policy",
+  "@termsRefundPolicyLink": {},
+  "termsRefundNoteSuffix": " for specific details regarding venue-specific cancellations.",
+  "@termsRefundNoteSuffix": {},
+  "termsCheckboxPrefix": "I agree to the ",
+  "@termsCheckboxPrefix": {},
+  "termsCheckboxRequired": "You must accept the Terms of Service to create an account",
+  "@termsCheckboxRequired": {},
+  "termsAccepted": "You have accepted the Terms of Service",
+  "@termsAccepted": {},
+  "termsAcceptedOn": "You accepted the terms on {date}",
+  "@termsAcceptedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "helpSupportCategories": "Categories",
+  "@helpSupportCategories": {},
+  "helpSupportNoResults": "No matching questions found",
+  "@helpSupportNoResults": {},
+  "helpSupportFaqQrCodeAnswer": "Open the 'My Tickets' tab and tap the ticket you want. Its QR code is shown on the ticket, ready to be scanned at the venue entrance.",
+  "@helpSupportFaqQrCodeAnswer": {},
+  "helpSupportFaqTransferAnswer": "Each ticket is linked to the account that booked it. If you can't use a ticket, contact our support team and we'll help you.",
+  "@helpSupportFaqTransferAnswer": {},
+  "helpSupportFaqProfilePhotoAnswer": "Go to Profile > Edit Profile, then tap your profile photo to choose a new one from your gallery.",
+  "@helpSupportFaqProfilePhotoAnswer": {},
+  "helpSupportFaqSectionLink": "FAQ section",
+  "@helpSupportFaqSectionLink": {},
+  "helpSupportCategoryRequired": "Please select a category",
+  "@helpSupportCategoryRequired": {},
+  "helpSupportMessageRequired": "Please enter your message",
+  "@helpSupportMessageRequired": {},
+  "helpSupportAttachmentInvalid": "Only PNG or JPG images up to 5MB are supported",
+  "@helpSupportAttachmentInvalid": {},
+  "helpSupportMessageSent": "Your message has been sent. We'll get back to you soon.",
+  "@helpSupportMessageSent": {}
 }

@@ -31,6 +31,11 @@ import 'package:evetick/features/profile/data/profile_repository.dart';
 import 'package:evetick/features/search/data/search_history_repository.dart';
 import 'package:evetick/features/search/logic/search_cubit.dart';
 import 'package:evetick/features/profile/logic/profile_cubit.dart';
+import 'package:evetick/features/help_support/data/support_repository.dart';
+import 'package:evetick/features/help_support/logic/help_cubit.dart';
+import 'package:evetick/features/help_support/logic/send_message/send_message_cubit.dart';
+import 'package:evetick/features/terms/data/terms_repository.dart';
+import 'package:evetick/features/terms/logic/terms_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:get_it/get_it.dart';
@@ -41,7 +46,7 @@ Future<void> setupGetIt() async {
   // auth
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
   
-  getIt.registerLazySingleton<LoginCubit>(() => LoginCubit(getIt()));
+  getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt<AuthRepository>()));
 
   getIt.registerFactory<SignupCubit>(
     () => SignupCubit(getIt<AuthRepository>()),
@@ -72,6 +77,19 @@ Future<void> setupGetIt() async {
 
   getIt.registerFactory<ProfileCubit>(
     () => ProfileCubit(getIt<ProfileRepository>()),
+  );
+
+  // terms
+  getIt.registerLazySingleton<TermsRepository>(() => TermsRepository());
+  getIt.registerFactory<TermsCubit>(
+    () => TermsCubit(getIt<TermsRepository>()),
+  );
+
+  // help & support
+  getIt.registerLazySingleton<SupportRepository>(() => SupportRepository());
+  getIt.registerFactory<HelpCubit>(() => HelpCubit());
+  getIt.registerFactory<SendMessageCubit>(
+    () => SendMessageCubit(getIt<SupportRepository>()),
   );
 
   // localization

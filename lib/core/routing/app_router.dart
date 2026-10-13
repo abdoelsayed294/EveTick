@@ -33,6 +33,14 @@ import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
 import 'package:evetick/features/onboarding/presentation/ui/welcome_screen.dart';
 import 'package:evetick/features/profile/logic/profile_cubit.dart';
+import 'package:evetick/features/help_support/data/models/help_category.dart';
+import 'package:evetick/features/help_support/logic/help_cubit.dart';
+import 'package:evetick/features/help_support/logic/send_message/send_message_cubit.dart';
+import 'package:evetick/features/help_support/ui/screens/help_support_screen.dart';
+import 'package:evetick/features/help_support/ui/screens/send_us_screen.dart';
+import 'package:evetick/features/terms/data/models/terms_mode.dart';
+import 'package:evetick/features/terms/logic/terms_cubit.dart';
+import 'package:evetick/features/terms/ui/screens/terms_screen.dart';
 import 'package:evetick/features/profile/ui/screens/edit_profile_screen.dart';
 import 'package:evetick/features/profile/ui/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -201,6 +209,34 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: profileCubit,
             child: EditProfileScreen(),
+          ),
+        );
+      case Routes.helpSupportScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<HelpCubit>(),
+            child: const HelpSupportScreen(),
+          ),
+        );
+      case Routes.sendUsScreen:
+        final category = arguments as HelpCategory?;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<SendMessageCubit>()..selectCategory(category),
+            child: const SendUsScreen(),
+          ),
+        );
+      case Routes.termsScreen:
+        final mode = arguments as TermsMode? ?? TermsMode.profile;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) {
+              final cubit = getIt<TermsCubit>();
+              if (mode == TermsMode.profile) cubit.loadAcceptance();
+              return cubit;
+            },
+            child: TermsScreen(mode: mode),
           ),
         );
       default:

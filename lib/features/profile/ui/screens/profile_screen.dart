@@ -10,6 +10,7 @@ import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/localization/logic/locale_cubit.dart';
 import 'package:evetick/features/localization/ui/language_bottom_sheet.dart';
 import 'package:evetick/features/profile/logic/profile_cubit.dart';
+import 'package:evetick/features/terms/data/models/terms_mode.dart';
 import 'package:evetick/features/profile/ui/widgets/profile_header.dart';
 import 'package:evetick/features/profile/ui/widgets/profile_section.dart';
 import 'package:evetick/features/profile/ui/widgets/theme_bottom_sheet.dart';
@@ -125,16 +126,27 @@ class ProfileScreen extends StatelessWidget {
                   )!.profileSupportSection,
                   firstIconPath: 'assets/icons/help_center.svg',
                   secondIconPath: 'assets/icons/terms_of_service.svg',
+                  firstAction: () =>
+                      context.pushNamed(Routes.helpSupportScreen),
                   firstTitle: AppLocalizations.of(context)!.profileHelpCenter,
                   secondTitle: AppLocalizations.of(
                     context,
                   )!.profileTermsOfService,
+                  secondAction: () => context.pushNamed(
+                    Routes.termsScreen,
+                    arguments: TermsMode.profile,
+                  ),
                 ),
                 verticalSpace(24),
                 OutlineAppTextButton(
                   buttonText: AppLocalizations.of(context)!.profileLogOut,
-                  onPressed: () {
-                    context.read<LoginCubit>().logOut();
+                  onPressed: () async {
+                    await context.read<LoginCubit>().logOut();
+                    if (!context.mounted) return;
+                    context.pushNamedAndRemoveUntil(
+                      Routes.appStartScreen,
+                      predicate: (route) => false,
+                    );
                   },
                   borderColor: ColorsManager.red,
                   textStyle: TextStyles.font16RedMid,

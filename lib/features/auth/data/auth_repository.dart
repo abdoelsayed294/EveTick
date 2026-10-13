@@ -60,6 +60,7 @@ class AuthRepository {
     required String name,
     required String email,
     required String password,
+    required bool acceptedTerms,
   }) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -76,6 +77,7 @@ class AuthRepository {
         name: name.trim(),
         isEmailVerified: false,
         isGuest: false,
+        acceptedTerms: acceptedTerms,
       );
       await firestore.collection('users').doc(user.uid).set(user.toJson());
 

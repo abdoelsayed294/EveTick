@@ -18,4 +18,7 @@ class Routes {
   static const String bookingFlowScreen='/bookingFlowScreen';
   static const String confirmationScreen='/confirmationScreen';
   static const String ticketScreen='/ticketScreen';
+  static const String termsScreen='/termsScreen';
+  static const String helpSupportScreen='/helpSupportScreen';
+  static const String sendUsScreen='/sendUsScreen';
 }
