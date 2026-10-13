@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evetick/features/auth/data/auth_repository.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
+import 'package:evetick/features/event_details/data/event_details_repository.dart';
+import 'package:evetick/features/event_details/logic/event_details_cubit.dart';
 import 'package:evetick/features/event_booking/data/data_sources/remote/event_booking_data_source_impl.dart';
 import 'package:evetick/features/event_booking/data/repo/event_booking_repo.dart';
 import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
@@ -74,6 +76,14 @@ Future<void> setupGetIt() async {
   // theme
   getIt.registerLazySingleton(() => ThemeRepository());
   getIt.registerLazySingleton(() => ThemeCubit(getIt()));
+
+  // event details
+  getIt.registerLazySingleton<EventDetailsRepository>(
+    () => EventDetailsRepository(),
+  );
+  getIt.registerFactory<EventDetailsCubit>(
+    () => EventDetailsCubit(getIt<EventDetailsRepository>(), getIt<HomeRepo>()),
+  );
 
    // event booking
   getIt.registerLazySingleton<EventBookingDataSourceImpl>(() => EventBookingDataSourceImpl());

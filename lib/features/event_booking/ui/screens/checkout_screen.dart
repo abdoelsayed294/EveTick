@@ -10,6 +10,7 @@ import 'package:evetick/features/event_booking/ui/widgets/checkout_widgets/booki
 import 'package:evetick/features/event_booking/ui/widgets/checkout_widgets/checkout_bottom_bar.dart';
 import 'package:evetick/features/event_booking/ui/widgets/checkout_widgets/order_summary_card.dart';
 import 'package:evetick/features/event_booking/ui/widgets/checkout_widgets/payment_method_tile.dart';
+import 'package:evetick/core/widgets/app_error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,12 +78,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (state.status == CheckoutStatus.error || event == null) {
-            return Center(
-              child: Text(
-                state.errorMessage ?? 'Something went wrong',
-                style: const TextStyle(color: Colors.red),
-              ),
-            );
+            return AppErrorView(message: state.errorMessage);
           }
 
           final ticketLabel = state.tickets

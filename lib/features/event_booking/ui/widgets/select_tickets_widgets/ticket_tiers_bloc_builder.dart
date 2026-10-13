@@ -2,6 +2,7 @@ import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_state.dart';
 import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/ticket_type_container.dart';
+import 'package:evetick/core/widgets/app_error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,12 +20,7 @@ class TicketTiersBlocBuilder extends StatelessWidget {
               child: Center(child: CircularProgressIndicator()),
             );
           case SelectTicketsStatus.error:
-            return Center(
-              child: Text(
-                state.errorMessage ?? 'Something went wrong',
-                style: const TextStyle(color: Colors.red),
-              ),
-            );
+            return AppErrorView(message: state.errorMessage);
           case SelectTicketsStatus.success:
             final cubit = context.read<SelectTicketsCubit>();
             return Column(
