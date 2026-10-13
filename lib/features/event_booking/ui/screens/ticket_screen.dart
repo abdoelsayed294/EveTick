@@ -5,6 +5,7 @@ import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/event_booking/logic/ticket/ticket_cubit.dart';
 import 'package:evetick/features/event_booking/logic/ticket/ticket_state.dart';
 import 'package:evetick/features/event_booking/ui/widgets/ticket_widgets/ticket_card.dart';
+import 'package:evetick/core/widgets/app_error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,12 +39,7 @@ class TicketScreen extends StatelessWidget {
               case TicketStatus.loading:
                 return const Center(child: CircularProgressIndicator());
               case TicketStatus.error:
-                return Center(
-                  child: Text(
-                    state.errorMessage ?? 'Something went wrong',
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                );
+                return AppErrorView(message: state.errorMessage);
               case TicketStatus.success:
                 return Column(
                   children: [

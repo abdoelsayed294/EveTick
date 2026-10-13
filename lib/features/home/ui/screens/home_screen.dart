@@ -9,6 +9,7 @@ import 'package:evetick/features/home/ui/widgets/home_header.dart';
 import 'package:evetick/features/home/ui/widgets/home_search_field.dart';
 import 'package:evetick/features/home/ui/widgets/popular_event_tile.dart';
 import 'package:evetick/features/home/ui/widgets/section_header.dart';
+import 'package:evetick/core/widgets/app_error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,14 +17,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  void _openBooking(BuildContext context, HomeEvent event) {
-    if (event.isSoldOut) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(const SnackBar(content: Text('This event is sold out')));
-      return;
-    }
-    Navigator.of(context).pushNamed(Routes.bookingFlowScreen, arguments: event.id);
+  Future<void> _openEvent(BuildContext context, HomeEvent event) async {
+    final cubit = context.read<HomeCubit>();
+    await Navigator.of(context)
+        .pushNamed(Routes.eventDetailsScreen, arguments: event.id);
+    // The heart / tickets may have changed on the details screen.
+    cubit.load(silent: true);
   }
 
   @override
@@ -37,8 +36,8 @@ class HomeScreen extends StatelessWidget {
               case HomeStatus.loading:
                 return const Center(child: CircularProgressIndicator());
               case HomeStatus.error:
-                return _ErrorView(
-                  message: state.errorMessage ?? 'Something went wrong',
+                return AppErrorView(
+                  message: state.errorMessage,
                   onRetry: () => context.read<HomeCubit>().load(),
                 );
               case HomeStatus.success:
@@ -91,7 +90,7 @@ class HomeScreen extends StatelessWidget {
               child: FeaturedEventsCarousel(
                 events: featured,
                 badges: state.badges,
-                onBook: (event) => _openBooking(context, event),
+                onBook: (event) => _openEvent(context, event),
               ),
             ),
             SliverToBoxAdapter(child: SizedBox(height: 24.h)),
@@ -115,7 +114,7 @@ class HomeScreen extends StatelessWidget {
                   return PopularEventTile(
                     event: event,
                     isFavorite: state.favoriteIds.contains(event.id),
-                    onTap: () => _openBooking(context, event),
+                    onTap: () => _openEvent(context, event),
                     onFavoriteTap: () => cubit.toggleFavorite(event.id),
                   );
                 },
@@ -136,30 +135,6 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ErrorView extends StatelessWidget {
-  const _ErrorView({required this.message, required this.onRetry});
-
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(message, style: const TextStyle(color: Colors.red)),
-          SizedBox(height: 12.h),
-          TextButton(
-            onPressed: onRetry,
-            child: Text('Try again', style: TextStyles.font16OrangeBold),
-          ),
         ],
       ),
     );

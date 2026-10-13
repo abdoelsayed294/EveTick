@@ -1,6 +1,7 @@
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_state.dart';
 import 'package:evetick/features/event_booking/ui/widgets/select_chair_widgets/seat_row.dart';
+import 'package:evetick/core/widgets/app_error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,12 +25,7 @@ class SeatMap extends StatelessWidget {
           case SelectChairStatus.error:
             return SizedBox(
               height: _viewportHeight.h,
-              child: Center(
-                child: Text(
-                  state.errorMessage ?? 'Something went wrong',
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ),
+              child: AppErrorView(message: state.errorMessage),
             );
           case SelectChairStatus.success:
             return _buildSeats(context, state);
