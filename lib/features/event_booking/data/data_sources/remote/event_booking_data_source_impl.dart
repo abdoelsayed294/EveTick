@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
+import 'package:evetick/core/config/paymob_config.dart';
 import 'package:evetick/core/helpers/sales_day_key.dart';
 import 'package:evetick/core/helpers/section_resolver.dart';
 import 'package:evetick/core/services/failure.dart';
@@ -7,6 +9,7 @@ import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/event_booking/data/data_sources/remote/event_booking_data_source.dart';
 import 'package:evetick/features/event_booking/data/models/event_model.dart';
 import 'package:evetick/features/event_booking/data/models/order_model.dart';
+import 'package:evetick/features/event_booking/data/models/payment_session.dart';
 import 'package:evetick/features/event_booking/data/models/seating_config_model.dart';
 import 'package:evetick/features/event_booking/data/models/ticket_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,6 +17,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 class EventBookingDataSourceImpl extends EventBookingDataSource {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final Dio _dio = Dio(BaseOptions(
+    connectTimeout: const Duration(seconds: 20),
+    receiveTimeout: const Duration(seconds: 30),
+    contentType: Headers.jsonContentType,
+  ));
 
   @override
   Future<Result<EventModel>> getEvent(String eventId) {
@@ -161,6 +169,43 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
     } catch (e) {
       return Result.failure(FirebaseErrorHandler.handleGeneric(e));
     }
+  }
+
+  @override
+  Future<Result<PaymentSession>> createPayment(OrderModel order) async {
+    try {
+      final user = auth.currentUser;
+      if (user == null) {
+        return Result.failure(FirebaseFailure('Please login to continue'));
+      }
+      final token = await user.getIdToken();
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        PaymobConfig.createPaymentUrl,
+        data: order.toPaymentRequest(),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      return Result.success(PaymentSession.fromJson(response.data!));
+    } on DioException catch (e) {
+      // The function answers { success: false, message } for known errors
+      // (seat taken, sold out, ...); show that message to the user.
+      final data = e.response?.data;
+      final message = data is Map ? data['message'] as String? : null;
+      return Result.failure(FirebaseFailure(
+        message ?? 'Could not start the payment, please try again',
+      ));
+    } catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleGeneric(e));
+    }
+  }
+
+  @override
+  Stream<String> watchOrderStatus(String orderId) {
+    return firestore
+        .collection('orders')
+        .doc(orderId)
+        .snapshots()
+        .map((doc) => doc.data()?['status'] as String? ?? 'pending');
   }
 
   @override

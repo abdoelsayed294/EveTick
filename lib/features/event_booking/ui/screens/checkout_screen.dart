@@ -1,27 +1,36 @@
-import 'package:evetick/core/helpers/app_regex.dart';
 import 'package:evetick/core/helpers/date_formatter.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
-import 'package:evetick/core/widgets/app_text_form_field.dart';
 import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
 import 'package:evetick/features/event_booking/logic/checkout/checkout_state.dart';
 import 'package:evetick/features/event_booking/ui/widgets/checkout_widgets/booking_summary_card.dart';
 import 'package:evetick/features/event_booking/ui/widgets/checkout_widgets/checkout_bottom_bar.dart';
 import 'package:evetick/features/event_booking/ui/widgets/checkout_widgets/order_summary_card.dart';
+import 'package:evetick/features/event_booking/ui/screens/payment_webview_screen.dart';
 import 'package:evetick/features/event_booking/ui/widgets/checkout_widgets/payment_method_tile.dart';
 import 'package:evetick/core/widgets/app_error_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-enum PaymentMethod { creditCard, applePay, payPal }
+/// Methods the server supports (value sent as `paymentMethod`).
+enum PaymentMethod {
+  card('CARD', Icons.credit_card_rounded, 'Credit / Debit Card'),
+  wallet('WALLET', Icons.account_balance_wallet_rounded, 'Mobile Wallet'),
+  kiosk('KIOSK', Icons.store_rounded, 'Cash at Kiosk (Aman / Masary)');
+
+  const PaymentMethod(this.apiValue, this.icon, this.label);
+
+  final String apiValue;
+  final IconData icon;
+  final String label;
+}
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key, this.onOrderPlaced});
 
-  /// Called once the order was saved successfully.
+  /// Called once the server confirmed the payment.
   final VoidCallback? onOrderPlaced;
 
   @override
@@ -29,48 +38,66 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  final _formKey = GlobalKey<FormState>();
-
-  PaymentMethod _selectedMethod = PaymentMethod.creditCard;
-
-  final _cardHolderController = TextEditingController();
-  final _cardNumberController = TextEditingController();
-  final _expiryDateController = TextEditingController();
-  final _cvvController = TextEditingController();
-
-  @override
-  void dispose() {
-    _cardHolderController.dispose();
-    _cardNumberController.dispose();
-    _expiryDateController.dispose();
-    _cvvController.dispose();
-    super.dispose();
-  }
+  PaymentMethod _selectedMethod = PaymentMethod.card;
+  bool _paymentPageOpen = false;
 
   void _onPay() {
-    if (_selectedMethod == PaymentMethod.creditCard &&
-        !(_formKey.currentState?.validate() ?? false)) {
-      return;
+    context.read<CheckoutCubit>().placeOrder(_selectedMethod.apiValue);
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  /// Opens the Paymob page. The cubit is told when the user closes it.
+  void _openPaymentPage(String url) {
+    if (_paymentPageOpen || url.isEmpty) return;
+    _paymentPageOpen = true;
+    final cubit = context.read<CheckoutCubit>();
+    Navigator.of(context)
+        .push<void>(
+          MaterialPageRoute(builder: (_) => PaymentWebViewScreen(url: url)),
+        )
+        .then((_) {
+      _paymentPageOpen = false;
+      cubit.onPaymentClosed();
+    });
+  }
+
+  void _onStateChanged(BuildContext context, CheckoutState state) {
+    switch (state.status) {
+      case CheckoutStatus.awaitingPayment:
+        _openPaymentPage(state.paymentUrl ?? '');
+        break;
+      case CheckoutStatus.success:
+        if (_paymentPageOpen) Navigator.of(context).pop(); // close Paymob page
+        widget.onOrderPlaced?.call();
+        break;
+      case CheckoutStatus.paymentPending:
+        _showMessage(
+          _selectedMethod == PaymentMethod.kiosk
+              ? 'Pay at the kiosk with your reference code. Your ticket '
+                  'is issued automatically once the payment is received.'
+              : 'We have not received your payment yet. If you already '
+                  'paid, your ticket will appear shortly.',
+        );
+        break;
+      case CheckoutStatus.orderFailed:
+        if (_paymentPageOpen) Navigator.of(context).pop();
+        _showMessage(state.errorMessage ?? 'Something went wrong');
+        break;
+      default:
+        break;
     }
-    // Only the method name is saved, never the card details.
-    context.read<CheckoutCubit>().placeOrder(_selectedMethod.name);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<CheckoutCubit, CheckoutState>(
-        listener: (context, state) {
-          if (state.status == CheckoutStatus.success) {
-            widget.onOrderPlaced?.call();
-          } else if (state.status == CheckoutStatus.orderFailed) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(content: Text(state.errorMessage ?? 'Something went wrong')),
-              );
-          }
-        },
+        listener: _onStateChanged,
         builder: (context, state) {
           final event = state.event;
 
@@ -87,9 +114,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           final accessSummary = state.accessSummary;
           final pricing = state.pricing;
 
-          return Form(
-            key: _formKey,
-            child: Column(
+          return Column(
               children: [
                 Expanded(
                   child: SingleChildScrollView(
@@ -116,103 +141,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         verticalSpace(24),
                         Text('Payment Method', style: TextStyles.font16WhiteBold(context)),
                         verticalSpace(16),
-                        PaymentMethodTile(
-                          icon: Icons.credit_card_rounded,
-                          label: 'Credit Card',
-                          isSelected: _selectedMethod == PaymentMethod.creditCard,
-                          onTap: () => setState(() => _selectedMethod = PaymentMethod.creditCard),
-                        ),
-                        verticalSpace(8),
-                        PaymentMethodTile(
-                          icon: Icons.apple,
-                          label: 'Apple Pay',
-                          isSelected: _selectedMethod == PaymentMethod.applePay,
-                          onTap: () => setState(() => _selectedMethod = PaymentMethod.applePay),
-                        ),
-                        verticalSpace(8),
-                        PaymentMethodTile(
-                          icon: Icons.account_balance_wallet_rounded,
-                          label: 'PayPal',
-                          isSelected: _selectedMethod == PaymentMethod.payPal,
-                          onTap: () => setState(() => _selectedMethod = PaymentMethod.payPal),
-                        ),
-                        if (_selectedMethod == PaymentMethod.creditCard) ...[
-                          verticalSpace(24),
-                          AppTextFormField(
-                            label: 'Cardholder Name',
-                            hintText: 'Ahmed Mohamed',
-                            controller: _cardHolderController,
-                            backgroundColor: context.colors.lightBlue,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            validator: (value) => (value == null || value.trim().isEmpty)
-                                ? 'Please enter the cardholder name'
-                                : null,
+                        for (final method in PaymentMethod.values) ...[
+                          PaymentMethodTile(
+                            icon: method.icon,
+                            label: method.label,
+                            isSelected: _selectedMethod == method,
+                            onTap: () => setState(() => _selectedMethod = method),
                           ),
-                          verticalSpace(16),
-                          AppTextFormField(
-                            label: 'Card Number',
-                            hintText: '0000 0000 0000 0000',
-                            controller: _cardNumberController,
-                            backgroundColor: context.colors.lightBlue,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(16),
-                            ],
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            validator: (value) => AppRegex.isCardNumberValid(value ?? '')
-                                ? null
-                                : 'Enter a valid 16-digit card number',
-                          ),
-                          verticalSpace(16),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: AppTextFormField(
-                                  label: 'Expiry Date',
-                                  hintText: 'MM/YY',
-                                  controller: _expiryDateController,
-                                  backgroundColor: context.colors.lightBlue,
-                                  keyboardType: TextInputType.datetime,
-                                  inputFormatters: [LengthLimitingTextInputFormatter(5)],
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  validator: (value) => AppRegex.isExpiryDateValid(value ?? '')
-                                      ? null
-                                      : 'Invalid',
-                                ),
-                              ),
-                              horizontalSpace(16),
-                              Expanded(
-                                child: AppTextFormField(
-                                  label: 'CVV',
-                                  hintText: '***',
-                                  controller: _cvvController,
-                                  backgroundColor: context.colors.lightBlue,
-                                  isObscureText: true,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(4),
-                                  ],
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  validator: (value) =>
-                                      AppRegex.isCvvValid(value ?? '') ? null : 'Invalid',
-                                ),
-                              ),
-                            ],
-                          ),
+                          verticalSpace(8),
                         ],
                         verticalSpace(24),
                         OrderSummaryCard(
@@ -226,10 +162,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 CheckoutBottomBar(
                   onPay: _onPay,
-                  isLoading: state.status == CheckoutStatus.placing,
+                  isLoading: state.status == CheckoutStatus.placing ||
+                      state.status == CheckoutStatus.awaitingPayment,
                 ),
               ],
-            ),
           );
         },
       ),

@@ -9,6 +9,14 @@ class MyTicketsRepository {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+  static const _unpaidStatuses = {
+    'pending',
+    'failed',
+    'expired',
+    'amount_mismatch',
+    'refund_needed',
+  };
+
   /// Every order of the signed-in user, soonest event first.
   Future<Result<List<MyTicket>>> getMyTickets() async {
     try {
@@ -23,7 +31,10 @@ class MyTicketsRepository {
           .where('userId', isEqualTo: user.uid)
           .get();
 
+      // Orders that are still being paid (or whose payment never finished)
+      // are not tickets yet.
       final tickets = snapshot.docs
+          .where((doc) => !_unpaidStatuses.contains(doc.data()['status']))
           .map((doc) => MyTicket.fromJson(doc.data()))
           .toList()
         ..sort(_bySoonest);
