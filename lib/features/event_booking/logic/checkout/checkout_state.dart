@@ -7,7 +7,9 @@ enum CheckoutStatus {
   loading, // loading the event
   ready,
   error, // event failed to load
-  placing, // order is being created
+  placing, // asking the server to start the payment
+  awaitingPayment, // Paymob page is open, waiting for the server to confirm
+  paymentPending, // page closed, payment not confirmed (yet)
   orderFailed, // order failed (screen stays visible)
   success,
 }
@@ -21,6 +23,7 @@ class CheckoutState {
     this.seats = const [],
     this.ticketSections = const [],
     this.orderId,
+    this.paymentUrl,
   });
 
   final CheckoutStatus status;
@@ -32,6 +35,9 @@ class CheckoutState {
   /// Section of each entry in [tickets] (events without seat picking).
   final List<String?> ticketSections;
   final String? orderId;
+
+  /// Paymob checkout page to open while [status] is awaitingPayment.
+  final String? paymentUrl;
 
   double get subtotal => tickets.fold(0.0, (sum, t) => sum + t.subtotal);
 
@@ -58,6 +64,7 @@ class CheckoutState {
     List<SelectedSeat>? seats,
     List<String?>? ticketSections,
     String? orderId,
+    String? paymentUrl,
   }) {
     return CheckoutState(
       status: status ?? this.status,
@@ -67,6 +74,7 @@ class CheckoutState {
       seats: seats ?? this.seats,
       ticketSections: ticketSections ?? this.ticketSections,
       orderId: orderId ?? this.orderId,
+      paymentUrl: paymentUrl ?? this.paymentUrl,
     );
   }
 }

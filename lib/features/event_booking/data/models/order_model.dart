@@ -101,6 +101,21 @@ class OrderModel {
 
   OrderPricing get pricing => OrderPricing(subtotal);
 
+  /// Body of POST /createPayment. Only positions are sent (tier / seat
+  /// indexes); the function reads prices from Firestore and computes the
+  /// fees itself with the same rates as [OrderPricing].
+  /// [paymentMethod] here must be 'CARD', 'WALLET' or 'KIOSK'.
+  Map<String, dynamic> toPaymentRequest() => {
+        'eventId': eventId,
+        'paymentMethod': paymentMethod,
+        'tickets': tickets
+            .map((t) => {'tierIndex': t.tierIndex, 'quantity': t.quantity})
+            .toList(),
+        'seats': seats
+            .map((s) => {'rowIndex': s.rowIndex, 'seatIndex': s.seatIndex})
+            .toList(),
+      };
+
   Map<String, dynamic> toMap({
     required String orderId,
     required String userId,
