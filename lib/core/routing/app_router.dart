@@ -12,6 +12,13 @@ import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dar
 import 'package:evetick/features/event_details/logic/event_details_cubit.dart';
 import 'package:evetick/features/event_details/ui/screens/event_details_screen.dart';
 import 'package:evetick/features/favorites/logic/favorites_cubit.dart';
+import 'package:evetick/features/following_organizers/logic/following_organizers_cubit.dart';
+import 'package:evetick/features/following_organizers/ui/screens/following_organizers_screen.dart';
+import 'package:evetick/features/organizer_profile/logic/organizer_profile_cubit.dart';
+import 'package:evetick/features/organizer_reviews/logic/organizer_reviews_cubit.dart';
+import 'package:evetick/features/organizer_reviews/logic/write_organizer_review_cubit.dart';
+import 'package:evetick/features/organizer_reviews/ui/screens/write_organizer_review_screen.dart';
+import 'package:evetick/features/organizer_profile/ui/screens/organizer_profile_screen.dart';
 import 'package:evetick/features/home/logic/home_cubit.dart';
 import 'package:evetick/features/search/logic/search_cubit.dart';
 import 'package:evetick/features/search/ui/screens/search_screen.dart';
@@ -33,6 +40,11 @@ import 'package:evetick/features/onboarding/presentation/cubit/onboarding_cubit.
 import 'package:evetick/features/onboarding/presentation/ui/onboarding_screen.dart';
 import 'package:evetick/features/onboarding/presentation/ui/welcome_screen.dart';
 import 'package:evetick/features/profile/logic/profile_cubit.dart';
+import 'package:evetick/features/reviews/data/models/reviews_args_model.dart';
+import 'package:evetick/features/reviews/logic/reviews_cubit/reviews_cubit.dart';
+import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_cubit.dart';
+import 'package:evetick/features/reviews/ui/screens/reviews_screen.dart';
+import 'package:evetick/features/reviews/ui/screens/write_review_screen.dart';
 import 'package:evetick/features/help_support/data/models/help_category.dart';
 import 'package:evetick/features/help_support/logic/help_cubit.dart';
 import 'package:evetick/features/help_support/logic/send_message/send_message_cubit.dart';
@@ -116,6 +128,31 @@ class AppRouter {
               onBook: () => Navigator.of(context)
                   .pushNamed(Routes.bookingFlowScreen, arguments: eventId),
             ),
+          ),
+        );
+
+      case Routes.organizerProfileScreen:
+        // The organizer's uid comes from the event page / following list.
+        final organizerId = arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) =>
+                    getIt<OrganizerProfileCubit>()..load(organizerId),
+              ),
+              // Loaded the first time the Reviews tab is opened.
+              BlocProvider(create: (context) => getIt<OrganizerReviewsCubit>()),
+            ],
+            child: const OrganizerProfileScreen(),
+          ),
+        );
+
+      case Routes.followingOrganizersScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<FollowingOrganizersCubit>()..load(),
+            child: const FollowingOrganizersScreen(),
           ),
         );
 
@@ -209,6 +246,35 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: profileCubit,
             child: EditProfileScreen(),
+          ),
+        );
+      case Routes.reviewsScreen:
+        final reviewsArgs = arguments as ReviewsArgs;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ReviewsCubit>()
+              ..emitReviewsStates(eventId: reviewsArgs.eventId),
+            child: ReviewsScreen(args: reviewsArgs),
+          ),
+        );
+      case Routes.writeReviewScreen:
+        // The event id comes from the reviews screen (Navigator arguments).
+        final reviewEventId = arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<WriteReviewCubit>(),
+            child: WriteReviewScreen(eventId: reviewEventId),
+          ),
+        );
+      case Routes.writeOrganizerReviewScreen:
+        // The organizer's uid comes from the organizer page (Reviews tab).
+        final reviewedOrganizerId = arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<WriteReviewCubit>(
+            // Provided as WriteReviewCubit so the shared review widgets
+            // (stars, text field, anonymous switch) work unchanged.
+            create: (context) => getIt<WriteOrganizerReviewCubit>(),
+            child: WriteOrganizerReviewScreen(organizerId: reviewedOrganizerId),
           ),
         );
       case Routes.helpSupportScreen:

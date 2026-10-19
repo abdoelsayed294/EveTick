@@ -70,6 +70,8 @@ class ProfileScreen extends StatelessWidget {
                     Routes.editProfileScreen,
                     arguments: context.read<ProfileCubit>(),
                   ),
+                  secondAction: () =>
+                      context.pushNamed(Routes.followingOrganizersScreen),
                 ),
                 verticalSpace(24),
                 ProfileSection(

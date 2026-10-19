@@ -12,15 +12,21 @@ class OrganizerCard extends StatelessWidget {
     required this.organizer,
     required this.isFollowing,
     required this.onFollow,
+    this.onTap,
   });
 
   final EventOrganizer organizer;
   final bool isFollowing;
   final VoidCallback onFollow;
 
+  /// Opens the organizer page.
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: context.colors.lightBlue,
@@ -52,7 +58,10 @@ class OrganizerCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  '${organizer.followersText} Followers',
+                  organizer.followers > 0
+                      ? '${organizer.followersText} '
+                          '${organizer.followers == 1 ? 'Follower' : 'Followers'}'
+                      : 'Organizer',
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: context.colors.lightGray,
@@ -69,6 +78,7 @@ class OrganizerCard extends StatelessWidget {
             onPressed: onFollow,
           ),
         ],
+      ),
       ),
     );
   }

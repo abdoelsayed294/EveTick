@@ -1,3 +1,10 @@
+import 'package:evetick/features/following_organizers/data/following_repository.dart';
+import 'package:evetick/features/following_organizers/logic/following_organizers_cubit.dart';
+import 'package:evetick/features/organizer_profile/data/organizer_profile_repository.dart';
+import 'package:evetick/features/organizer_profile/logic/organizer_profile_cubit.dart';
+import 'package:evetick/features/organizer_reviews/data/organizer_reviews_repository.dart';
+import 'package:evetick/features/organizer_reviews/logic/organizer_reviews_cubit.dart';
+import 'package:evetick/features/organizer_reviews/logic/write_organizer_review_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evetick/features/auth/data/auth_repository.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
@@ -10,6 +17,9 @@ import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dar
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
 import 'package:evetick/features/event_booking/logic/ticket/ticket_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
+import 'package:evetick/features/reviews/data/reviews_repository.dart';
+import 'package:evetick/features/reviews/logic/reviews_cubit/reviews_cubit.dart';
+import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_cubit.dart';
 import 'package:evetick/features/favorites/data/favorites_repository.dart';
 import 'package:evetick/features/favorites/logic/favorites_cubit.dart';
 import 'package:evetick/features/localization/data/locale_repository.dart';
@@ -85,6 +95,29 @@ Future<void> setupGetIt() async {
     () => TermsCubit(getIt<TermsRepository>()),
   );
 
+  // reviews
+  getIt.registerLazySingleton<ReviewsRepository>(() => ReviewsRepository());
+  getIt.registerFactory<ReviewsCubit>(
+    () => ReviewsCubit(getIt<ReviewsRepository>()),
+  );
+  getIt.registerFactory<WriteReviewCubit>(
+    () => WriteReviewCubit(getIt<ReviewsRepository>()),
+  );
+
+  // organizer reviews
+  getIt.registerLazySingleton<OrganizerReviewsRepository>(
+    () => OrganizerReviewsRepository(),
+  );
+  getIt.registerFactory<OrganizerReviewsCubit>(
+    () => OrganizerReviewsCubit(getIt<OrganizerReviewsRepository>()),
+  );
+  getIt.registerFactory<WriteOrganizerReviewCubit>(
+    () => WriteOrganizerReviewCubit(
+      getIt<ReviewsRepository>(),
+      getIt<OrganizerReviewsRepository>(),
+    ),
+  );
+
   // help & support
   getIt.registerLazySingleton<SupportRepository>(() => SupportRepository());
   getIt.registerFactory<HelpCubit>(() => HelpCubit());
@@ -131,6 +164,23 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<FavoritesRepository>(() => FavoritesRepository());
   getIt.registerFactory<FavoritesCubit>(
     () => FavoritesCubit(getIt<FavoritesRepository>(), getIt<HomeRepo>()),
+  );
+
+  // following organizers
+  getIt.registerLazySingleton<FollowingRepository>(() => FollowingRepository());
+  getIt.registerFactory<FollowingOrganizersCubit>(
+    () => FollowingOrganizersCubit(getIt<FollowingRepository>()),
+  );
+
+  // organizer profile
+  getIt.registerLazySingleton<OrganizerProfileRepository>(
+    () => OrganizerProfileRepository(),
+  );
+  getIt.registerFactory<OrganizerProfileCubit>(
+    () => OrganizerProfileCubit(
+      getIt<OrganizerProfileRepository>(),
+      getIt<FollowingRepository>(),
+    ),
   );
 
   // search

@@ -1,4 +1,5 @@
 import 'package:evetick/core/helpers/date_formatter.dart';
+import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/widgets/app_error_view.dart';
 import 'package:evetick/features/event_details/data/models/event_details_model.dart';
@@ -8,6 +9,7 @@ import 'package:evetick/features/event_details/ui/widgets/event_details_bottom_b
 import 'package:evetick/features/event_details/ui/widgets/event_details_info.dart';
 import 'package:evetick/features/event_details/ui/widgets/event_details_sheet.dart';
 import 'package:evetick/features/event_details/ui/widgets/event_header.dart';
+import 'package:evetick/features/reviews/data/models/reviews_args_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -121,6 +123,21 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           mapKey: _mapKey,
                           onViewMap: _scrollToMap,
                           onToggleFollow: cubit.toggleFollow,
+                          onOpenOrganizer: () async {
+                            await Navigator.of(context).pushNamed(
+                              Routes.organizerProfileScreen,
+                              arguments: event.organizerId,
+                            );
+                            // (Un)followed on the organizer page?
+                            cubit.refreshOrganizer();
+                          },
+                          onOpenReviews: () => Navigator.of(context).pushNamed(
+                            Routes.reviewsScreen,
+                            arguments: ReviewsArgs(
+                              eventId: widget.eventId,
+                              eventTitle: event.title,
+                            ),
+                          ),
                         ),
                       ),
                     ],

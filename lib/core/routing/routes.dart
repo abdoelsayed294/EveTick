@@ -21,4 +21,9 @@ class Routes {
   static const String termsScreen='/termsScreen';
   static const String helpSupportScreen='/helpSupportScreen';
   static const String sendUsScreen='/sendUsScreen';
+  static const String organizerProfileScreen='/organizerProfileScreen';
+  static const String followingOrganizersScreen='/followingOrganizersScreen';
+  static const String reviewsScreen='/reviewsScreen';
+  static const String writeReviewScreen='/writeReviewScreen';
+  static const String writeOrganizerReviewScreen='/writeOrganizerReviewScreen';
 }

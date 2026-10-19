@@ -20,6 +20,7 @@ class EventDetails {
     this.eventUrl,
     this.minPrice,
     this.maxPrice,
+    this.organizerId,
     this.organizer,
   });
 
@@ -38,6 +39,7 @@ class EventDetails {
   final String? eventUrl;
   final double? minPrice;
   final double? maxPrice;
+  final String? organizerId;
   final EventOrganizer? organizer;
 
   factory EventDetails.fromJson(Map<String, dynamic> json) {
@@ -73,6 +75,7 @@ class EventDetails {
       eventUrl: json['eventUrl'] as String?,
       minPrice: home.minPrice,
       maxPrice: prices.isEmpty ? null : prices.last,
+      organizerId: (json['organizerId'] as String?)?.trim(),
       organizer: (organizerName == null || organizerName.isEmpty)
           ? null
           : EventOrganizer(
@@ -82,6 +85,27 @@ class EventDetails {
             ),
     );
   }
+
+  /// Same event with the organizer loaded from `users/{organizerId}`.
+  EventDetails withOrganizer(EventOrganizer? organizer) => EventDetails(
+        id: id,
+        title: title,
+        coverImageUrl: coverImageUrl,
+        category: category,
+        description: description,
+        startAt: startAt,
+        endAt: endAt,
+        isOnline: isOnline,
+        isSoldOut: isSoldOut,
+        isHighDemand: isHighDemand,
+        galleryImagesUrls: galleryImagesUrls,
+        location: location,
+        eventUrl: eventUrl,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        organizerId: organizerId,
+        organizer: organizer,
+      );
 
   /// Cover first, then the gallery (no duplicates, no empty urls).
   List<String> get images => [

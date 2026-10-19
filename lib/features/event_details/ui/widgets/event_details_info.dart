@@ -8,6 +8,7 @@ import 'package:evetick/features/event_details/ui/widgets/event_map_preview.dart
 import 'package:evetick/features/event_details/ui/widgets/expandable_description.dart';
 import 'package:evetick/features/event_details/ui/widgets/high_demand_badge.dart';
 import 'package:evetick/features/event_details/ui/widgets/organizer_card.dart';
+import 'package:evetick/features/reviews/ui/widgets/reviews_entry_tile.dart';
 import 'package:flutter/material.dart';
 
 /// Everything under the cover: badge, title, date, place, description,
@@ -20,6 +21,8 @@ class EventDetailsInfo extends StatelessWidget {
     required this.mapKey,
     required this.onViewMap,
     required this.onToggleFollow,
+    this.onOpenOrganizer,
+    this.onOpenReviews,
   });
 
   final EventDetails event;
@@ -27,6 +30,8 @@ class EventDetailsInfo extends StatelessWidget {
   final GlobalKey mapKey;
   final VoidCallback onViewMap;
   final VoidCallback onToggleFollow;
+  final VoidCallback? onOpenOrganizer;
+  final VoidCallback? onOpenReviews;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +78,12 @@ class EventDetailsInfo extends StatelessWidget {
             organizer: organizer,
             isFollowing: state.isFollowing,
             onFollow: onToggleFollow,
+            onTap: event.organizerId == null ? null : onOpenOrganizer,
           ),
+        ],
+        if (onOpenReviews != null) ...[
+          verticalSpace(24),
+          ReviewsEntryTile(onTap: onOpenReviews!),
         ],
         if (event.hasMap) ...[
           verticalSpace(24),

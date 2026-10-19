@@ -1,5 +1,9 @@
 const {onRequest} = require("firebase-functions/v2/https");
 const {onSchedule} = require("firebase-functions/v2/scheduler");
+const {
+  onDocumentCreated,
+  onDocumentDeleted,
+} = require("firebase-functions/v2/firestore");
 const {defineSecret, defineString} = require("firebase-functions/params");
 const {verifyHmac} = require("./paymob");
 const {getFirestore, FieldValue, Timestamp} = require("firebase-admin/firestore");
@@ -409,3 +413,30 @@ exports.expirePendingOrders = onSchedule("every 5 minutes", async () => {
     }
   }
 });
+
+/**
+ * Keeps `users/{organizerId}.followers` in sync with the documents
+ * `users/{uid}/following/{organizerId}` (created / deleted by the app).
+ * Clients cannot write the counter themselves (see firestore.rules).
+ * @param {string} organizerId  the organizer's uid
+ * @param {number} delta  +1 or -1
+ */
+async function changeFollowers(organizerId, delta) {
+  try {
+    await getFirestore().collection("users").doc(organizerId).update({
+      followers: FieldValue.increment(delta),
+    });
+  } catch (e) {
+    console.error("followers update failed", organizerId, e.message);
+  }
+}
+
+exports.onFollowCreated = onDocumentCreated(
+    "users/{uid}/following/{organizerId}",
+    (event) => changeFollowers(event.params.organizerId, 1),
+);
+
+exports.onFollowDeleted = onDocumentDeleted(
+    "users/{uid}/following/{organizerId}",
+    (event) => changeFollowers(event.params.organizerId, -1),
+);
