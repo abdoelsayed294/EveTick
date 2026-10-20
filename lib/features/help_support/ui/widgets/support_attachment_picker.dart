@@ -1,8 +1,9 @@
+import 'dart:io';
+
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/help_support/logic/send_message/send_message_cubit.dart';
-import 'package:evetick/features/help_support/logic/send_message/send_message_state.dart';
 import 'package:evetick/features/help_support/ui/widgets/dashed_border_painter.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +30,10 @@ class SupportAttachmentPicker extends StatelessWidget {
           ),
         ),
         verticalSpace(12),
-        BlocBuilder<SendMessageCubit, SendMessageState>(
-          buildWhen: (previous, current) =>
-              previous.attachment != current.attachment,
-          builder: (context, state) {
-            final fileName = state.attachment?.path.split(RegExp(r'[\\/]')).last;
+        ValueListenableBuilder<File?>(
+          valueListenable: cubit.attachment,
+          builder: (context, attachment, _) {
+            final fileName = attachment?.path.split(RegExp(r'[\\/]')).last;
 
             return CustomPaint(
               painter: DashedBorderPainter(color: context.colors.lightGray),

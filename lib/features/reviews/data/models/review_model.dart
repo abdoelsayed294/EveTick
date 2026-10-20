@@ -1,12 +1,3 @@
-/// One review: `events/{eventId}/reviews/{userId}`.
-///
-/// {
-///   reviewId, eventId, userId, authorName, authorImageUrl, isAnonymous,
-///   rating (1-5), text, photoUrls: [...], verified, helpfulCount, createdAt
-/// }
-///
-/// When the author posts anonymously, the real name and photo are never
-/// saved in the document ([authorName] is "Anonymous").
 class Review {
   const Review({
     required this.id,
@@ -38,14 +29,10 @@ class Review {
   final int helpfulCount;
   final DateTime? createdAt;
 
-  /// The signed-in user marked this review as helpful.
   final bool isHelpful;
 
-  /// Written by the signed-in user.
   final bool isMine;
 
-  /// [json] is the document data plus `reviewId` and a `createdAt` that is
-  /// already a [DateTime] (null while the server timestamp is pending).
   factory Review.fromJson(
     Map<String, dynamic> json, {
     required String currentUserId,
@@ -76,7 +63,6 @@ class Review {
     );
   }
 
-  /// Key saved in `users/{uid}.helpfulReviewKeys` when the user taps Helpful.
   static String helpfulKey(String eventId, String reviewId) =>
       '${eventId}_$reviewId';
 

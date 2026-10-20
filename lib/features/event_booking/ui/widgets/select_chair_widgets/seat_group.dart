@@ -2,6 +2,7 @@
 import 'package:evetick/features/event_booking/ui/widgets/select_chair_widgets/seat_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/features/event_booking/logic/select_chair/seat_status.dart';
 
 class SeatGroup extends StatelessWidget {
   const SeatGroup({required this.seats, required this.onTap});

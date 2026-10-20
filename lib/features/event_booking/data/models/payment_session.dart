@@ -1,4 +1,3 @@
-/// Answer of the `createPayment` Cloud Function.
 class PaymentSession {
   const PaymentSession({
     required this.orderId,
@@ -9,7 +8,6 @@ class PaymentSession {
   final String orderId;
   final String clientSecret;
 
-  /// Total in EGP (tickets + service fee + taxes), computed by the server.
   final double amount;
 
   factory PaymentSession.fromJson(Map<String, dynamic> json) {

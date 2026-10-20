@@ -4,8 +4,6 @@ import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Description cut to [maxLines] with a "Read More" / "Show Less" toggle
-/// (the toggle only shows when the text is actually longer).
 class ExpandableDescription extends StatefulWidget {
   const ExpandableDescription({
     super.key,

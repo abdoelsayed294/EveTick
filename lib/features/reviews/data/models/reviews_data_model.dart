@@ -2,7 +2,6 @@ import 'package:evetick/features/reviews/data/models/review_eligibility_model.da
 import 'package:evetick/features/reviews/data/models/review_model.dart';
 import 'package:evetick/features/reviews/data/models/review_summary_model.dart';
 
-/// Everything the reviews screen shows (the `T` of `ReviewsState<T>`).
 class ReviewsData {
   const ReviewsData({
     required this.summary,

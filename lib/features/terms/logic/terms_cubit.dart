@@ -1,11 +1,14 @@
 import 'package:evetick/core/services/result.dart';
+import 'package:evetick/features/auth/data/auth_repository.dart';
 import 'package:evetick/features/terms/data/terms_repository.dart';
 import 'package:evetick/features/terms/logic/terms_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TermsCubit extends Cubit<TermsState> {
   final TermsRepository termsRepo;
-  TermsCubit(this.termsRepo) : super(const TermsState.initial());
+  final AuthRepository authRepo;
+  TermsCubit(this.termsRepo, this.authRepo)
+    : super(const TermsState.initial());
 
   Future<void> loadAcceptance() async {
     emit(const TermsState.loading());
@@ -14,6 +17,10 @@ class TermsCubit extends Cubit<TermsState> {
       success: (acceptance) => emit(TermsState.loaded(acceptance)),
       failure: (failure) => emit(TermsState.error(error: failure.message)),
     );
+  }
+
+  Future<void> declineTerms() async {
+    await authRepo.logout();
   }
 
   Future<void> acceptTerms() async {

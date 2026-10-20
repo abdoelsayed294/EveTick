@@ -8,7 +8,6 @@ import 'package:evetick/features/search/ui/widgets/result_info_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// First result: big cover on top, details below.
 class FeaturedResultCard extends StatelessWidget {
   const FeaturedResultCard({
     super.key,

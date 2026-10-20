@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evetick/core/services/failure.dart';
 import 'package:evetick/core/services/firebase_error_handler.dart';
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/terms/data/models/terms_acceptance_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
 class TermsRepository {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;

@@ -1,7 +1,8 @@
-import 'package:evetick/core/services/result.dart';
+import 'package:evetick/core/services/result.dart' hide Success;
 import 'package:evetick/features/home/data/repo/home_repo.dart';
 import 'package:evetick/features/search/data/models/search_filters_model.dart';
 import 'package:evetick/features/search/data/search_history_repository.dart';
+import 'package:evetick/features/search/logic/search_data.dart';
 import 'package:evetick/features/search/logic/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,77 +10,79 @@ class SearchCubit extends Cubit<SearchState> {
   final HomeRepo homeRepo;
   final SearchHistoryRepository historyRepo;
 
-  SearchCubit(this.homeRepo, this.historyRepo) : super(const SearchState());
+  SearchCubit(this.homeRepo, this.historyRepo)
+      : super(const SearchState.initial());
+
+  SearchData _data = const SearchData();
+
+  SearchData get data => _data;
 
   Future<void> load({bool openFilters = false}) async {
-    emit(SearchState(isFilterOpen: openFilters));
+    _data = SearchData(isFilterOpen: openFilters);
+    emit(const SearchState.loading());
 
     final eventsResult = await homeRepo.getLiveEvents();
     final favorites = await homeRepo.getFavoriteIds();
     final recent = await historyRepo.getRecent();
+    if (isClosed) return;
 
     eventsResult.when(
-      success: (events) => emit(
-        state.copyWith(
-          status: SearchStatus.success,
+      success: (events) {
+        _data = _data.copyWith(
           events: events,
           recentSearches: recent,
           favoriteIds: favorites.when(
             success: (ids) => ids,
-            failure: (_) => state.favoriteIds, // favorites are optional
+            failure: (_) => _data.favoriteIds,
           ),
-        ),
-      ),
-      failure: (error) => emit(
-        state.copyWith(
-          status: SearchStatus.error,
-          errorMessage: error.message,
-        ),
-      ),
+        );
+        emit(SearchState.success(_data));
+      },
+      failure: (failure) {
+        emit(SearchState.error(error: failure.message));
+      },
     );
   }
 
-  /// Only the hearts (used when coming back from an event page).
   Future<void> refreshFavorites() async {
     final favorites = await homeRepo.getFavoriteIds();
+    if (isClosed) return;
     favorites.when(
-      success: (ids) => emit(state.copyWith(favoriteIds: ids)),
+      success: (ids) => _emitData(_data.copyWith(favoriteIds: ids)),
       failure: (_) {},
     );
   }
 
-  void setQuery(String query) => emit(state.copyWith(query: query));
+  void setQuery(String query) => _emitData(_data.copyWith(query: query));
 
-  /// Typed text -> results now, saved to "Recent Searches" on submit.
   Future<void> submitSearch(String query) async {
-    emit(state.copyWith(query: query));
+    _emitData(_data.copyWith(query: query));
     await saveRecent(query);
   }
 
   Future<void> saveRecent(String query) async {
     if (query.trim().isEmpty) return;
     final recent = await historyRepo.add(query);
-    emit(state.copyWith(recentSearches: recent));
+    if (isClosed) return;
+    _emitData(_data.copyWith(recentSearches: recent));
   }
 
   Future<void> clearRecent() async {
     await historyRepo.clear();
-    emit(state.copyWith(recentSearches: const []));
+    if (isClosed) return;
+    _emitData(_data.copyWith(recentSearches: const []));
   }
 
-  /// Goes back one level: filter panel -> results -> trending / recent.
-  /// Returns false when there is nothing left to close (the screen should
-  /// leave).
   bool stepBack() {
-    if (state.isFilterOpen) {
-      emit(state.copyWith(isFilterOpen: false));
+    if (_data.isFilterOpen) {
+      _emitData(_data.copyWith(isFilterOpen: false));
       return true;
     }
-    if (state.showResults) {
-      emit(
-        state.copyWith(
+    if (_data.showResults) {
+      _emitData(
+        _data.copyWith(
           query: '',
-          filters: state.filters.copyWith(clearCategory: true),
+          filters: _data.filters.copyWith(clearCategory: true),
         ),
       );
       return true;
@@ -88,52 +91,56 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void toggleFilterPanel() =>
-      emit(state.copyWith(isFilterOpen: !state.isFilterOpen));
+      _emitData(_data.copyWith(isFilterOpen: !_data.isFilterOpen));
 
-  /// "Apply Filters" button: save the filters and close the panel.
   void applyFilters(SearchFilters filters) =>
-      emit(state.copyWith(filters: filters, isFilterOpen: false));
+      _emitData(_data.copyWith(filters: filters, isFilterOpen: false));
 
-  void toggleUpcoming() => emit(
-        state.copyWith(
-          filters: state.filters.copyWith(
-            upcomingOnly: !state.filters.upcomingOnly,
+  void toggleUpcoming() => _emitData(
+        _data.copyWith(
+          filters: _data.filters.copyWith(
+            upcomingOnly: !_data.filters.upcomingOnly,
           ),
         ),
       );
 
-  void toggleThisWeekend() => emit(
-        state.copyWith(
-          filters: state.filters.copyWith(
-            thisWeekend: !state.filters.thisWeekend,
+  void toggleThisWeekend() => _emitData(
+        _data.copyWith(
+          filters: _data.filters.copyWith(
+            thisWeekend: !_data.filters.thisWeekend,
           ),
         ),
       );
 
-  void togglePriceLowToHigh() => emit(
-        state.copyWith(
-          filters: state.filters.copyWith(
-            priceLowToHigh: !state.filters.priceLowToHigh,
+  void togglePriceLowToHigh() => _emitData(
+        _data.copyWith(
+          filters: _data.filters.copyWith(
+            priceLowToHigh: !_data.filters.priceLowToHigh,
           ),
         ),
       );
 
-  /// Updates the heart immediately, then saves; rolls back if saving fails.
   Future<void> toggleFavorite(String eventId) async {
-    final wasFavorite = state.favoriteIds.contains(eventId);
-    final updated = Set<String>.of(state.favoriteIds);
+    final wasFavorite = _data.favoriteIds.contains(eventId);
+    final updated = Set<String>.of(_data.favoriteIds);
     wasFavorite ? updated.remove(eventId) : updated.add(eventId);
-    emit(state.copyWith(favoriteIds: updated));
+    _emitData(_data.copyWith(favoriteIds: updated));
 
     final result =
         await homeRepo.setFavorite(eventId, isFavorite: !wasFavorite);
+    if (isClosed) return;
     result.when(
       success: (_) {},
       failure: (_) {
-        final rollback = Set<String>.of(state.favoriteIds);
+        final rollback = Set<String>.of(_data.favoriteIds);
         wasFavorite ? rollback.add(eventId) : rollback.remove(eventId);
-        emit(state.copyWith(favoriteIds: rollback));
+        _emitData(_data.copyWith(favoriteIds: rollback));
       },
     );
+  }
+
+  void _emitData(SearchData data) {
+    _data = data;
+    if (state is Success) emit(SearchState.success(_data));
   }
 }

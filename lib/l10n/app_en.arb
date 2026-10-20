@@ -249,6 +249,8 @@
   "@searchFilterAndRefine": {},
   "searchApplyFilters": "Apply Filters",
   "@searchApplyFilters": {},
+  "searchCategory": "Category",
+  "@searchCategory": {},
   "notificationsTitle": "Notifications",
   "@notificationsTitle": {},
   "notificationsTimeAgoJustNow": "{minutes}M AGO",

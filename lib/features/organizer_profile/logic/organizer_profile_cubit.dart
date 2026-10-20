@@ -1,7 +1,9 @@
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/following_organizers/data/following_repository.dart';
 import 'package:evetick/features/organizer_profile/data/organizer_profile_repository.dart';
+import 'package:evetick/features/organizer_profile/logic/organizer_profile_data.dart';
 import 'package:evetick/features/organizer_profile/logic/organizer_profile_state.dart';
+import 'package:evetick/features/organizer_profile/logic/organizer_profile_tab.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrganizerProfileCubit extends Cubit<OrganizerProfileState> {
@@ -9,54 +11,71 @@ class OrganizerProfileCubit extends Cubit<OrganizerProfileState> {
   final FollowingRepository followingRepo;
 
   OrganizerProfileCubit(this.repo, this.followingRepo)
-      : super(const OrganizerProfileState());
+      : super(const OrganizerProfileState.initial());
+
+  OrganizerProfileData? _data;
 
   Future<void> load(String organizerId) async {
-    emit(const OrganizerProfileState());
+    _data = null;
+    emit(const OrganizerProfileState.loading());
 
     final result = await repo.getProfile(organizerId);
     final following = await followingRepo.isFollowing(organizerId);
     if (isClosed) return;
 
     result.when(
-      success: (profile) => emit(
-        state.copyWith(
-          status: OrganizerProfileStatus.success,
-          profile: profile,
-          isFollowing: following,
-          canFollow: followingRepo.canFollow(organizerId),
-        ),
-      ),
-      failure: (error) => emit(
-        state.copyWith(
-          status: OrganizerProfileStatus.error,
-          errorMessage: error.message,
-        ),
-      ),
+      success: (profile) {
+        _emitData(
+          OrganizerProfileData(
+            profile: profile,
+            isFollowing: following,
+            canFollow: followingRepo.canFollow(organizerId),
+          ),
+        );
+      },
+      failure: (failure) {
+        emit(OrganizerProfileState.error(error: failure.message));
+      },
     );
   }
 
-  void selectTab(OrganizerProfileTab tab) => emit(state.copyWith(tab: tab));
+  void selectTab(OrganizerProfileTab tab) {
+    final data = _data;
+    if (data == null) return;
+    _emitData(data.copyWith(tab: tab));
+  }
 
-  /// Updates the button and the counter immediately, then saves;
-  /// rolls back if saving fails. The real counter is kept by a Cloud Function.
   Future<void> toggleFollow() async {
-    final profile = state.profile;
-    if (profile == null || !state.canFollow) return;
+    final before = _data;
+    if (before == null || !before.canFollow) return;
 
-    final wasFollowing = state.isFollowing;
+    final profile = before.profile;
+    final wasFollowing = before.isFollowing;
     final followers = wasFollowing
         ? (profile.followers > 0 ? profile.followers - 1 : 0)
         : profile.followers + 1;
-    emit(state.copyWith(
-      isFollowing: !wasFollowing,
-      profile: profile.copyWith(followers: followers),
-    ));
+    _emitData(
+      before.copyWith(
+        isFollowing: !wasFollowing,
+        profile: profile.copyWith(followers: followers),
+      ),
+    );
 
-    final saved =
+    final result =
         await followingRepo.setFollowing(profile.id, follow: !wasFollowing);
-    if (!saved && !isClosed) {
-      emit(state.copyWith(isFollowing: wasFollowing, profile: profile));
-    }
+    if (isClosed) return;
+    result.when(
+      success: (_) {},
+      failure: (_) {
+        final current = _data;
+        if (current == null) return;
+        _emitData(current.copyWith(isFollowing: wasFollowing, profile: profile));
+      },
+    );
+  }
+
+  void _emitData(OrganizerProfileData data) {
+    _data = data;
+    emit(OrganizerProfileState.success(data));
   }
 }

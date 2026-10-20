@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Dashed line with the two "punched" notches on the card edges.
-/// The notches use the screen background color.
 class TicketDivider extends StatelessWidget {
   const TicketDivider({super.key, required this.notchColor});
 

@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 
-/// "HOW WAS YOUR EXPERIENCE?" + five tappable stars.
 class StarRatingInput extends StatelessWidget {
   const StarRatingInput({super.key});
 

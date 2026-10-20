@@ -1,28 +1,26 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/features/search/logic/search_cubit.dart';
-import 'package:evetick/features/search/logic/search_state.dart';
+import 'package:evetick/features/search/logic/search_data.dart';
 import 'package:evetick/features/search/ui/widgets/filter_panel.dart';
 import 'package:evetick/features/search/ui/widgets/recent_searches_section.dart';
 import 'package:evetick/features/search/ui/widgets/trending_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Search page before the user typed anything:
-/// trending, recent searches and (when open) the filter panel.
 class SearchIdleView extends StatelessWidget {
   const SearchIdleView({
     super.key,
-    required this.state,
+    required this.data,
     required this.onQuerySelected,
   });
 
-  final SearchState state;
+  final SearchData data;
   final ValueChanged<String> onQuerySelected;
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SearchCubit>();
-    final trending = state.trending;
+    final trending = data.trending;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,18 +29,18 @@ class SearchIdleView extends StatelessWidget {
           TrendingSection(titles: trending, onSelected: onQuerySelected),
           verticalSpace(24),
         ],
-        if (state.recentSearches.isNotEmpty) ...[
+        if (data.recentSearches.isNotEmpty) ...[
           RecentSearchesSection(
-            searches: state.recentSearches,
+            searches: data.recentSearches,
             onSelected: onQuerySelected,
             onClearAll: cubit.clearRecent,
           ),
           verticalSpace(24),
         ],
-        if (state.isFilterOpen)
+        if (data.isFilterOpen)
           FilterPanel(
-            filters: state.filters,
-            categories: state.categories,
+            filters: data.filters,
+            categories: data.categories,
             onApply: cubit.applyFilters,
           ),
       ],

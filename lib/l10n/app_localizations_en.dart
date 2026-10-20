@@ -342,6 +342,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchApplyFilters => 'Apply Filters';
 
   @override
+  String get searchCategory => 'Category';
+
+  @override
   String get notificationsTitle => 'Notifications';
 
   @override

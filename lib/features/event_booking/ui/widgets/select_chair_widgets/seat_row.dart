@@ -1,8 +1,8 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/features/event_booking/ui/widgets/select_chair_widgets/row_label.dart';
 import 'package:evetick/features/event_booking/ui/widgets/select_chair_widgets/seat_group.dart';
-import 'package:evetick/features/event_booking/ui/widgets/select_chair_widgets/seat_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:evetick/features/event_booking/logic/select_chair/seat_status.dart';
 
 
 class SeatRow extends StatelessWidget {

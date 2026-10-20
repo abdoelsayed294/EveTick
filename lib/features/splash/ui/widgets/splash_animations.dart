@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 
-/// All the splash timings in one place. Every animation is an [Interval]
-/// of a single controller, so changing the controller duration speeds the
-/// whole splash up or down together.
+
 class SplashAnimations {
   static const Duration totalDuration = Duration(milliseconds: 3600);
 
   final AnimationController controller;
 
-  /// Logo intro: fade + pop-in with a small tilt that settles.
+
   late final Animation<double> fadeIn;
   late final Animation<double> popScale;
   late final Animation<double> entryTilt;
 
-  /// Playful head-wiggle after the logo lands.
   late final Animation<double> wiggle;
 
-  /// Logo moves up a little while the name appears underneath.
   late final Animation<double> lift;
   late final Animation<double> nameFade;
   late final Animation<double> nameSlide;

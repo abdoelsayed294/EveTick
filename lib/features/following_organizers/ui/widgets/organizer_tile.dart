@@ -6,7 +6,6 @@ import 'package:evetick/features/home/ui/widgets/event_cover_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// One row of the "Following Organizers" list.
 class OrganizerTile extends StatelessWidget {
   const OrganizerTile({
     super.key,

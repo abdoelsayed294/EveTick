@@ -13,8 +13,6 @@ class ReviewsCubit extends Cubit<ReviewsState<ReviewsData>> {
 
   ReviewsData? get _data => state.whenOrNull(success: (data) => data);
 
-  /// [silent] keeps the current content on screen (pull to refresh, coming
-  /// back after posting a review).
   Future<void> emitReviewsStates({
     required String eventId,
     bool silent = false,
@@ -27,14 +25,12 @@ class ReviewsCubit extends Cubit<ReviewsState<ReviewsData>> {
     result.when(
       success: (data) => emit(ReviewsState.success(data)),
       failure: (failure) {
-        // On a silent refresh keep what the user already sees.
         if (silent && _data != null) return;
         emit(ReviewsState.error(error: failure.message));
       },
     );
   }
 
-  /// "Load More Reviews".
   Future<void> loadMore() async {
     final data = _data;
     if (data == null || !data.hasMore || data.isLoadingMore) return;
@@ -74,7 +70,6 @@ class ReviewsCubit extends Cubit<ReviewsState<ReviewsData>> {
     );
   }
 
-  /// Updates the thumb immediately, then saves; rolls back on failure.
   Future<void> toggleHelpful(String reviewId) async {
     final before = _findReview(reviewId);
     if (before == null || before.isMine) return;

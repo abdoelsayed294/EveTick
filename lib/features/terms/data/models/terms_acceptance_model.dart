@@ -12,7 +12,6 @@ class TermsAcceptanceModel {
     this.acceptedAt,
   });
 
-  /// True only if the user accepted the current version of the terms.
   bool get isUpToDate => accepted && version == TermsConstants.version;
 
   factory TermsAcceptanceModel.fromJson(Map<String, dynamic> json) {
@@ -23,7 +22,6 @@ class TermsAcceptanceModel {
     );
   }
 
-  /// Fields written to `users/{uid}` when the user accepts the terms.
   static Map<String, dynamic> acceptedFields() {
     return {
       'acceptedTerms': true,

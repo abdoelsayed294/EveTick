@@ -17,7 +17,6 @@ class TicketCard extends StatelessWidget {
 
   final TicketModel ticket;
 
-  /// Screen background, used for the notches of the divider.
   final Color backgroundColor;
 
   @override
@@ -35,7 +34,6 @@ class TicketCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // ---------------- top part
           Padding(
             padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
             child: Column(
@@ -103,7 +101,6 @@ class TicketCard extends StatelessWidget {
 
           TicketDivider(notchColor: backgroundColor),
 
-          // ---------------- bottom part
           Padding(
             padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 24.h),
             child: Column(

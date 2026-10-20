@@ -1,13 +1,11 @@
 import 'package:evetick/features/home/data/models/home_event_model.dart';
 import 'package:evetick/features/home/logic/home_ranking.dart';
 import 'package:evetick/features/search/data/models/search_filters_model.dart';
+import 'package:evetick/features/search/data/models/search_sort.dart';
 
-/// Pure search logic: text match + filters + sorting. No Firebase here,
-/// so it works on the events the screen already loaded.
 class SearchEngine {
   static const int maxTrending = 5;
 
-  /// Events that did not end yet.
   static List<HomeEvent> notEnded(List<HomeEvent> events, DateTime now) {
     return events.where((e) {
       final end = e.endDate ?? e.startDate;
@@ -44,7 +42,6 @@ class SearchEngine {
     return _sorted(matches, filters);
   }
 
-  /// Titles of the best selling events, for "Trending Now".
   static List<String> trendingTitles(List<HomeEvent> events, {DateTime? now}) {
     final upcoming = notEnded(events, now ?? DateTime.now());
     final titles = <String>[];
@@ -56,7 +53,6 @@ class SearchEngine {
     return titles;
   }
 
-  /// Categories found in the events, most used first.
   static List<String> categories(List<HomeEvent> events) {
     final counts = <String, int>{};
     for (final e in events) {
@@ -73,7 +69,6 @@ class SearchEngine {
     return e.category == category;
   }
 
-  /// Saturday + Sunday. On a weekend day: from today until Sunday night.
   static bool _isThisWeekend(DateTime? start, DateTime now) {
     if (start == null) return false;
     final today = DateTime(now.year, now.month, now.day);

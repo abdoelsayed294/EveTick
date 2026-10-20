@@ -3,7 +3,6 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Orange icon + one line of text (date row / location row).
 class FavoriteInfoRow extends StatelessWidget {
   const FavoriteInfoRow({super.key, required this.icon, required this.text});
 

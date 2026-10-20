@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 
-/// "Reviews & Ratings >" row for the event details page.
 class ReviewsEntryTile extends StatelessWidget {
   const ReviewsEntryTile({super.key, required this.onTap});
 

@@ -1,17 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evetick/core/services/failure.dart';
 import 'package:evetick/core/services/firebase_error_handler.dart';
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/organizer_reviews/data/models/organizer_review_eligibility_model.dart';
 import 'package:evetick/features/organizer_reviews/data/models/organizer_review_model.dart';
 import 'package:evetick/features/organizer_reviews/data/models/organizer_reviews_data_model.dart';
+import 'package:evetick/features/organizer_reviews/data/models/organizer_reviews_page_model.dart';
 import 'package:evetick/features/reviews/data/models/review_summary_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
-/// Reviews of an organizer live in `users/{organizerId}/reviews/{reviewerId}`
-/// (one per user). Like the event reviews, the rating summary is counted with
-/// Firestore count queries and nothing is stored on the organizer's document,
-/// so nobody can fake it from the app.
 class OrganizerReviewsRepository {
   static const int pageSize = 10;
   static const int minTextLength = 10;
@@ -23,9 +20,6 @@ class OrganizerReviewsRepository {
   CollectionReference<Map<String, dynamic>> _reviews(String organizerId) =>
       firestore.collection('users').doc(organizerId).collection('reviews');
 
-  // ---------------------------------------------------------------- read
-
-  /// First page + rating summary + whether the user may write a review.
   Future<Result<OrganizerReviewsData>> getReviews({
     required String organizerId,
   }) async {
@@ -35,7 +29,6 @@ class OrganizerReviewsRepository {
         return Result.failure(FirebaseFailure('Please login to see reviews'));
       }
 
-      // Started together, awaited one by one.
       final summaryFuture = _loadSummary(organizerId);
       final pageFuture = _loadPage(
         organizerId: organizerId,
@@ -64,7 +57,6 @@ class OrganizerReviewsRepository {
     }
   }
 
-  /// "Load More Reviews": the page that starts after [cursor].
   Future<Result<OrganizerReviewsPage>> getMoreReviews({
     required String organizerId,
     required Object? cursor,
@@ -129,7 +121,6 @@ class OrganizerReviewsRepository {
           ),
         );
       } catch (_) {
-        // A malformed review must not break the whole list.
       }
     }
 
@@ -140,8 +131,6 @@ class OrganizerReviewsRepository {
     );
   }
 
-  /// One review per user, never for yourself, and only for users who have a
-  /// confirmed order on one of this organizer's events.
   Future<OrganizerReviewEligibility> _eligibility(
     String organizerId,
     String uid,
@@ -151,7 +140,6 @@ class OrganizerReviewsRepository {
     final existing = await _reviews(organizerId).doc(uid).get();
     if (existing.exists) return OrganizerReviewEligibility.alreadyReviewed;
 
-    // Events the user has a confirmed order for.
     final orders = await firestore
         .collection('orders')
         .where('userId', isEqualTo: uid)
@@ -165,7 +153,6 @@ class OrganizerReviewsRepository {
     }
     if (attendedEventIds.isEmpty) return OrganizerReviewEligibility.notAttended;
 
-    // Is one of them an event of this organizer?
     final events = await firestore
         .collection('events')
         .where('organizerId', isEqualTo: organizerId)
@@ -176,9 +163,6 @@ class OrganizerReviewsRepository {
         : OrganizerReviewEligibility.notAttended;
   }
 
-  // --------------------------------------------------------------- write
-
-  /// Saves the review. Returns its id (= the user's uid).
   Future<Result<String>> postReview({
     required String organizerId,
     required int rating,
@@ -196,7 +180,6 @@ class OrganizerReviewsRepository {
         return Result.failure(FirebaseFailure(eligibility.message));
       }
 
-      // The real name / photo are only read (and saved) when not anonymous.
       var authorName = 'Anonymous';
       String? authorImageUrl;
       if (!isAnonymous) {

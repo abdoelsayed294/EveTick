@@ -1,8 +1,7 @@
 import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-enum SeatStatus { available, reserved, selected }
+import 'package:evetick/features/event_booking/logic/select_chair/seat_status.dart';
 
 class SeatWidget extends StatelessWidget {
   const SeatWidget({super.key, required this.status, this.onTap});

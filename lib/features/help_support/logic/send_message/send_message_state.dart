@@ -1,33 +1,11 @@
-import 'dart:io';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:evetick/features/help_support/data/models/help_category.dart';
-import 'package:evetick/features/help_support/logic/send_message/send_message_status.dart';
+part 'send_message_state.freezed.dart';
 
-class SendMessageState {
-  final HelpCategory? category;
-  final File? attachment;
-  final SendMessageStatus status;
-  final String? error;
-
-  const SendMessageState({
-    this.category,
-    this.attachment,
-    this.status = SendMessageStatus.idle,
-    this.error,
-  });
-
-  SendMessageState copyWith({
-    HelpCategory? category,
-    File? attachment,
-    bool clearAttachment = false,
-    SendMessageStatus? status,
-    String? error,
-  }) {
-    return SendMessageState(
-      category: category ?? this.category,
-      attachment: clearAttachment ? null : attachment ?? this.attachment,
-      status: status ?? this.status,
-      error: error,
-    );
-  }
+@freezed
+class SendMessageState<T> with _$SendMessageState<T> {
+  const factory SendMessageState.initial() = _Initial;
+  const factory SendMessageState.loading() = Loading;
+  const factory SendMessageState.success(T data) = Success<T>;
+  const factory SendMessageState.error({required String error}) = Error;
 }

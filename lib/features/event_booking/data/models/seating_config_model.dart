@@ -1,10 +1,4 @@
-
-class SeatingSection {
-  const SeatingSection({required this.name, required this.capacity});
-
-  final String name;
-  final int capacity;
-}
+import 'package:evetick/features/event_booking/data/models/seating_section_model.dart';
 
 class SeatingConfig {
   final String layoutType;
@@ -21,7 +15,6 @@ class SeatingConfig {
     this.sections = const [],
   });
 
-  /// Event without any seating info: tickets only, no seat picking.
   factory SeatingConfig.general() => const SeatingConfig(
         layoutType: 'sections',
         rows: 0,
@@ -60,7 +53,6 @@ class SeatingConfig {
     );
   }
 
-  /// Only "seating" events let the user pick seats.
   bool get isSeated => layoutType == 'seating';
 
   List<String> get sectionNames => sections.map((s) => s.name).toList();

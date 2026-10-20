@@ -3,7 +3,6 @@ import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-/// A terms paragraph. The brand name inside the text is highlighted in orange.
 class TermsBodyText extends StatelessWidget {
   final String text;
 

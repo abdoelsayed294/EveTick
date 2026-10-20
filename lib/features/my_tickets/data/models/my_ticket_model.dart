@@ -1,7 +1,5 @@
-/// Where a ticket is in time, decided from the event dates.
-enum TicketPhase { upcoming, active, past }
+import 'package:evetick/features/my_tickets/data/models/ticket_phase.dart';
 
-/// Light read model of `orders/{orderId}` for the My Tickets list.
 class MyTicket {
   const MyTicket({
     required this.orderId,
@@ -36,7 +34,6 @@ class MyTicket {
   DateTime? get startDate => DateTime.tryParse(startAt);
   DateTime? get endDate => DateTime.tryParse(endAt);
 
-  /// Past once the event ended (or started, when there is no end date).
   TicketPhase phase(DateTime now) {
     final start = startDate;
     final end = endDate ?? start;
@@ -45,8 +42,6 @@ class MyTicket {
     return TicketPhase.upcoming;
   }
 
-  /// "CONFIRMED" / "ACTIVE" / "COMPLETED" (or the order status if it is
-  /// not confirmed, e.g. "CANCELLED").
   String statusLabel(DateTime now) {
     if (status != 'confirmed') return status.toUpperCase();
     switch (phase(now)) {

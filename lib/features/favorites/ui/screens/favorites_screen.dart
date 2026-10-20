@@ -1,26 +1,13 @@
 import 'package:evetick/core/helpers/spacing.dart';
-import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/text_styles.dart';
-import 'package:evetick/core/widgets/app_empty_view.dart';
-import 'package:evetick/core/widgets/app_error_view.dart';
-import 'package:evetick/features/favorites/logic/favorites_cubit.dart';
-import 'package:evetick/features/favorites/logic/favorites_state.dart';
-import 'package:evetick/features/favorites/ui/widgets/favorite_event_card.dart';
+import 'package:evetick/features/favorites/ui/widgets/favorites_bloc_builder.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
-
-  Future<void> _openEvent(BuildContext context, String eventId) async {
-    final cubit = context.read<FavoritesCubit>();
-    await Navigator.of(context)
-        .pushNamed(Routes.eventDetailsScreen, arguments: eventId);
-    // The heart may have been changed on the details screen.
-    cubit.load(silent: true);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,55 +19,16 @@ class FavoritesScreen extends StatelessWidget {
           child: Column(
             children: [
               verticalSpace(30),
-              Text(AppLocalizations.of(context)!.favoritesTitle, style: TextStyles.font18WhiteBold(context)),
-              verticalSpace(16),
-              Expanded(
-                child: BlocBuilder<FavoritesCubit, FavoritesState>(
-                  builder: (context, state) => _buildBody(context, state),
-                ),
+              Text(
+                AppLocalizations.of(context)!.favoritesTitle,
+                style: TextStyles.font18WhiteBold(context),
               ),
+              verticalSpace(16),
+              const Expanded(child: FavoritesBlocBuilder()),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Widget _buildBody(BuildContext context, FavoritesState state) {
-    final cubit = context.read<FavoritesCubit>();
-
-    switch (state.status) {
-      case FavoritesStatus.loading:
-        return const Center(child: CircularProgressIndicator());
-      case FavoritesStatus.error:
-        return AppErrorView(message: state.errorMessage, onRetry: cubit.load);
-      case FavoritesStatus.success:
-        return RefreshIndicator(
-          onRefresh: () => cubit.load(silent: true),
-          child: state.events.isEmpty
-              ? ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: [
-                    SizedBox(height: 200.h),
-                    AppEmptyView(message: AppLocalizations.of(context)!.favoritesEmpty),
-                  ],
-                )
-              : ListView.separated(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  // Room for the floating navbar.
-                  padding: EdgeInsets.only(bottom: 120.h),
-                  itemCount: state.events.length,
-                  separatorBuilder: (_, __) => SizedBox(height: 16.h),
-                  itemBuilder: (context, index) {
-                    final event = state.events[index];
-                    return FavoriteEventCard(
-                      event: event,
-                      onTap: () => _openEvent(context, event.id),
-                      onRemove: () => cubit.removeFavorite(event.id),
-                    );
-                  },
-                ),
-        );
-    }
   }
 }

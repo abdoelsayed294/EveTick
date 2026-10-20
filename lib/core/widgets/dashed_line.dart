@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Thin horizontal dashed line.
 class DashedLine extends StatelessWidget {
   const DashedLine({
     super.key,

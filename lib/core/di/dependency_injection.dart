@@ -18,6 +18,7 @@ import 'package:evetick/features/event_details/logic/event_details_cubit.dart';
 import 'package:evetick/features/event_booking/data/data_sources/remote/event_booking_data_source_impl.dart';
 import 'package:evetick/features/event_booking/data/repo/event_booking_repo.dart';
 import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
+import 'package:evetick/features/event_booking/logic/payment/payment_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
 import 'package:evetick/features/event_booking/logic/ticket/ticket_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
@@ -57,7 +58,6 @@ import 'package:get_it/get_it.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupGetIt() async {
-  // auth
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
   
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt<AuthRepository>()));
@@ -66,7 +66,6 @@ Future<void> setupGetIt() async {
     () => SignupCubit(getIt<AuthRepository>()),
   );
 
-  //onboarding
   getIt.registerLazySingleton<OnboardingRepository>(
     () => OnboardingRepositoryImpl(),
   );
@@ -75,7 +74,6 @@ Future<void> setupGetIt() async {
     () => OnboardingCubit(getIt<OnboardingRepository>()),
   );
   
-  // location
   getIt.registerLazySingleton<LocationRepository>(
     () => LocationRepositoryImpl(
       firestore: FirebaseFirestore.instance,
@@ -86,20 +84,17 @@ Future<void> setupGetIt() async {
     () => LocationCubit(locationRepository: getIt<LocationRepository>()),
   );
 
-  // profile
   getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
 
   getIt.registerFactory<ProfileCubit>(
     () => ProfileCubit(getIt<ProfileRepository>()),
   );
 
-  // terms
   getIt.registerLazySingleton<TermsRepository>(() => TermsRepository());
   getIt.registerFactory<TermsCubit>(
-    () => TermsCubit(getIt<TermsRepository>()),
+    () => TermsCubit(getIt<TermsRepository>(), getIt<AuthRepository>()),
   );
 
-  // reviews
   getIt.registerLazySingleton<ReviewsRepository>(() => ReviewsRepository());
   getIt.registerFactory<ReviewsCubit>(
     () => ReviewsCubit(getIt<ReviewsRepository>()),
@@ -108,7 +103,6 @@ Future<void> setupGetIt() async {
     () => WriteReviewCubit(getIt<ReviewsRepository>()),
   );
 
-  // organizer reviews
   getIt.registerLazySingleton<OrganizerReviewsRepository>(
     () => OrganizerReviewsRepository(),
   );
@@ -122,7 +116,6 @@ Future<void> setupGetIt() async {
     ),
   );
 
-  // push notifications
   getIt.registerLazySingleton<PushTokensRepository>(
     () => PushTokensRepository(),
   );
@@ -130,7 +123,6 @@ Future<void> setupGetIt() async {
     () => PushNotificationsService(getIt<PushTokensRepository>()),
   );
 
-  // notifications
   getIt.registerLazySingleton<NotificationsRepository>(
     () => NotificationsRepository(),
   );
@@ -138,23 +130,19 @@ Future<void> setupGetIt() async {
     () => NotificationsCubit(getIt<NotificationsRepository>()),
   );
 
-  // help & support
   getIt.registerLazySingleton<SupportRepository>(() => SupportRepository());
   getIt.registerFactory<HelpCubit>(() => HelpCubit());
   getIt.registerFactory<SendMessageCubit>(
     () => SendMessageCubit(getIt<SupportRepository>()),
   );
 
-  // localization
   getIt.registerLazySingleton(() => LocaleRepository());
 
   getIt.registerLazySingleton(() => LocaleCubit(getIt()));
 
-  // theme
   getIt.registerLazySingleton(() => ThemeRepository());
   getIt.registerLazySingleton(() => ThemeCubit(getIt()));
 
-  // event details
   getIt.registerLazySingleton<EventDetailsRepository>(
     () => EventDetailsRepository(),
   );
@@ -162,37 +150,32 @@ Future<void> setupGetIt() async {
     () => EventDetailsCubit(getIt<EventDetailsRepository>(), getIt<HomeRepo>()),
   );
 
-   // event booking
   getIt.registerLazySingleton<EventBookingDataSourceImpl>(() => EventBookingDataSourceImpl());
   getIt.registerLazySingleton<EventBookingRepo>(() => EventBookingRepo(getIt<EventBookingDataSourceImpl>()));
   getIt.registerFactory<SelectChairCubit>(() => SelectChairCubit(getIt<EventBookingRepo>()));
   getIt.registerFactory<SelectTicketsCubit>(() => SelectTicketsCubit(getIt<EventBookingRepo>()));
   getIt.registerFactory<CheckoutCubit>(() => CheckoutCubit(getIt<EventBookingRepo>()));
+  getIt.registerFactory<PaymentCubit>(() => PaymentCubit(getIt<EventBookingRepo>()));
   getIt.registerFactory<TicketCubit>(() => TicketCubit(getIt<EventBookingRepo>()));
 
-  // home
   getIt.registerLazySingleton<HomeRepo>(() => HomeRepo(HomeDataSourceImpl()));
   getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt<HomeRepo>()));
 
-  // my tickets
   getIt.registerLazySingleton<MyTicketsRepository>(() => MyTicketsRepository());
   getIt.registerFactory<MyTicketsCubit>(
     () => MyTicketsCubit(getIt<MyTicketsRepository>()),
   );
 
-  // favorites
   getIt.registerLazySingleton<FavoritesRepository>(() => FavoritesRepository());
   getIt.registerFactory<FavoritesCubit>(
     () => FavoritesCubit(getIt<FavoritesRepository>(), getIt<HomeRepo>()),
   );
 
-  // following organizers
   getIt.registerLazySingleton<FollowingRepository>(() => FollowingRepository());
   getIt.registerFactory<FollowingOrganizersCubit>(
     () => FollowingOrganizersCubit(getIt<FollowingRepository>()),
   );
 
-  // organizer profile
   getIt.registerLazySingleton<OrganizerProfileRepository>(
     () => OrganizerProfileRepository(),
   );
@@ -203,7 +186,6 @@ Future<void> setupGetIt() async {
     ),
   );
 
-  // search
   getIt.registerLazySingleton<SearchHistoryRepository>(
     () => SearchHistoryRepository(),
   );

@@ -26,7 +26,7 @@ class WriteReviewCubit extends Cubit<WriteReviewState<String>> {
   void setAnonymous(bool value) => isAnonymous.value = value;
 
   Future<void> pickPhoto() async {
-    emit(const WriteReviewState.initial()); // clears an old error banner
+    emit(const WriteReviewState.initial());
 
     if (photos.value.length >= ReviewsRepository.maxPhotos) {
       emit(
@@ -40,7 +40,7 @@ class WriteReviewCubit extends Cubit<WriteReviewState<String>> {
     final result = await reviewsRepo.pickPhoto();
     await result.when(
       success: (file) async {
-        if (file == null) return; // user cancelled
+        if (file == null) return;
         if (!await reviewsRepo.isValidPhoto(file)) {
           emit(
             const WriteReviewState.error(

@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Filled orange heart on a dark rounded square (tap = remove).
 class FavoriteHeartButton extends StatelessWidget {
   const FavoriteHeartButton({super.key, required this.onTap});
 

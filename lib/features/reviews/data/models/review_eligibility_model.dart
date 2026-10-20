@@ -1,10 +1,8 @@
-/// Can the signed-in user write a review for this event?
 enum ReviewEligibility {
   allowed,
   notAttended,
   alreadyReviewed;
 
-  /// Shown when the user taps "Write a Review" and is not allowed to.
   String get message {
     switch (this) {
       case ReviewEligibility.allowed:

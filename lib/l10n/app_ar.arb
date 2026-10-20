@@ -106,6 +106,7 @@
   "searchSortOptionsDistance": "المسافة",
   "searchFilterAndRefine": "تصفية وتنقية",
   "searchApplyFilters": "تطبيق الفلاتر",
+  "searchCategory": "الفئة",
   "notificationsTitle": "الإشعارات",
   "notificationsTimeAgoJustNow": "منذ {minutes} دقيقة",
   "notificationsTimeAgoHoursAgo": "منذ {hours} ساعة",

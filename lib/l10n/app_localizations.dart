@@ -734,6 +734,12 @@ abstract class AppLocalizations {
   /// **'Apply Filters'**
   String get searchApplyFilters;
 
+  /// No description provided for @searchCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get searchCategory;
+
   /// No description provided for @notificationsTitle.
   ///
   /// In en, this message translates to:

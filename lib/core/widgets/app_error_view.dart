@@ -3,8 +3,6 @@ import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// The one error state used by every screen that loads data.
-/// Pass [onRetry] to show a "Try again" button.
 class AppErrorView extends StatelessWidget {
   const AppErrorView({super.key, this.message, this.onRetry});
 

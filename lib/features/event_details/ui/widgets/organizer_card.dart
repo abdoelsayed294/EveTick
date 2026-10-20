@@ -20,7 +20,6 @@ class OrganizerCard extends StatelessWidget {
   final bool isFollowing;
   final VoidCallback onFollow;
 
-  /// Opens the organizer page.
   final VoidCallback? onTap;
 
   @override

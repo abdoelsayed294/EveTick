@@ -34,7 +34,7 @@ class PushTokensRepository {
     try {
       final token = await FirebaseMessaging.instance
           .getToken()
-          .timeout(const Duration(seconds: 3)); // never block the logout
+          .timeout(const Duration(seconds: 3));
       if (token == null) return;
       await _tokens()?.doc(token).delete();
     } catch (_) {}

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 
-/// "Follow" (orange, filled) / "Following" (outlined).
-/// Shared by the organizer page and the following list.
 class FollowButton extends StatelessWidget {
   const FollowButton({
     super.key,

@@ -4,8 +4,6 @@ import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Looks like a search box but only opens the search screen
-/// (the real typing happens there).
 class HomeSearchField extends StatelessWidget {
   const HomeSearchField({
     super.key,

@@ -2,7 +2,6 @@ import 'package:evetick/core/widgets/app_empty_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// "No notifications yet". Scrollable so pull-to-refresh still works.
 class NotificationsEmptyView extends StatelessWidget {
   const NotificationsEmptyView({super.key});
 

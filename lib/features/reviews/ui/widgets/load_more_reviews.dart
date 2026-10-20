@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 
-/// "Load More Reviews" text button, with its loading / error states.
 class LoadMoreReviews extends StatelessWidget {
   const LoadMoreReviews({
     super.key,

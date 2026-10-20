@@ -15,7 +15,6 @@ class StepIndicator extends StatelessWidget {
 
   final int stepNum;
 
-  /// One title per step; its length is the total number of steps.
   final List<String> stepTitles;
 
   int get _total => stepTitles.length;

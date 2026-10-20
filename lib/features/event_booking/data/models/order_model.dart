@@ -1,74 +1,7 @@
-/// Fees applied on top of the tickets subtotal.
-/// Change the rates here only; the checkout screen and the saved order
-/// both use this class.
-class OrderPricing {
-  const OrderPricing(this.subtotal);
+import 'package:evetick/features/event_booking/data/models/order_pricing.dart';
+import 'package:evetick/features/event_booking/data/models/order_ticket_item.dart';
+import 'package:evetick/features/event_booking/data/models/order_seat.dart';
 
-  static const double serviceFeeRate = 0.10;
-  static const double taxRate = 0.05;
-
-  final double subtotal;
-
-  double get serviceFee => _round(subtotal * serviceFeeRate);
-  double get taxes => _round(subtotal * taxRate);
-  double get total => _round(subtotal + serviceFee + taxes);
-
-  static double _round(double v) => (v * 100).roundToDouble() / 100;
-}
-
-class OrderTicketItem {
-  const OrderTicketItem({
-    required this.tierIndex,
-    required this.name,
-    required this.price,
-    required this.quantity,
-  });
-
-  /// Position of the tier inside `events/{id}.ticketTiers`
-  /// (used to decrease the stock, not saved in the order).
-  final int tierIndex;
-  final String name;
-  final double price;
-  final int quantity;
-
-  /// [sectionName]: venue section for events without seat picking.
-  Map<String, dynamic> toMap({String? sectionName}) => {
-        'ticketName': name,
-        'ticketPrice': price,
-        'quantity': quantity,
-        if (sectionName != null) 'sectionName': sectionName,
-      };
-}
-
-class OrderSeat {
-  const OrderSeat({
-    required this.rowIndex,
-    required this.seatIndex,
-    required this.label,
-  });
-
-  /// Position inside `seatingConfig.seatMap[rowIndex].seats[seatIndex]`.
-  final int rowIndex;
-  final int seatIndex;
-  final String label;
-
-  Map<String, dynamic> toMap() => {
-        'row': rowIndex,
-        'seat': seatIndex,
-        'label': label,
-      };
-}
-
-/// What the app sends to create an order.
-/// `orders/{orderId}`:
-/// {
-///   orderId, userId, eventId, eventTitle, eventCoverImageUrl,
-///   eventStartAt, eventEndAt, eventCategory, eventLocation, attendeeName,
-///   tickets: [...], seats: [...],
-///   ticketCount, subtotal, serviceFee, taxes, totalPrice,
-///   paymentMethod, status: "confirmed", createdAt
-/// }
-/// Card details are never stored.
 class OrderModel {
   const OrderModel({
     required this.eventId,
@@ -101,10 +34,6 @@ class OrderModel {
 
   OrderPricing get pricing => OrderPricing(subtotal);
 
-  /// Body of POST /createPayment. Only positions are sent (tier / seat
-  /// indexes); the function reads prices from Firestore and computes the
-  /// fees itself with the same rates as [OrderPricing].
-  /// [paymentMethod] here must be 'CARD', 'WALLET' or 'KIOSK'.
   Map<String, dynamic> toPaymentRequest() => {
         'eventId': eventId,
         'paymentMethod': paymentMethod,

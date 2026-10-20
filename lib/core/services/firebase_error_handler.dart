@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-import 'failure.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
 class FirebaseErrorHandler {
   static FirebaseFailure handle(FirebaseAuthException e) {
@@ -17,8 +18,6 @@ class FirebaseErrorHandler {
       case 'user-disabled':
         return FirebaseFailure('This account has been disabled');
       
-      //sign up errors
-
       case 'email-already-in-use':
         return FirebaseFailure('This email is already registered');
 
@@ -31,8 +30,6 @@ class FirebaseErrorHandler {
       case 'operation-not-allowed':
         return FirebaseFailure('This sign-in method is not enabled');
 
-      //public errors
-
       case 'too-many-requests':
         return FirebaseFailure('Too many attempts, try again later');
 
@@ -42,9 +39,28 @@ class FirebaseErrorHandler {
       case 'user-token-expired':
         return FirebaseFailure('Session expired, please login again');
 
+      case 'account-exists-with-different-credential':
+        return FirebaseFailure(
+          'An account already exists with this email using a different sign-in method',
+        );
+
 
       default:
         return FirebaseFailure('Error code: ${e.code} | ${e.message}');
+    }
+  }
+
+  static FirebaseFailure handleGoogleSignIn(GoogleSignInException e) {
+    switch (e.code) {
+      case GoogleSignInExceptionCode.clientConfigurationError:
+      case GoogleSignInExceptionCode.providerConfigurationError:
+        return FirebaseFailure('Google sign-in is not configured correctly');
+
+      case GoogleSignInExceptionCode.uiUnavailable:
+        return FirebaseFailure('Google sign-in is not available right now');
+
+      default:
+        return FirebaseFailure('Google sign-in failed, please try again');
     }
   }
 

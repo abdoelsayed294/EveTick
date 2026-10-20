@@ -6,8 +6,6 @@ import 'package:evetick/features/notifications/ui/widgets/notifications_list.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Shows loading / error / the list according to [NotificationsCubit]
-/// (same idea as the auth bloc listeners).
 class NotificationsBlocBuilder extends StatelessWidget {
   const NotificationsBlocBuilder({super.key});
 

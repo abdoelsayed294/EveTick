@@ -5,8 +5,6 @@ import 'package:evetick/features/search/ui/widgets/featured_result_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Column of results: the first one is big, the rest are compact.
-/// Meant to be placed inside a scroll view.
 class SearchResultsList extends StatelessWidget {
   const SearchResultsList({
     super.key,

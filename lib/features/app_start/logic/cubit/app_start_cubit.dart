@@ -32,6 +32,11 @@ class AppStartCubit extends Cubit<AppStartState> {
       return;
     }
 
+    if (!user.isGuest && !user.acceptedTerms) {
+      emit(const AppStartState.goToTerms());
+      return;
+    }
+
     final location = await locationRepository.getSavedLocation();
 
     if (location == null) {

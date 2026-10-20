@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Round translucent button used on top of the cover image.
 class CircleIconButton extends StatelessWidget {
   const CircleIconButton({
     super.key,

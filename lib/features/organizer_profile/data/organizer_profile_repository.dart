@@ -15,7 +15,6 @@ class OrganizerProfileRepository {
         return Result.failure(FirebaseErrorHandler.notFound('Organizer not found'));
       }
 
-      // Single filter: no composite index needed; sorted below.
       final snapshot = await firestore
           .collection('events')
           .where('organizerId', isEqualTo: organizerId)
@@ -24,13 +23,11 @@ class OrganizerProfileRepository {
       final events = <HomeEvent>[];
       for (final doc in snapshot.docs) {
         final data = doc.data();
-        // Drafts / closed events are not shown on the public page.
         final status = data['status'] as String?;
         if (status != null && status != 'live') continue;
         try {
           events.add(HomeEvent.fromJson({'eventId': doc.id, ...data}));
         } catch (_) {
-          // A malformed event must not break the whole page.
         }
       }
 
@@ -47,7 +44,7 @@ class OrganizerProfileRepository {
 
       final upcoming = events.where((e) => !isPast(e)).toList()..sort(byStart);
       final past = events.where(isPast).toList()
-        ..sort((a, b) => byStart(b, a)); // latest first
+        ..sort((a, b) => byStart(b, a));
 
       final latest = [...upcoming, ...past]
           .map((e) => e.coverImageUrl)

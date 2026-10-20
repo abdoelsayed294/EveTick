@@ -1,4 +1,3 @@
-/// "just now", "5 minutes ago", "2 days ago", "3 weeks ago", "1 year ago"
 import 'dart:ui';
 
 String formatTimeAgo(DateTime? date, {DateTime? now, Locale? locale}) {

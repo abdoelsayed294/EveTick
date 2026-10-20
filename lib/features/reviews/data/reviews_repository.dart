@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evetick/core/services/failure.dart';
 import 'package:evetick/core/services/firebase_error_handler.dart';
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/reviews/data/models/review_eligibility_model.dart';
@@ -12,10 +11,8 @@ import 'package:evetick/features/reviews/data/models/reviews_page_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
-/// Reviews live in `events/{eventId}/reviews/{userId}` (one per user).
-/// The rating summary is counted with Firestore count queries, nothing is
-/// stored on the event, so nobody can fake it from the app.
 class ReviewsRepository {
   static const int pageSize = 10;
   static const int maxPhotos = 4;
@@ -32,9 +29,6 @@ class ReviewsRepository {
   CollectionReference<Map<String, dynamic>> _reviews(String eventId) =>
       firestore.collection('events').doc(eventId).collection('reviews');
 
-  // ---------------------------------------------------------------- read
-
-  /// First page + rating summary + whether the user may write a review.
   Future<Result<ReviewsData>> getReviews({required String eventId}) async {
     try {
       final user = auth.currentUser;
@@ -44,7 +38,6 @@ class ReviewsRepository {
 
       final helpfulKeys = await _helpfulKeys(user.uid);
 
-      // Started together, awaited one by one.
       final summaryFuture = _loadSummary(eventId);
       final pageFuture = _loadPage(
         eventId: eventId,
@@ -74,7 +67,6 @@ class ReviewsRepository {
     }
   }
 
-  /// "Load More Reviews": the page that starts after [cursor].
   Future<Result<ReviewsPage>> getMoreReviews({
     required String eventId,
     required Object? cursor,
@@ -143,7 +135,6 @@ class ReviewsRepository {
           ),
         );
       } catch (_) {
-        // A malformed review must not break the whole list.
       }
     }
 
@@ -154,7 +145,6 @@ class ReviewsRepository {
     );
   }
 
-  /// Reviews the user marked helpful: `users/{uid}.helpfulReviewKeys`.
   Future<Set<String>> _helpfulKeys(String uid) async {
     try {
       final doc = await firestore.collection('users').doc(uid).get();
@@ -162,11 +152,10 @@ class ReviewsRepository {
           .map((e) => e.toString())
           .toSet();
     } catch (_) {
-      return <String>{}; // only used to colour the thumbs
+      return <String>{};
     }
   }
 
-  /// One review per user, and only for events the user has a paid order for.
   Future<ReviewEligibility> _eligibility(String eventId, String uid) async {
     final existing = await _reviews(eventId).doc(uid).get();
     if (existing.exists) return ReviewEligibility.alreadyReviewed;
@@ -180,10 +169,6 @@ class ReviewsRepository {
     return attended ? ReviewEligibility.allowed : ReviewEligibility.notAttended;
   }
 
-  // ------------------------------------------------------------- helpful
-
-  /// Adds / removes the user's "Helpful" vote. Done in a transaction so a
-  /// stale screen can never count the same vote twice.
   Future<Result<void>> setHelpful({
     required String eventId,
     required String reviewId,
@@ -204,7 +189,7 @@ class ReviewsRepository {
         final keys = (userSnap.data()?['helpfulReviewKeys'] as List<dynamic>? ?? [])
             .map((e) => e.toString())
             .toSet();
-        if (keys.contains(key) == helpful) return; // already in that state
+        if (keys.contains(key) == helpful) return;
 
         tx.update(reviewRef, {
           'helpfulCount': FieldValue.increment(helpful ? 1 : -1),
@@ -227,9 +212,6 @@ class ReviewsRepository {
     }
   }
 
-  // --------------------------------------------------------------- write
-
-  /// Returns `null` when the user cancels the picker.
   Future<Result<File?>> pickPhoto() async {
     try {
       final image = await _picker.pickImage(source: ImageSource.gallery);
@@ -246,7 +228,6 @@ class ReviewsRepository {
     return await file.length() <= maxPhotoBytes;
   }
 
-  /// Saves the review. Returns its id (= the user's uid).
   Future<Result<String>> postReview({
     required String eventId,
     required int rating,
@@ -265,7 +246,6 @@ class ReviewsRepository {
         return Result.failure(FirebaseFailure(eligibility.message));
       }
 
-      // The real name / photo are only read (and saved) when not anonymous.
       var authorName = 'Anonymous';
       String? authorImageUrl;
       if (!isAnonymous) {

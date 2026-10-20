@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evetick/core/services/failure.dart';
 import 'package:evetick/core/services/firebase_error_handler.dart';
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/home/data/data_sources/home_data_source.dart';
 import 'package:evetick/features/home/data/models/home_event_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
 class HomeDataSourceImpl extends HomeDataSource {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -23,7 +23,6 @@ class HomeDataSourceImpl extends HomeDataSource {
         try {
           events.add(HomeEvent.fromJson({'eventId': doc.id, ...doc.data()}));
         } catch (_) {
-          // A malformed event document must not break the whole home screen.
         }
       }
       return Result.success(events);
@@ -34,7 +33,6 @@ class HomeDataSourceImpl extends HomeDataSource {
     }
   }
 
-  /// Favorites live on the user's own document: users/{uid}.favoriteEventIds
   @override
   Future<Result<Set<String>>> getFavoriteIds() async {
     try {

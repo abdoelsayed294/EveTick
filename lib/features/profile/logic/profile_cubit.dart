@@ -58,7 +58,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.when(
       success: (_) {
-        getUserData(); // Refresh user data on success
+        getUserData();
       },
       failure: (failure) {
         emit(ProfileState.error(error: failure.message));

@@ -1,10 +1,10 @@
 import 'package:evetick/core/theming/app_colors.dart';
 import 'package:evetick/core/theming/colors.dart';
 
-import 'package:evetick/features/animated_navbar/indicator.dart';
-import 'package:evetick/features/animated_navbar/navbar_icon.dart';
+import 'package:evetick/features/animated_navbar/navbar_icons_row.dart';
+import 'package:evetick/features/animated_navbar/navbar_indicator_layer.dart';
 import 'package:evetick/features/animated_navbar/navbar_item.dart';
-import 'package:evetick/features/animated_navbar/spotlight.dart';
+import 'package:evetick/features/animated_navbar/navbar_spotlight_layer.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedSpotlightNavbar extends StatefulWidget {
@@ -97,8 +97,6 @@ class _AnimatedSpotlightNavbarState extends State<AnimatedSpotlightNavbar>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // A language change can reverse the visual order without changing the
-    // selected logical index.
     final center = _calculateCenterX(widget.currentIndex);
     _startX = center;
     _endX = center;
@@ -123,66 +121,35 @@ class _AnimatedSpotlightNavbarState extends State<AnimatedSpotlightNavbar>
         ),
         child: Stack(
           children: [
-            _buildSpotlight(widget.activeColor),
+            NavbarSpotlightLayer(
+              animation: _animation,
+              startX: _startX,
+              endX: _endX,
+              color: widget.activeColor,
+            ),
             Padding(
               padding: EdgeInsets.only(bottom: bottomPadding),
               child: Stack(
                 children: [
-                  _buildIndicator(widget.activeColor),
-                  _buildIcons(widget.inactiveColor ?? colors.lightGray),
+                  NavbarIndicatorLayer(
+                    animation: _animation,
+                    startX: _startX,
+                    endX: _endX,
+                    color: widget.activeColor,
+                  ),
+                  NavbarIconsRow(
+                    items: widget.items,
+                    currentIndex: widget.currentIndex,
+                    onTap: widget.onTap,
+                    activeColor: widget.activeColor,
+                    inactiveColor: widget.inactiveColor ?? colors.lightGray,
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildSpotlight(Color activeColor) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (_, __) {
-        return Spotlight(
-          progress: _animation.value,
-          startX: _startX,
-          endX: _endX,
-          color: activeColor,
-        );
-      },
-    );
-  }
-
-  Widget _buildIndicator(Color activeColor) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (_, __) {
-        return Indicator(
-          progress: _animation.value,
-          startX: _startX,
-          endX: _endX,
-          color: activeColor,
-        );
-      },
-    );
-  }
-
-  Widget _buildIcons(Color inactiveColor) {
-    return Row(
-      children: List.generate(widget.items.length, (index) {
-        return Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () => widget.onTap(index),
-            child: AnimatedNavbarIcon(
-              item: widget.items[index],
-              selected: widget.currentIndex == index,
-              activeColor: widget.activeColor,
-              inactiveColor: inactiveColor,
-            ),
-          ),
-        );
-      }),
     );
   }
 }

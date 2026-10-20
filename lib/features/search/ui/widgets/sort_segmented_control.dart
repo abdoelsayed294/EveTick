@@ -4,8 +4,8 @@ import 'package:evetick/features/search/data/models/search_filters_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:evetick/l10n/app_localizations.dart';
+import 'package:evetick/features/search/data/models/search_sort.dart';
 
-/// "Popularity | Date" switch inside the filter panel.
 class SortSegmentedControl extends StatelessWidget {
   const SortSegmentedControl({
     super.key,

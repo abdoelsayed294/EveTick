@@ -4,6 +4,7 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/widgets/dashed_line.dart';
 import 'package:evetick/features/home/ui/widgets/event_cover_image.dart';
 import 'package:evetick/features/my_tickets/data/models/my_ticket_model.dart';
+import 'package:evetick/features/my_tickets/data/models/ticket_phase.dart';
 import 'package:evetick/features/my_tickets/ui/widgets/ticket_qr_button.dart';
 import 'package:evetick/features/my_tickets/ui/widgets/ticket_status_badge.dart';
 import 'package:flutter/material.dart';

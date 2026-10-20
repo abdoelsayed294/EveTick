@@ -1,4 +1,3 @@
-/// Read model of `orders/{orderId}` used by the ticket screen.
 class TicketModel {
   const TicketModel({
     required this.orderId,
@@ -17,8 +16,8 @@ class TicketModel {
   final String eventTitle;
   final String eventStartAt;
   final String status;
-  final List<String> seats; // labels: A1, A2...
-  final List<String> sectionLines; // "VIP Zone × 2" (events without seats)
+  final List<String> seats;
+  final List<String> sectionLines;
   final String? eventCategory;
   final String? eventEndAt;
   final String? eventLocation;
@@ -47,7 +46,6 @@ class TicketModel {
 
   bool get hasSeats => seats.isNotEmpty;
 
-  /// "Seat" for seated events, "Section" otherwise.
   String get accessLabel => hasSeats ? 'Seat' : 'Section';
 
   String get accessText => hasSeats ? seatsText : sectionLines.join('  •  ');
@@ -55,7 +53,6 @@ class TicketModel {
   String get statusText =>
       status.isEmpty ? '' : status[0].toUpperCase() + status.substring(1);
 
-  /// ["A1","A2","B5"] -> "Row A: 1, 2  •  Row B, 5"
   String get seatsText {
     final byRow = <String, List<String>>{};
     for (final label in seats) {

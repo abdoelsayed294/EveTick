@@ -6,8 +6,6 @@ import 'package:evetick/features/notifications/ui/widgets/notification_unread_do
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// One notification row: coloured icon, title, body, time and the orange
-/// "unread" dot.
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
     super.key,

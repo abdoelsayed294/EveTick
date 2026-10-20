@@ -6,8 +6,6 @@ import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_s
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Success: thank-you message and close the screen (returns `true` so the
-/// reviews list refreshes). Error: banner above the form.
 class WriteReviewBlocListener extends StatelessWidget {
   const WriteReviewBlocListener({super.key});
 

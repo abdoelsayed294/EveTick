@@ -4,7 +4,6 @@ import 'package:evetick/core/routing/app_navigator.dart';
 import 'package:evetick/core/widgets/push_banner.dart';
 import 'package:flutter/material.dart';
 
-/// Shows a [PushBanner] above the current screen for a few seconds.
 class PushBannerPresenter {
   static const Duration _visibleFor = Duration(seconds: 4);
 

@@ -4,7 +4,6 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/help_support/data/models/help_category.dart';
 import 'package:evetick/features/help_support/logic/send_message/send_message_cubit.dart';
-import 'package:evetick/features/help_support/logic/send_message/send_message_state.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,12 +29,11 @@ class SupportCategoryDropdown extends StatelessWidget {
           style: TextStyles.font16WhiteRegular(context),
         ),
         verticalSpace(8),
-        BlocBuilder<SendMessageCubit, SendMessageState>(
-          buildWhen: (previous, current) =>
-              previous.category != current.category,
-          builder: (context, state) {
+        ValueListenableBuilder<HelpCategory?>(
+          valueListenable: context.read<SendMessageCubit>().category,
+          builder: (context, category, _) {
             return DropdownButtonFormField<HelpCategory>(
-              value: state.category,
+              value: category,
               isExpanded: true,
               dropdownColor: context.colors.lightBlue,
               icon: Icon(

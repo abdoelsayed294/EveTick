@@ -4,12 +4,6 @@ import 'package:evetick/features/reviews/data/reviews_repository.dart';
 import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_cubit.dart';
 import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_state.dart';
 
-/// "Write a Review" for an organizer.
-///
-/// It extends [WriteReviewCubit] so the star input, the text field, the
-/// anonymous switch and `WriteReviewBlocListener` of the event reviews work
-/// unchanged: the router provides it as a `WriteReviewCubit`. It keeps the
-/// same controller / formKey / rating / anonymous state; photos are not used.
 class WriteOrganizerReviewCubit extends WriteReviewCubit {
   final OrganizerReviewsRepository organizerReviewsRepo;
 

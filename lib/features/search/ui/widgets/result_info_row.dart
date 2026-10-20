@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Light-gray icon + one line of text (date row / location row).
 class ResultInfoRow extends StatelessWidget {
   const ResultInfoRow({super.key, required this.icon, required this.text});
 

@@ -2,12 +2,10 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/features/home/data/models/home_event_model.dart';
 import 'package:evetick/features/home/ui/widgets/event_cover_image.dart';
+import 'package:evetick/features/organizer_profile/ui/widgets/organizer_date_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
-/// Event card on the organizer page: cover with date badge, title,
-/// place and price.
 class OrganizerEventCard extends StatelessWidget {
   const OrganizerEventCard({super.key, required this.event, required this.onTap});
 
@@ -52,7 +50,7 @@ class OrganizerEventCard extends StatelessWidget {
                       Positioned(
                         top: 10.h,
                         left: 10.w,
-                        child: _DateBadge(date: start),
+                        child: OrganizerDateBadge(date: start),
                       ),
                   ],
                 ),
@@ -99,44 +97,6 @@ class OrganizerEventCard extends StatelessWidget {
             ],
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _DateBadge extends StatelessWidget {
-  const _DateBadge({required this.date});
-
-  final DateTime date;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-      decoration: BoxDecoration(
-        color: ColorsManager.defaultWhite.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            DateFormat('MMM').format(date).toUpperCase(),
-            style: TextStyle(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w600,
-              color: ColorsManager.darkGray,
-            ),
-          ),
-          Text(
-            '${date.day}',
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w700,
-              color: ColorsManager.darkBlue,
-            ),
-          ),
-        ],
       ),
     );
   }

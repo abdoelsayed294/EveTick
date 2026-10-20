@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evetick/core/services/failure.dart';
 import 'package:evetick/core/services/firebase_error_handler.dart';
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/notifications/data/models/notification_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
-/// Notifications live in `users/{uid}/notifications/{notificationId}`.
-/// They are created by the server; the app reads the latest ones and marks
-/// them as read.
 class NotificationsRepository {
   static const int limit = 50;
 
@@ -17,7 +14,6 @@ class NotificationsRepository {
   CollectionReference<Map<String, dynamic>> _notifications(String uid) =>
       firestore.collection('users').doc(uid).collection('notifications');
 
-  /// The latest [limit] notifications, newest first.
   Future<Result<List<AppNotification>>> getNotifications() async {
     try {
       final user = auth.currentUser;
@@ -44,7 +40,6 @@ class NotificationsRepository {
             }),
           );
         } catch (_) {
-          // A malformed notification must not break the whole list.
         }
       }
       return Result.success(notifications);

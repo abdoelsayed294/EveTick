@@ -1,3 +1,4 @@
+import 'package:evetick/core/helpers/category_label.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/l10n/app_localizations.dart';
@@ -14,7 +15,6 @@ class CategoryChips extends StatelessWidget {
 
   final List<String> categories;
 
-  /// null = "All"
   final String? selected;
   final ValueChanged<String?> onSelected;
 
@@ -42,7 +42,9 @@ class CategoryChips extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
-                category ?? AppLocalizations.of(context)!.homeFiltersAll,
+                category == null
+                    ? AppLocalizations.of(context)!.homeFiltersAll
+                    : AppLocalizations.of(context)!.categoryLabel(category),
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,

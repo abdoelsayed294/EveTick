@@ -2,8 +2,6 @@ import 'package:evetick/features/organizer_reviews/data/models/organizer_review_
 import 'package:evetick/features/organizer_reviews/data/models/organizer_review_model.dart';
 import 'package:evetick/features/reviews/data/models/review_summary_model.dart';
 
-/// Everything the organizer "Reviews" tab shows (the `T` of
-/// `ReviewsState<T>`).
 class OrganizerReviewsData {
   const OrganizerReviewsData({
     required this.summary,
@@ -42,19 +40,4 @@ class OrganizerReviewsData {
           clearLoadMoreError ? null : (loadMoreError ?? this.loadMoreError),
     );
   }
-}
-
-/// One page of organizer reviews and where the next one starts.
-class OrganizerReviewsPage {
-  const OrganizerReviewsPage({
-    required this.reviews,
-    required this.hasMore,
-    this.cursor,
-  });
-
-  final List<OrganizerReview> reviews;
-  final bool hasMore;
-
-  /// Opaque position of the last review (a Firestore document snapshot).
-  final Object? cursor;
 }

@@ -1,11 +1,5 @@
 import 'package:evetick/core/helpers/sales_day_key.dart';
 
-/// Light read model of `events/{id}` for the home lists.
-///
-/// Fields used besides the basic ones:
-///   isFeatured: true  -> pinned first in "Featured Events" (set by the admin)
-///   ticketsSold       -> total tickets sold (written by the booking transaction)
-///   salesByDay        -> {"d20261013": 5, ...} tickets sold per UTC day
 class HomeEvent {
   const HomeEvent({
     required this.id,
@@ -68,7 +62,6 @@ class HomeEvent {
     );
   }
 
-  /// Sum of the daily counters of the last [days] days (today included).
   static int _soldInLastDays(Object? salesByDay, int days) {
     if (salesByDay is! Map) return 0;
     final now = DateTime.now().toUtc();
@@ -88,15 +81,12 @@ class HomeEvent {
   DateTime? get startDate => DateTime.tryParse(startAt);
   DateTime? get endDate => DateTime.tryParse(endAt);
 
-  /// Where the event happens, for display.
   String get placeText {
     final value = location?.trim() ?? '';
     if (value.isNotEmpty) return value;
     return isOnline ? 'Online event' : '';
   }
 
-  /// "Free" / "From $45", also for sold out events (list cards show a
-  /// separate "Sold Out" tag).
   String get startingPriceText {
     final price = minPrice;
     if (price == null) return '';

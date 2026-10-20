@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Square QR button: orange for a usable ticket, grey for a past one.
 class TicketQrButton extends StatelessWidget {
   const TicketQrButton({super.key, required this.isPast, required this.onTap});
 

@@ -4,7 +4,7 @@ import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'step_indicator.dart';
+import 'package:evetick/features/event_booking/ui/widgets/step_indicator.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({

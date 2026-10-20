@@ -6,7 +6,6 @@ import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Shown in the profile instead of the buttons once the terms are accepted.
 class TermsAcceptedBanner extends StatelessWidget {
   final DateTime? acceptedAt;
 

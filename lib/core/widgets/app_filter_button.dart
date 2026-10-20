@@ -3,8 +3,6 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Square "filters" button next to a search field.
-/// [isActive] (panel open) shows the dark version.
 class AppFilterButton extends StatelessWidget {
   const AppFilterButton({super.key, required this.onTap, this.isActive = false});
 

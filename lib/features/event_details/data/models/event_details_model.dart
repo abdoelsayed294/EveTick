@@ -2,7 +2,6 @@ import 'package:evetick/features/event_details/data/models/event_organizer_model
 import 'package:evetick/features/home/data/models/home_event_model.dart';
 import 'package:evetick/features/home/logic/home_ranking.dart';
 
-/// Read model of `events/{id}` for the event landing page.
 class EventDetails {
   const EventDetails({
     required this.id,
@@ -43,7 +42,6 @@ class EventDetails {
   final EventOrganizer? organizer;
 
   factory EventDetails.fromJson(Map<String, dynamic> json) {
-    // Sales numbers / sold out / min price are already computed here.
     final home = HomeEvent.fromJson(json);
 
     final prices = (json['ticketTiers'] as List<dynamic>? ?? [])
@@ -86,7 +84,6 @@ class EventDetails {
     );
   }
 
-  /// Same event with the organizer loaded from `users/{organizerId}`.
   EventDetails withOrganizer(EventOrganizer? organizer) => EventDetails(
         id: id,
         title: title,
@@ -107,13 +104,11 @@ class EventDetails {
         organizer: organizer,
       );
 
-  /// Cover first, then the gallery (no duplicates, no empty urls).
   List<String> get images => [
         if (coverImageUrl.isNotEmpty) coverImageUrl,
         ...galleryImagesUrls.where((u) => u != coverImageUrl),
       ];
 
-  /// Where the event happens, for display.
   String get placeText {
     final value = location?.trim() ?? '';
     if (value.isNotEmpty) return value;
@@ -122,7 +117,6 @@ class EventDetails {
 
   bool get hasMap => !isOnline && (location?.trim().isNotEmpty ?? false);
 
-  /// "$100" / "From $100" (tiers have different prices) / "Free".
   String get priceText {
     final min = minPrice;
     if (min == null) return '';

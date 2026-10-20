@@ -8,6 +8,8 @@ import 'package:evetick/features/reviews/ui/widgets/star_row.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/features/reviews/ui/widgets/review_avatar.dart';
+import 'package:evetick/features/reviews/ui/widgets/review_action.dart';
 
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
@@ -45,7 +47,7 @@ class ReviewCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _Avatar(url: review.authorImageUrl),
+              ReviewAvatar(url: review.authorImageUrl),
               horizontalSpace(12),
               Expanded(
                 child: Column(
@@ -99,7 +101,7 @@ class ReviewCard extends StatelessWidget {
           verticalSpace(12),
           Row(
             children: [
-              _Action(
+              ReviewAction(
                 icon: review.isHelpful
                     ? Icons.thumb_up_alt_rounded
                     : Icons.thumb_up_alt_outlined,
@@ -107,11 +109,10 @@ class ReviewCard extends StatelessWidget {
                 color: review.isHelpful
                     ? ColorsManager.orange
                     : context.colors.lightGray,
-                // Nobody votes for their own review.
                 onTap: review.isMine ? null : onHelpful,
               ),
               horizontalSpace(24),
-              _Action(
+              ReviewAction(
                 icon: Icons.chat_bubble_rounded,
                 label: l10n.reviewsReply,
                 color: context.colors.lightGray,
@@ -120,68 +121,6 @@ class ReviewCard extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _Avatar extends StatelessWidget {
-  const _Avatar({this.url});
-
-  final String? url;
-
-  @override
-  Widget build(BuildContext context) {
-    final placeholder = Container(
-      color: context.colors.thirdBlue,
-      alignment: Alignment.center,
-      child: Icon(Icons.person, color: context.colors.lightGray, size: 26.sp),
-    );
-
-    return ClipOval(
-      child: SizedBox(
-        width: 48.w,
-        height: 48.w,
-        child: url == null
-            ? placeholder
-            : Image.network(
-                url!,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => placeholder,
-              ),
-      ),
-    );
-  }
-}
-
-class _Action extends StatelessWidget {
-  const _Action({
-    required this.icon,
-    required this.label,
-    required this.color,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final Color color;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8.r),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 4.h),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 22.sp, color: color),
-            horizontalSpace(8),
-            Text(label, style: TextStyle(fontSize: 14.sp, color: color)),
-          ],
-        ),
       ),
     );
   }

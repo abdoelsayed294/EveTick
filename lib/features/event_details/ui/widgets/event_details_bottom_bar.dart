@@ -5,7 +5,6 @@ import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// "Price per ticket" + Book Now (same bar style as the booking steps).
 class EventDetailsBottomBar extends StatelessWidget {
   const EventDetailsBottomBar({
     super.key,

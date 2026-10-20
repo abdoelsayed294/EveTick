@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// A [NotificationCard] with the spacing under it, its time label, and the
-/// tap behaviour (remove the dot, open the event if there is one).
 class NotificationListItem extends StatelessWidget {
   const NotificationListItem({
     super.key,

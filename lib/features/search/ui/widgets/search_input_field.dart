@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 
-/// Search box with a clear (x) button while there is text.
 class SearchInputField extends StatelessWidget {
   const SearchInputField({
     super.key,

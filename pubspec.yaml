@@ -51,6 +51,7 @@ dependencies:
   # Paymob checkout page
   webview_flutter: ^4.13.0
   firebase_messaging: ^16.1.3
+  google_sign_in: ^7.0.0
 
 dev_dependencies:
   flutter_test:
