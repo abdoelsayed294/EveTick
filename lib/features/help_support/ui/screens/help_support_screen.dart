@@ -2,7 +2,7 @@ import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/help_support/ui/widgets/help_category_grid.dart';
 import 'package:evetick/features/help_support/ui/widgets/help_contact_card.dart';
-import 'package:evetick/features/help_support/ui/widgets/help_faq_section.dart';
+import 'package:evetick/features/help_support/ui/widgets/help_faq_bloc_builder.dart';
 import 'package:evetick/features/help_support/ui/widgets/help_search_field.dart';
 import 'package:evetick/features/help_support/ui/widgets/help_support_app_bar.dart';
 import 'package:evetick/l10n/app_localizations.dart';
@@ -33,7 +33,7 @@ class HelpSupportScreen extends StatelessWidget {
               verticalSpace(16),
               const HelpCategoryGrid(),
               verticalSpace(24),
-              const HelpFaqSection(),
+              const HelpFaqBlocBuilder(),
               verticalSpace(24),
               const HelpContactCard(),
             ],

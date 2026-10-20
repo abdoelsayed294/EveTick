@@ -6,18 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TicketCubit extends Cubit<TicketState> {
   final EventBookingRepo eventBookingRepo;
 
-  TicketCubit(this.eventBookingRepo) : super(const TicketState());
+  TicketCubit(this.eventBookingRepo) : super(const TicketState.initial());
 
   Future<void> getOrder(String orderId) async {
-    emit(const TicketState());
+    emit(const TicketState.loading());
 
     final result = await eventBookingRepo.getOrder(orderId);
     result.when(
-      success: (ticket) =>
-          emit(TicketState(status: TicketStatus.success, ticket: ticket)),
-      failure: (error) => emit(
-        TicketState(status: TicketStatus.error, errorMessage: error.message),
-      ),
+      success: (ticket) => emit(TicketState.success(ticket)),
+      failure: (failure) => emit(TicketState.error(error: failure.message)),
     );
   }
 }

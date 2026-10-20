@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Orange pill with the event category.
 class CategoryTag extends StatelessWidget {
   const CategoryTag({super.key, required this.label});
 

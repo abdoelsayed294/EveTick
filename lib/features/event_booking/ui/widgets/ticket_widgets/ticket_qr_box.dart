@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-/// QR that encodes the order id; a scanner looks the order up in Firestore.
 class TicketQrBox extends StatelessWidget {
   const TicketQrBox({super.key, required this.data});
 

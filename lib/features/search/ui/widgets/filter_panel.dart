@@ -5,11 +5,10 @@ import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/search/data/models/search_filters_model.dart';
 import 'package:evetick/features/search/ui/widgets/search_chip.dart';
 import 'package:evetick/features/search/ui/widgets/sort_segmented_control.dart';
+import 'package:evetick/features/search/data/models/search_sort.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// "Filter & Refine": sort + category. Nothing changes until the user
-/// presses "Apply Filters".
 class FilterPanel extends StatefulWidget {
   const FilterPanel({
     super.key,
@@ -74,7 +73,6 @@ class _FilterPanelState extends State<FilterPanel> {
                   label: category,
                   backgroundColor: colors.darkBlue,
                   isSelected: category == _category,
-                  // tap the selected one again to clear it
                   onTap: () => setState(
                     () => _category = category == _category ? null : category,
                   ),

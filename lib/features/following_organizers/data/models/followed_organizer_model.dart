@@ -1,5 +1,3 @@
-/// One organizer in the "Following Organizers" list.
-/// Built from `users/{organizerId}` (name, imageUrl, followers).
 class FollowedOrganizer {
   const FollowedOrganizer({
     required this.id,
@@ -15,7 +13,6 @@ class FollowedOrganizer {
   final int followers;
   final bool isFollowing;
 
-  /// Returns null when the account has no usable name.
   static FollowedOrganizer? fromUser(String id, Map<String, dynamic> json) {
     final name = ((json['name'] as String?) ?? '').trim();
     if (name.isEmpty) return null;

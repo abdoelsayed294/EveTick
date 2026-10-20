@@ -1,6 +1,5 @@
 import 'package:evetick/core/helpers/order_id_formatter.dart';
 
-/// Data the confirmation screen needs (passed as route arguments).
 class ConfirmationArgs {
   const ConfirmationArgs({
     required this.orderId,

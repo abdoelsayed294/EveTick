@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// "TOP SELLING" (orange) / "TRENDING" (purple). Any other label is orange.
 class EventBadge extends StatelessWidget {
   const EventBadge({super.key, required this.label});
 

@@ -3,7 +3,6 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Icon box + title + subtitle (date row / location row).
 class EventInfoTile extends StatelessWidget {
   const EventInfoTile({
     super.key,

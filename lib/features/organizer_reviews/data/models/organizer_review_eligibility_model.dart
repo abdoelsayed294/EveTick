@@ -1,13 +1,10 @@
-/// Can the signed-in user write a review for this organizer?
 enum OrganizerReviewEligibility {
   allowed,
   notAttended,
   alreadyReviewed,
 
-  /// The signed-in user is the organizer being viewed.
   isOrganizer;
 
-  /// Shown when the user taps "Write a Review" and is not allowed to.
   String get message {
     switch (this) {
       case OrganizerReviewEligibility.allowed:

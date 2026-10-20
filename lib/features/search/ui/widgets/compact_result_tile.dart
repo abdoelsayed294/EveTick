@@ -9,7 +9,6 @@ import 'package:evetick/features/search/ui/widgets/sold_out_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Every result after the first one.
 class CompactResultTile extends StatelessWidget {
   const CompactResultTile({
     super.key,

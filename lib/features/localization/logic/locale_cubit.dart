@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-import 'locale_state.dart';
+import 'package:evetick/features/localization/logic/locale_state.dart';
 
 class LocaleCubit extends Cubit<LocaleState> {
   final LocaleRepository repository;

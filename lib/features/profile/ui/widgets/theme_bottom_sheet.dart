@@ -1,6 +1,5 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
-import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/logic/theme_cubit.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
@@ -8,6 +7,7 @@ import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/features/profile/ui/widgets/theme_tile.dart';
 
 class ThemeBottomSheet extends StatefulWidget {
   const ThemeBottomSheet({super.key});
@@ -54,17 +54,17 @@ class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
                   },
                   child: Column(
                     children: [
-                      _ThemeTile(
+                      ThemeTile(
                         title: AppLocalizations.of(context)!.profileThemeSystem,
                         value: ThemeMode.system,
                       ),
                       verticalSpace(8),
-                      _ThemeTile(
+                      ThemeTile(
                         title: AppLocalizations.of(context)!.profileThemeLight,
                         value: ThemeMode.light,
                       ),
                       verticalSpace(8),
-                      _ThemeTile(
+                      ThemeTile(
                         title: AppLocalizations.of(context)!.profileThemeDark,
                         value: ThemeMode.dark,
                       ),
@@ -84,34 +84,6 @@ class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ThemeTile extends StatelessWidget {
-  const _ThemeTile({
-    required this.title,
-    required this.value,
-  });
-
-  final String title;
-  final ThemeMode value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 70.h,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: context.colors.lightBlue,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Center(
-        child: ListTile(
-          title: Text(title, style: TextStyles.font16WhiteBold(context)),
-          trailing: Radio<ThemeMode>(value: value),
         ),
       ),
     );

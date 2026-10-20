@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Photos attached to a review; tap one to see it full size.
 class ReviewPhotosRow extends StatelessWidget {
   const ReviewPhotosRow({super.key, required this.urls});
 

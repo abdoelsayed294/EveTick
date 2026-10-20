@@ -1,159 +1,71 @@
-import 'dart:async';
-
 import 'package:evetick/core/services/result.dart';
-import 'package:evetick/core/config/paymob_config.dart';
-import 'package:evetick/features/event_booking/data/models/order_model.dart';
+import 'package:evetick/features/event_booking/data/models/event_model.dart';
+import 'package:evetick/features/event_booking/data/models/order_pricing.dart';
 import 'package:evetick/features/event_booking/data/repo/event_booking_repo.dart';
 import 'package:evetick/features/event_booking/logic/checkout/checkout_state.dart';
-import 'package:evetick/features/event_booking/logic/select_chair/select_chair_state.dart';
-import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_state.dart';
+import 'package:evetick/features/event_booking/logic/select_chair/selected_seat.dart';
+import 'package:evetick/features/event_booking/logic/select_tickets/selected_ticket.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CheckoutCubit extends Cubit<CheckoutState> {
   final EventBookingRepo eventBookingRepo;
 
-  CheckoutCubit(this.eventBookingRepo) : super(const CheckoutState());
+  CheckoutCubit(this.eventBookingRepo) : super(const CheckoutState.initial());
 
-  StreamSubscription<String>? _orderSub;
+  List<SelectedTicket> _tickets = const [];
+  List<SelectedSeat> _seats = const [];
+  List<String?> _ticketSections = const [];
 
   Future<void> getEvent(String eventId) async {
-    emit(const CheckoutState());
+    emit(const CheckoutState.loading());
 
     final result = await eventBookingRepo.getEvent(eventId);
     result.when(
-      success: (event) =>
-          emit(state.copyWith(status: CheckoutStatus.ready, event: event)),
-      failure: (error) => emit(
-        state.copyWith(
-          status: CheckoutStatus.error,
-          errorMessage: error.message,
-        ),
-      ),
+      success: (event) => _emitSuccess(event),
+      failure: (failure) => emit(CheckoutState.error(error: failure.message)),
     );
   }
 
-  /// Called when the user leaves the seats step.
   void setSelection({
     required List<SelectedTicket> tickets,
     required List<SelectedSeat> seats,
     List<String?> ticketSections = const [],
   }) {
+    _tickets = tickets;
+    _seats = seats;
+    _ticketSections = ticketSections;
+
+    final current = state.mapOrNull(success: (s) => s);
+    if (current != null) _emitSuccess(current.event);
+  }
+
+  void _emitSuccess(EventModel event) {
+    final subtotal = _tickets.fold(0.0, (sum, t) => sum + t.subtotal);
+
     emit(
-      state.copyWith(
-        tickets: tickets,
-        seats: seats,
-        ticketSections: ticketSections,
+      CheckoutState.success(
+        event: event,
+        tickets: _tickets,
+        seats: _seats,
+        ticketSections: _ticketSections,
+        ticketLabel: _tickets
+            .map((t) => '${t.quantity}X ${t.tier.name.toUpperCase()}')
+            .join(' • '),
+        accessSummary: _accessSummary(),
+        pricing: OrderPricing(subtotal),
       ),
     );
   }
 
-  /// [paymentMethod] must be 'CARD', 'WALLET' or 'KIOSK'.
-  ///
-  /// 1. The server reserves seats / stock and opens a Paymob payment.
-  /// 2. The screen opens the Paymob page (status: awaitingPayment).
-  /// 3. Paymob tells the server, the server sets the order to "confirmed",
-  ///    and we see it here through [_watchOrder] (status: success).
-  /// The app never decides by itself that a payment succeeded.
-  Future<void> placeOrder(String paymentMethod) async {
-    final event = state.event;
-    if (event == null ||
-        state.status == CheckoutStatus.placing ||
-        state.status == CheckoutStatus.awaitingPayment) {
-      return;
+  String _accessSummary() {
+    if (_seats.isNotEmpty) {
+      return 'Seats: ${_seats.map((s) => s.label).join(', ')}';
     }
-
-    // Retrying while the previous attempt is still open: reuse its page.
-    final existingUrl = state.paymentUrl;
-    if (state.status == CheckoutStatus.paymentPending &&
-        existingUrl != null &&
-        existingUrl.isNotEmpty &&
-        state.orderId != null) {
-      emit(state.copyWith(status: CheckoutStatus.awaitingPayment));
-      return;
-    }
-
-    emit(state.copyWith(status: CheckoutStatus.placing));
-
-    final order = OrderModel(
-      eventId: event.id,
-      eventTitle: event.title,
-      eventCoverImageUrl: event.coverImageUrl,
-      eventStartAt: event.startAt,
-      eventEndAt: event.endAt,
-      eventCategory: event.category,
-      eventLocation: event.location,
-      tickets: state.tickets
-          .map((t) => OrderTicketItem(
-                tierIndex: t.tierIndex,
-                name: t.tier.name,
-                price: t.tier.price,
-                quantity: t.quantity,
-              ))
-          .toList(),
-      seats: state.seats
-          .map((s) => OrderSeat(
-                rowIndex: s.rowIndex,
-                seatIndex: s.seatIndex,
-                label: s.label,
-              ))
-          .toList(),
-      paymentMethod: paymentMethod,
-    );
-
-    final result = await eventBookingRepo.createPayment(order);
-    result.when(
-      success: (session) {
-        _watchOrder(session.orderId);
-        emit(state.copyWith(
-          status: CheckoutStatus.awaitingPayment,
-          orderId: session.orderId,
-          paymentUrl: PaymobConfig.checkoutUrl(session.clientSecret),
-        ));
-      },
-      failure: (error) => emit(
-        state.copyWith(
-          status: CheckoutStatus.orderFailed,
-          errorMessage: error.message,
-        ),
-      ),
-    );
-  }
-
-  /// The user closed the Paymob page. If the order is not confirmed yet
-  /// (kiosk payment, slow callback, or the user gave up) we keep listening.
-  void onPaymentClosed() {
-    if (state.status == CheckoutStatus.awaitingPayment) {
-      emit(state.copyWith(status: CheckoutStatus.paymentPending));
-    }
-  }
-
-  void _watchOrder(String orderId) {
-    _orderSub?.cancel();
-    _orderSub = eventBookingRepo.watchOrderStatus(orderId).listen((status) {
-      switch (status) {
-        case 'confirmed':
-          _orderSub?.cancel();
-          emit(state.copyWith(status: CheckoutStatus.success));
-          break;
-        case 'failed':
-        case 'expired':
-        case 'amount_mismatch':
-          _orderSub?.cancel();
-          emit(state.copyWith(
-            status: CheckoutStatus.orderFailed,
-            errorMessage: status == 'expired'
-                ? 'The payment time ran out. Please try again.'
-                : 'The payment could not be completed. Please try again.',
-            paymentUrl: '',
-          ));
-          break;
-      }
-    });
-  }
-
-  @override
-  Future<void> close() {
-    _orderSub?.cancel();
-    return super.close();
+    final lines = <String>[
+      for (var i = 0; i < _tickets.length; i++)
+        if (i < _ticketSections.length && _ticketSections[i] != null)
+          '${_ticketSections[i]} × ${_tickets[i].quantity}',
+    ];
+    return lines.isEmpty ? '' : 'Sections: ${lines.join(', ')}';
   }
 }

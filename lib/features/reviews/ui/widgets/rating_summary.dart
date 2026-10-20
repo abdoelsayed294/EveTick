@@ -6,8 +6,9 @@ import 'package:evetick/features/reviews/ui/widgets/star_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:evetick/l10n/app_localizations.dart';
+import 'package:evetick/features/reviews/ui/widgets/rating_star_bar.dart';
 
-/// Big average, stars, review count and the 5..1 bars.
 class RatingSummary extends StatelessWidget {
   const RatingSummary({super.key, required this.summary});
 
@@ -36,7 +37,10 @@ class RatingSummary extends StatelessWidget {
             StarRow(rating: summary.roundedAverage, size: 22),
             verticalSpace(8),
             Text(
-              '${NumberFormat('#,###').format(total)} ${total == 1 ? 'Review' : 'Reviews'}',
+              AppLocalizations.of(context)!.reviewsReviewsCountTotal(
+                NumberFormat('#,###', Localizations.localeOf(context).toString())
+                    .format(total),
+              ),
               style: TextStyle(fontSize: 16.sp, color: context.colors.lightGray),
             ),
           ],
@@ -46,43 +50,10 @@ class RatingSummary extends StatelessWidget {
           child: Column(
             children: [
               for (var star = 5; star >= 1; star--) ...[
-                _StarBar(star: star, fraction: summary.fraction(star)),
+                RatingStarBar(star: star, fraction: summary.fraction(star)),
                 if (star > 1) verticalSpace(10),
               ],
             ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _StarBar extends StatelessWidget {
-  const _StarBar({required this.star, required this.fraction});
-
-  final int star;
-  final double fraction;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 16.w,
-          child: Text(
-            '$star',
-            style: TextStyle(fontSize: 14.sp, color: context.colors.white),
-          ),
-        ),
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.r),
-            child: LinearProgressIndicator(
-              value: fraction,
-              minHeight: 8.h,
-              color: ColorsManager.orange,
-              backgroundColor: context.colors.thirdBlue,
-            ),
           ),
         ),
       ],

@@ -1,12 +1,8 @@
 import 'package:evetick/features/home/data/models/home_event_model.dart';
 
-/// Decides what is featured and which events get a badge, from real sales.
-/// Change the numbers here to tune it.
 class HomeRanking {
-  /// An event needs at least this many tickets sold to be "TOP SELLING".
   static const int minSoldForTopSelling = 10;
 
-  /// ...and this many sold in the last 7 days to be "TRENDING".
   static const int minRecentSoldForTrending = 5;
 
   static const int maxTrending = 3;
@@ -15,8 +11,6 @@ class HomeRanking {
   static const String topSellingLabel = 'TOP SELLING';
   static const String trendingLabel = 'TRENDING';
 
-  /// eventId -> badge text. Always computed on all events, so a badge does
-  /// not change when the user filters by category or searches.
   static Map<String, String> badges(List<HomeEvent> events) {
     final result = <String, String>{};
 
@@ -39,7 +33,6 @@ class HomeRanking {
     return result;
   }
 
-  /// Pinned (`isFeatured`) first, then best selling, then soonest.
   static List<HomeEvent> featured(List<HomeEvent> events) {
     final sorted = [...events]..sort((a, b) {
         if (a.isFeatured != b.isFeatured) return a.isFeatured ? -1 : 1;
@@ -49,7 +42,6 @@ class HomeRanking {
     return sorted.take(maxFeatured).toList();
   }
 
-  /// Best selling first, then soonest.
   static List<HomeEvent> popular(List<HomeEvent> events) {
     return [...events]..sort((a, b) {
         final bySales = b.ticketsSold.compareTo(a.ticketsSold);

@@ -3,7 +3,6 @@ import 'package:evetick/features/notifications/data/models/notification_type.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// The coloured square icon at the start of a notification card.
 class NotificationTypeIcon extends StatelessWidget {
   const NotificationTypeIcon({super.key, required this.type});
 

@@ -1,15 +1,14 @@
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/text_styles.dart';
-import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/selected_tickets_bar_builder.dart';
+import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/event_title_bloc_builder.dart';
+import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/selected_tickets_bar_bloc_builder.dart';
 import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets/ticket_tiers_bloc_builder.dart';
-import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
-import 'package:evetick/features/event_booking/logic/checkout/checkout_state.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectTicketsScreen extends StatelessWidget {
-  SelectTicketsScreen({super.key, this.onNext});
+  const SelectTicketsScreen({super.key, this.onNext});
 
   final VoidCallback? onNext;
 
@@ -25,14 +24,12 @@ class SelectTicketsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Booking For', style: TextStyles.font16GrayRegular),
-                    verticalSpace(4),
-                    BlocBuilder<CheckoutCubit, CheckoutState>(
-                      builder: (context, state) => Text(
-                        state.event?.title ?? '',
-                        style: TextStyles.font18WhiteBold(context),
-                      ),
+                    Text(
+                      AppLocalizations.of(context)!.bookingFor,
+                      style: TextStyles.font16GrayRegular,
                     ),
+                    verticalSpace(4),
+                    const EventTitleBlocBuilder(),
                     verticalSpace(24),
                     const TicketTiersBlocBuilder(),
                   ],
@@ -40,7 +37,7 @@ class SelectTicketsScreen extends StatelessWidget {
               ),
             ),
           ),
-          SelectedTicketsBarBuilder(onNext: onNext),
+          SelectedTicketsBarBlocBuilder(onNext: onNext),
         ],
       ),
     );

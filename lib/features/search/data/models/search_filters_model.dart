@@ -1,6 +1,5 @@
-enum SearchSort { popularity, date }
+import 'package:evetick/features/search/data/models/search_sort.dart';
 
-/// Everything the user can change in the filter panel and the quick chips.
 class SearchFilters {
   const SearchFilters({
     this.sort = SearchSort.popularity,
@@ -10,17 +9,14 @@ class SearchFilters {
     this.priceLowToHigh = false,
   });
 
-  /// "Free Events" is not a real category: it keeps events with price 0.
   static const String freeCategory = 'Free Events';
 
   final SearchSort sort;
 
-  /// null = all categories.
   final String? category;
   final bool upcomingOnly;
   final bool thisWeekend;
 
-  /// When on, it wins over [sort].
   final bool priceLowToHigh;
 
   SearchFilters copyWith({

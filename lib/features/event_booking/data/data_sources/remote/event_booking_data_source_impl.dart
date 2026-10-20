@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:evetick/core/config/paymob_config.dart';
 import 'package:evetick/core/helpers/sales_day_key.dart';
 import 'package:evetick/core/helpers/section_resolver.dart';
-import 'package:evetick/core/services/failure.dart';
 import 'package:evetick/core/services/firebase_error_handler.dart';
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/event_booking/data/data_sources/remote/event_booking_data_source.dart';
@@ -13,6 +12,9 @@ import 'package:evetick/features/event_booking/data/models/payment_session.dart'
 import 'package:evetick/features/event_booking/data/models/seating_config_model.dart';
 import 'package:evetick/features/event_booking/data/models/ticket_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
+import 'package:evetick/features/event_booking/data/data_sources/remote/booking_exception.dart';
+import 'package:evetick/features/event_booking/data/models/ticket_tier_model.dart';
 
 class EventBookingDataSourceImpl extends EventBookingDataSource {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -45,7 +47,6 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
   Future<Result<SeatingConfig>> getSeatingConfig(String eventId) {
     return _fetchFromEvent(eventId, (data) {
       final seatingConfig = data['seatingConfig'];
-      // No seating info = tickets only, no seat picking.
       if (seatingConfig == null) return SeatingConfig.general();
       return SeatingConfig.fromJson(
         Map<String, dynamic>.from(seatingConfig as Map),
@@ -61,7 +62,6 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
         return Result.failure(FirebaseFailure('Please login to continue'));
       }
 
-      // Attendee name printed on the ticket (users/{uid}.name).
       final userDoc = await firestore.collection('users').doc(user.uid).get();
       final savedName = (userDoc.data()?['name'] as String?)?.trim();
       final attendeeName = (savedName != null && savedName.isNotEmpty)
@@ -73,10 +73,9 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
 
       await firestore.runTransaction((tx) async {
         final snap = await tx.get(eventRef);
-        if (!snap.exists) throw _BookingException('Event not found');
+        if (!snap.exists) throw BookingException('Event not found');
         final data = snap.data()!;
 
-        // ---- ticket stock + price check
         final tiers = (data['ticketTiers'] as List<dynamic>? ?? [])
             .map((t) => Map<String, dynamic>.from(t as Map))
             .toList();
@@ -86,16 +85,15 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
           final tier = tiers[item.tierIndex];
           final stock = (tier['ticketQuantity'] as num).toInt();
           if (stock < item.quantity) {
-            throw _BookingException('${item.name} tickets are not available anymore');
+            throw BookingException('${item.name} tickets are not available anymore');
           }
           serverSubtotal += (tier['ticketPrice'] as num).toDouble() * item.quantity;
           tier['ticketQuantity'] = stock - item.quantity;
         }
         if ((serverSubtotal - order.subtotal).abs() > 0.01) {
-          throw _BookingException('Ticket prices changed, please try again');
+          throw BookingException('Ticket prices changed, please try again');
         }
 
-        // ---- layout: seated events reserve seats, others only use sections
         final rawConfig = data['seatingConfig'];
         final config = rawConfig == null
             ? SeatingConfig.general()
@@ -104,7 +102,6 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
         final updates = <String, dynamic>{
           'ticketTiers': tiers,
           'ticketsSold': FieldValue.increment(order.ticketCount),
-          // Sales counters used by the home screen (TOP SELLING / TRENDING).
           'salesByDay.${salesDayKey(DateTime.now())}':
               FieldValue.increment(order.ticketCount),
         };
@@ -112,7 +109,7 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
 
         if (config.isSeated) {
           if (order.seats.length != order.ticketCount) {
-            throw _BookingException('Please select a seat for every ticket');
+            throw BookingException('Please select a seat for every ticket');
           }
 
           final seatingConfig = Map<String, dynamic>.from(rawConfig as Map);
@@ -124,7 +121,7 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
             final seats =
                 List<dynamic>.from(seatMap[seat.rowIndex]['seats'] as List);
             if (seats[seat.seatIndex] != 'available') {
-              throw _BookingException(
+              throw BookingException(
                 'Seat ${seat.label} was just taken, please choose another one',
               );
             }
@@ -135,9 +132,8 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
           updates['seatingConfig'] = seatingConfig;
         } else {
           if (order.seats.isNotEmpty) {
-            throw _BookingException('This event has no seat selection');
+            throw BookingException('This event has no seat selection');
           }
-          // Remember which section each ticket type gives access to.
           for (final item in order.tickets) {
             final section = resolveSectionName(
               ticketName: tiers[item.tierIndex]['ticketName'] as String? ?? item.name,
@@ -162,7 +158,7 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
       });
 
       return Result.success(orderRef.id);
-    } on _BookingException catch (e) {
+    } on BookingException catch (e) {
       return Result.failure(FirebaseErrorHandler.notFound(e.message));
     } on FirebaseException catch (e) {
       return Result.failure(FirebaseErrorHandler.handleFirestore(e));
@@ -187,8 +183,6 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
       );
       return Result.success(PaymentSession.fromJson(response.data!));
     } on DioException catch (e) {
-      // The function answers { success: false, message } for known errors
-      // (seat taken, sold out, ...); show that message to the user.
       final data = e.response?.data;
       final message = data is Map ? data['message'] as String? : null;
       return Result.failure(FirebaseFailure(
@@ -223,8 +217,6 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
     }
   }
 
-  /// Reads `events/{eventId}` once and parses it with [parse],
-  /// converting every failure into a [Result.failure].
   Future<Result<T>> _fetchFromEvent<T>(
     String eventId,
     T Function(Map<String, dynamic> data) parse,
@@ -235,7 +227,7 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
         return Result.failure(FirebaseErrorHandler.notFound('Event not found'));
       }
       return Result.success(parse(eventDoc.data()!));
-    } on _BookingException catch (e) {
+    } on BookingException catch (e) {
       return Result.failure(FirebaseErrorHandler.notFound(e.message));
     } on FirebaseException catch (e) {
       return Result.failure(FirebaseErrorHandler.handleFirestore(e));
@@ -243,9 +235,4 @@ class EventBookingDataSourceImpl extends EventBookingDataSource {
       return Result.failure(FirebaseErrorHandler.handleGeneric(e));
     }
   }
-}
-
-class _BookingException implements Exception {
-  _BookingException(this.message);
-  final String message;
 }

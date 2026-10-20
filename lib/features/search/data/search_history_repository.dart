@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Recent searches, saved on the device (newest first).
 class SearchHistoryRepository {
   static const _key = 'recent_searches';
   static const int maxItems = 5;
@@ -10,7 +9,6 @@ class SearchHistoryRepository {
     return prefs.getStringList(_key) ?? [];
   }
 
-  /// Adds [query] on top; an older copy of the same text is removed.
   Future<List<String>> add(String query) async {
     final text = query.trim();
     final recent = await getRecent();

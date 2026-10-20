@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// "All / Events / Tickets" chips. The selection lives in the cubit.
 class NotificationFilterChips extends StatelessWidget {
   const NotificationFilterChips({super.key});
 

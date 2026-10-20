@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Rounded panel that overlaps the bottom of the cover.
 class EventDetailsSheet extends StatelessWidget {
   const EventDetailsSheet({super.key, required this.child});
 

@@ -1,10 +1,10 @@
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// "Price per ticket" + Book Now (same bar style as the booking steps).
 class EventDetailsBottomBar extends StatelessWidget {
   const EventDetailsBottomBar({
     super.key,
@@ -34,7 +34,7 @@ class EventDetailsBottomBar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Price per ticket',
+                  AppLocalizations.of(context)!.eventDetailsPricePerTicket,
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: context.colors.lightGray,
@@ -53,7 +53,9 @@ class EventDetailsBottomBar extends StatelessWidget {
             ),
           ),
           FilledAppTextButton(
-            buttonText: isSoldOut ? 'Sold out' : 'Book Now',
+            buttonText: isSoldOut
+                ? AppLocalizations.of(context)!.commonSoldOut
+                : AppLocalizations.of(context)!.commonBookNow,
             buttonWidth: 160.w,
             backgroundColor: isSoldOut ? ColorsManager.gray3 : null,
             onPressed: isSoldOut ? () {} : onBook,

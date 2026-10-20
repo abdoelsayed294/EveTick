@@ -1,10 +1,8 @@
 import 'package:evetick/core/helpers/spacing.dart';
-import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
-import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/organizer_reviews/logic/write_organizer_review_cubit.dart';
 import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_cubit.dart';
-import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_state.dart';
+import 'package:evetick/features/organizer_reviews/ui/widgets/post_organizer_review_button.dart';
 import 'package:evetick/features/reviews/ui/widgets/anonymous_switch.dart';
 import 'package:evetick/features/reviews/ui/widgets/review_text_field.dart';
 import 'package:evetick/features/reviews/ui/widgets/star_rating_input.dart';
@@ -13,9 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// "Write a Review" for an organizer: Cancel / Post in the top bar, stars,
-/// text and "Post Anonymously". Same widgets as the event review screen; the
-/// router provides a [WriteOrganizerReviewCubit] as a [WriteReviewCubit].
 class WriteOrganizerReviewScreen extends StatelessWidget {
   const WriteOrganizerReviewScreen({super.key, required this.organizerId});
 
@@ -52,35 +47,7 @@ class WriteOrganizerReviewScreen extends StatelessWidget {
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 16.w),
-              child: BlocBuilder<WriteReviewCubit, WriteReviewState<String>>(
-                builder: (context, state) {
-                  final isLoading = state is WriteReviewLoading<String>;
-                  return TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: ColorsManager.orange,
-                      minimumSize: Size(76.w, 44.h),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                    ),
-                    onPressed: isLoading
-                        ? null
-                        : () => cubit.postOrganizerReview(
-                              organizerId: organizerId,
-                            ),
-                    child: isLoading
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                        : Text('Post', style: TextStyles.font16WhiteMidium),
-                  );
-                },
-              ),
+              child: PostOrganizerReviewButton(organizerId: organizerId),
             ),
           ],
         ),

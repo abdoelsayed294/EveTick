@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Five stars, the first [rating] filled (orange), the rest outlined.
 class StarRow extends StatelessWidget {
   const StarRow({super.key, required this.rating, this.size = 16});
 

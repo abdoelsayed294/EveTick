@@ -1,27 +1,11 @@
-import 'package:evetick/features/home/data/models/home_event_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-enum FavoritesStatus { loading, success, error }
+part 'favorites_state.freezed.dart';
 
-class FavoritesState {
-  const FavoritesState({
-    this.status = FavoritesStatus.loading,
-    this.errorMessage,
-    this.events = const [],
-  });
-
-  final FavoritesStatus status;
-  final String? errorMessage;
-  final List<HomeEvent> events;
-
-  FavoritesState copyWith({
-    FavoritesStatus? status,
-    String? errorMessage,
-    List<HomeEvent>? events,
-  }) {
-    return FavoritesState(
-      status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-      events: events ?? this.events,
-    );
-  }
+@freezed
+class FavoritesState<T> with _$FavoritesState<T> {
+  const factory FavoritesState.initial() = _Initial;
+  const factory FavoritesState.loading() = Loading;
+  const factory FavoritesState.success(T data) = Success<T>;
+  const factory FavoritesState.error({required String error}) = Error;
 }

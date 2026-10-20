@@ -9,6 +9,7 @@ import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
 import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dart';
+import 'package:evetick/features/event_booking/logic/payment/payment_cubit.dart';
 import 'package:evetick/features/event_details/logic/event_details_cubit.dart';
 import 'package:evetick/features/event_details/ui/screens/event_details_screen.dart';
 import 'package:evetick/features/favorites/logic/favorites_cubit.dart';
@@ -23,6 +24,7 @@ import 'package:evetick/features/organizer_reviews/ui/screens/write_organizer_re
 import 'package:evetick/features/organizer_profile/ui/screens/organizer_profile_screen.dart';
 import 'package:evetick/features/home/logic/home_cubit.dart';
 import 'package:evetick/features/search/logic/search_cubit.dart';
+import 'package:evetick/features/splash/ui/screens/splash_screen.dart';
 import 'package:evetick/features/search/ui/screens/search_screen.dart';
 import 'package:evetick/features/my_tickets/logic/my_tickets_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
@@ -62,7 +64,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
-    //this arguments to be passed in any screen like this (arguments as ClassName)
     final arguments = settings.arguments;
 
     switch (settings.name) {
@@ -108,7 +109,6 @@ class AppRouter {
         );
 
       case Routes.searchScreen:
-        // true = open with the filter panel (home filter button).
         final openFilters = arguments as bool? ?? false;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -119,7 +119,6 @@ class AppRouter {
         );
 
       case Routes.eventDetailsScreen:
-        // The event id comes from the home screen (Navigator arguments).
         final eventId = arguments as String;
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
@@ -134,7 +133,6 @@ class AppRouter {
         );
 
       case Routes.organizerProfileScreen:
-        // The organizer's uid comes from the event page / following list.
         final organizerId = arguments as String;
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
@@ -143,7 +141,6 @@ class AppRouter {
                 create: (context) =>
                     getIt<OrganizerProfileCubit>()..load(organizerId),
               ),
-              // Loaded the first time the Reviews tab is opened.
               BlocProvider(create: (context) => getIt<OrganizerReviewsCubit>()),
             ],
             child: const OrganizerProfileScreen(),
@@ -159,7 +156,6 @@ class AppRouter {
         );
 
       case Routes.bookingFlowScreen:
-        // The event id comes from the home screen (Navigator arguments).
         final eventId = arguments as String;
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
@@ -175,8 +171,9 @@ class AppRouter {
               BlocProvider(
                 create: (context) => getIt<CheckoutCubit>()..getEvent(eventId),
               ),
+              BlocProvider(create: (context) => getIt<PaymentCubit>()),
             ],
-            child: BookingFlowScreen(),
+            child: const BookingFlowScreen(),
           ),
         );
 
@@ -197,6 +194,8 @@ class AppRouter {
 
       case Routes.verificationScreen:
         return MaterialPageRoute(builder: (_) => const VerificationScreen());
+      case Routes.splashScreen:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case Routes.appStartScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<AppStartCubit>(
@@ -260,7 +259,6 @@ class AppRouter {
           ),
         );
       case Routes.writeReviewScreen:
-        // The event id comes from the reviews screen (Navigator arguments).
         final reviewEventId = arguments as String;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -269,12 +267,9 @@ class AppRouter {
           ),
         );
       case Routes.writeOrganizerReviewScreen:
-        // The organizer's uid comes from the organizer page (Reviews tab).
         final reviewedOrganizerId = arguments as String;
         return MaterialPageRoute(
           builder: (_) => BlocProvider<WriteReviewCubit>(
-            // Provided as WriteReviewCubit so the shared review widgets
-            // (stars, text field, anonymous switch) work unchanged.
             create: (context) => getIt<WriteOrganizerReviewCubit>(),
             child: WriteOrganizerReviewScreen(organizerId: reviewedOrganizerId),
           ),

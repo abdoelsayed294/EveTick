@@ -4,6 +4,8 @@ import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/home/data/models/home_event_model.dart';
 import 'package:evetick/features/home/ui/widgets/event_badge.dart';
 import 'package:evetick/features/home/ui/widgets/event_cover_image.dart';
+import 'package:evetick/features/home/ui/widgets/featured_info_line.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,7 +20,6 @@ class FeaturedEventCard extends StatelessWidget {
   final HomeEvent event;
   final VoidCallback onBook;
 
-  /// "TOP SELLING" / "TRENDING" or null.
   final String? badge;
 
   @override
@@ -72,17 +73,19 @@ class FeaturedEventCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8.h),
-                  _InfoLine(
+                  FeaturedInfoLine(
                     icon: Icons.calendar_month_outlined,
                     text: formatShortDateTime(event.startAt),
                   ),
                   if (place.isNotEmpty) ...[
                     SizedBox(height: 8.h),
-                    _InfoLine(icon: Icons.location_on, text: place),
+                    FeaturedInfoLine(icon: Icons.location_on, text: place),
                   ],
                   SizedBox(height: 16.h),
                   FilledAppTextButton(
-                    buttonText: event.isSoldOut ? 'Sold out' : 'Book Now',
+                    buttonText: event.isSoldOut
+                        ? AppLocalizations.of(context)!.commonSoldOut
+                        : AppLocalizations.of(context)!.commonBookNow,
                     backgroundColor: event.isSoldOut
                         ? ColorsManager.gray3
                         : null,
@@ -94,31 +97,6 @@ class FeaturedEventCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _InfoLine extends StatelessWidget {
-  const _InfoLine({required this.icon, required this.text});
-
-  final IconData icon;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 18.sp, color: ColorsManager.lightGray),
-        SizedBox(width: 8.w),
-        Expanded(
-          child: Text(
-            text,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 14.sp, color: ColorsManager.lightGray),
-          ),
-        ),
-      ],
     );
   }
 }

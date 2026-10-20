@@ -1,7 +1,7 @@
 import 'package:evetick/core/helpers/extentions.dart';
+import 'package:evetick/core/services/toast/app_toast.dart';
 import 'package:evetick/features/help_support/logic/send_message/send_message_cubit.dart';
 import 'package:evetick/features/help_support/logic/send_message/send_message_state.dart';
-import 'package:evetick/features/help_support/logic/send_message/send_message_status.dart';
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,40 +14,23 @@ class SendMessageBlocListener extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SendMessageCubit, SendMessageState>(
-      listenWhen: (previous, current) =>
-          current.status == SendMessageStatus.sent ||
-          current.status == SendMessageStatus.failure ||
-          current.status == SendMessageStatus.invalidAttachment,
+      listenWhen: (previous, current) => current is Success || current is Error,
       listener: (context, state) {
         final l10n = AppLocalizations.of(context)!;
-        final messenger = ScaffoldMessenger.of(context);
 
-        switch (state.status) {
-          case SendMessageStatus.sent:
-            messenger.showSnackBar(
-              SnackBar(
-                content: Text(l10n.helpSupportMessageSent),
-                backgroundColor: Colors.green,
-              ),
-            );
+        state.whenOrNull(
+          success: (data) {
+            AppToast.success(l10n.helpSupportMessageSent);
             context.pop();
-          case SendMessageStatus.failure:
-            messenger.showSnackBar(
-              SnackBar(
-                content: Text(state.error ?? ''),
-                backgroundColor: Colors.red,
-              ),
+          },
+          error: (error) {
+            AppToast.error(
+              error == SendMessageCubit.invalidAttachmentError
+                  ? l10n.helpSupportAttachmentInvalid
+                  : error,
             );
-          case SendMessageStatus.invalidAttachment:
-            messenger.showSnackBar(
-              SnackBar(
-                content: Text(l10n.helpSupportAttachmentInvalid),
-                backgroundColor: Colors.red,
-              ),
-            );
-          case SendMessageStatus.idle || SendMessageStatus.sending:
-            break;
-        }
+          },
+        );
       },
       child: child,
     );

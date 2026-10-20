@@ -2,9 +2,8 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
-/// "Follow" (orange, filled) / "Following" (outlined).
-/// Shared by the organizer page and the following list.
 class FollowButton extends StatelessWidget {
   const FollowButton({
     super.key,
@@ -24,7 +23,7 @@ class FollowButton extends StatelessWidget {
     final white = context.colors.white;
     final shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r));
     final label = Text(
-      isFollowing ? 'Following' : 'Follow',
+      isFollowing ? AppLocalizations.of(context)!.commonFollowing : AppLocalizations.of(context)!.commonFollow,
       style: TextStyle(
         fontSize: 14.sp,
         fontWeight: FontWeight.w600,

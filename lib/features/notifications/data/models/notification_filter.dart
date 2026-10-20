@@ -1,6 +1,5 @@
 import 'package:evetick/features/notifications/data/models/notification_model.dart';
 
-/// The chips at the top of the screen.
 enum NotificationFilter {
   all,
   events,

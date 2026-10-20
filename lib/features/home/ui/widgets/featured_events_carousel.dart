@@ -17,7 +17,6 @@ class FeaturedEventsCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The next card peeks in from the right, like the design.
     final cardWidth = MediaQuery.sizeOf(context).width - 56.w;
 
     return SizedBox(

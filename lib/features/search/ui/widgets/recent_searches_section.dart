@@ -1,6 +1,7 @@
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/search/ui/widgets/recent_search_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class RecentSearchesSection extends StatelessWidget {
   const RecentSearchesSection({
@@ -22,10 +23,10 @@ class RecentSearchesSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Recent Searches', style: TextStyles.font18WhiteBold(context)),
+            Text(AppLocalizations.of(context)!.searchRecentSearches, style: TextStyles.font18WhiteBold(context)),
             TextButton(
               onPressed: onClearAll,
-              child: Text('Clear All', style: TextStyles.font12OrangeRegular),
+              child: Text(AppLocalizations.of(context)!.searchClearAll, style: TextStyles.font12OrangeRegular),
             ),
           ],
         ),

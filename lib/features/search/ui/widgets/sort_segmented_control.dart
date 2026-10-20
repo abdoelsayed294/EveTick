@@ -3,8 +3,9 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/features/search/data/models/search_filters_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
+import 'package:evetick/features/search/data/models/search_sort.dart';
 
-/// "Popularity | Date" switch inside the filter panel.
 class SortSegmentedControl extends StatelessWidget {
   const SortSegmentedControl({
     super.key,
@@ -14,11 +15,6 @@ class SortSegmentedControl extends StatelessWidget {
 
   final SearchSort selected;
   final ValueChanged<SearchSort> onSelected;
-
-  static const _labels = {
-    SearchSort.popularity: 'Popularity',
-    SearchSort.date: 'Date',
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +40,9 @@ class SortSegmentedControl extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(
-                    _labels[sort]!,
+                    sort == SearchSort.popularity
+                        ? AppLocalizations.of(context)!.searchSortOptionsPopularity
+                        : AppLocalizations.of(context)!.searchSortOptionsDate,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,

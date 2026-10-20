@@ -1,7 +1,6 @@
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 
-/// Shared "nothing here yet" state for lists.
 class AppEmptyView extends StatelessWidget {
   const AppEmptyView({super.key, required this.message});
 

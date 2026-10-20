@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// The loaded notifications: filtered by the selected chip, the recent ones
-/// first, then the "EARLIER" section. Pull down to refresh.
 class NotificationsList extends StatelessWidget {
   const NotificationsList({super.key, required this.notifications});
 

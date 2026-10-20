@@ -1,13 +1,5 @@
 import 'package:evetick/features/notifications/data/models/notification_type.dart';
 
-/// One notification: `users/{uid}/notifications/{notificationId}`.
-///
-/// {
-///   type, title, body, isRead, createdAt, eventId?
-/// }
-///
-/// Written by the server (Cloud Function). The app only reads them and flips
-/// `isRead`.
 class AppNotification {
   const AppNotification({
     required this.id,
@@ -25,19 +17,15 @@ class AppNotification {
   final String body;
   final bool isRead;
 
-  /// When set, tapping the notification opens this event.
   final String? eventId;
   final DateTime? createdAt;
 
-  /// Seen in the last 24 hours: shown above the "EARLIER" header.
   bool isRecent(DateTime now) {
     final date = createdAt;
-    if (date == null) return true; // server timestamp still pending
+    if (date == null) return true;
     return now.difference(date).inHours < 24;
   }
 
-  /// [json] is the document data plus `id` and a `createdAt` that is already
-  /// a [DateTime] (null while the server timestamp is pending).
   factory AppNotification.fromJson(Map<String, dynamic> json) {
     final type = NotificationType.fromValue(json['type'] as String?);
     final title = (json['title'] as String?)?.trim() ?? '';

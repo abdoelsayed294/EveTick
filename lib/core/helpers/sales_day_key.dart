@@ -1,6 +1,3 @@
-/// Daily sales counters live in `events/{id}.salesByDay` as
-/// { "d20261013": 5, "d20261014": 2, ... } (UTC days).
-/// The booking transaction writes them, the home screen reads them.
 String salesDayKey(DateTime date) {
   final utc = date.toUtc();
   final month = utc.month.toString().padLeft(2, '0');

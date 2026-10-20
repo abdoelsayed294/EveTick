@@ -1281,4 +1281,128 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get helpSupportMessageSent =>
       'Your message has been sent. We\'ll get back to you soon.';
+
+  @override
+  String get toastSuccessTitle => 'Success';
+
+  @override
+  String get toastErrorTitle => 'Error';
+
+  @override
+  String get toastGenericError => 'Something went wrong';
+
+  @override
+  String get eventDetailsCopied => 'Event details copied to clipboard';
+
+  @override
+  String get reviewPosted => 'Thanks! Your review was posted';
+
+  @override
+  String get bookingSelectTicket => 'Please select at least one ticket';
+
+  @override
+  String bookingSelectSeats(int count) {
+    return 'Please select $count seat(s)';
+  }
+
+  @override
+  String get favoritesEmpty => 'No favorites yet';
+
+  @override
+  String get myTicketsNoPast => 'No past tickets';
+
+  @override
+  String get myTicketsNoUpcoming => 'No upcoming tickets';
+
+  @override
+  String get myTicketsOnlineEvent => 'Online event';
+
+  @override
+  String get followingOrganizersTitle => 'Following Organizers';
+
+  @override
+  String followingOrganizersCount(Object count) {
+    return 'Organizers ($count)';
+  }
+
+  @override
+  String get followingOrganizersEmpty =>
+      'You are not following any organizer yet';
+
+  @override
+  String get followingOrganizersNoResults => 'No organizers found';
+
+  @override
+  String get followingOrganizersSearch => 'Search organizers';
+
+  @override
+  String get bookingLoadingEventDetails =>
+      'Loading event details, try again in a moment';
+
+  @override
+  String get bookingCouldNotLoadEvent => 'Could not load the event';
+
+  @override
+  String get bookingSeatSelection => 'Seat Selection';
+
+  @override
+  String get bookingSelectSeatsTitle => 'Select Seats';
+
+  @override
+  String get bookingFor => 'Booking For';
+
+  @override
+  String get bookingContinueToSelectSeats => 'Continue to select seats';
+
+  @override
+  String get bookingProcessing => 'Processing...';
+
+  @override
+  String get homeNoEventsYet => 'No events yet';
+
+  @override
+  String get homeNoSearchResults => 'No events match your search';
+
+  @override
+  String get eventDetailsViewOnMap => 'View on Map';
+
+  @override
+  String get eventDetailsOrganizer => 'Organizer';
+
+  @override
+  String get eventDetailsPricePerTicket => 'Price per ticket';
+
+  @override
+  String get eventDetailsShowLess => 'Show Less';
+
+  @override
+  String eventDetailsFollowers(String count) {
+    return '$count followers';
+  }
+
+  @override
+  String get reviewsNoReviewsYet => 'No reviews yet';
+
+  @override
+  String get reviewsRepliesComingSoon => 'Replies are coming soon';
+
+  @override
+  String get reviewsAlreadyReviewed => 'You reviewed this event';
+
+  @override
+  String get reviewsReviewLabel => 'Review';
+
+  @override
+  String get reviewsAddPhotos => 'Add Photos';
+
+  @override
+  String get reviewsOptional => 'optional';
+
+  @override
+  String get reviewsSelectRating => 'Please select a rating';
+
+  @override
+  String reviewsMinimumCharacters(int count) {
+    return 'Please write at least $count characters';
+  }
 }

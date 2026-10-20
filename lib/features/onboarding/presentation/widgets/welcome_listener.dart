@@ -1,3 +1,4 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
@@ -17,9 +18,7 @@ class WelcomeListener extends StatelessWidget {
             context.pushReplacedNamed(Routes.setLocationScreen);
           },
           error: (message) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(message), backgroundColor: Colors.red),
-            );
+            AppToast.error(message);
           },
         );
       },

@@ -27,7 +27,6 @@ class ConfirmationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasLocation = args.location != null && args.location!.trim().isNotEmpty;
 
-    // The payment is done, so back/close always leads home (never to checkout).
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {

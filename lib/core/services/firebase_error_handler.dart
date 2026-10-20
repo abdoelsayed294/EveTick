@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'failure.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
 class FirebaseErrorHandler {
   static FirebaseFailure handle(FirebaseAuthException e) {
@@ -17,8 +17,6 @@ class FirebaseErrorHandler {
       case 'user-disabled':
         return FirebaseFailure('This account has been disabled');
       
-      //sign up errors
-
       case 'email-already-in-use':
         return FirebaseFailure('This email is already registered');
 
@@ -30,8 +28,6 @@ class FirebaseErrorHandler {
 
       case 'operation-not-allowed':
         return FirebaseFailure('This sign-in method is not enabled');
-
-      //public errors
 
       case 'too-many-requests':
         return FirebaseFailure('Too many attempts, try again later');

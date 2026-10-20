@@ -3,6 +3,7 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/event_details/data/models/event_organizer_model.dart';
 import 'package:evetick/features/home/ui/widgets/event_cover_image.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,11 +20,11 @@ class OrganizerCard extends StatelessWidget {
   final bool isFollowing;
   final VoidCallback onFollow;
 
-  /// Opens the organizer page.
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -59,9 +60,8 @@ class OrganizerCard extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   organizer.followers > 0
-                      ? '${organizer.followersText} '
-                          '${organizer.followers == 1 ? 'Follower' : 'Followers'}'
-                      : 'Organizer',
+                      ? l10n.eventDetailsFollowers(organizer.followersText)
+                      : l10n.eventDetailsOrganizer,
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: context.colors.lightGray,
@@ -71,7 +71,7 @@ class OrganizerCard extends StatelessWidget {
             ),
           ),
           FilledAppTextButton(
-            buttonText: isFollowing ? 'Following' : 'Follow',
+            buttonText: isFollowing ? l10n.commonFollowing : l10n.commonFollow,
             buttonWidth: 100.w,
             buttonHeight: 40.h,
             backgroundColor: isFollowing ? ColorsManager.gray3 : null,

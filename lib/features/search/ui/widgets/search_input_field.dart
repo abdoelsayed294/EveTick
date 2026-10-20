@@ -1,8 +1,8 @@
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
-/// Search box with a clear (x) button while there is text.
 class SearchInputField extends StatelessWidget {
   const SearchInputField({
     super.key,
@@ -37,7 +37,7 @@ class SearchInputField extends StatelessWidget {
       style: TextStyle(color: colors.white, fontSize: 16.sp),
       cursorColor: colors.white,
       decoration: InputDecoration(
-        hintText: 'Search for concerts, cinema...',
+        hintText: AppLocalizations.of(context)!.homeSearchPlaceholder,
         hintStyle: TextStyle(color: colors.lightGray, fontSize: 14.sp),
         prefixIcon: Icon(Icons.search, color: colors.lightGray),
         suffixIcon: ValueListenableBuilder<TextEditingValue>(

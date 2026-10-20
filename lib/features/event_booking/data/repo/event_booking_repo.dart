@@ -5,6 +5,7 @@ import 'package:evetick/features/event_booking/data/models/order_model.dart';
 import 'package:evetick/features/event_booking/data/models/payment_session.dart';
 import 'package:evetick/features/event_booking/data/models/seating_config_model.dart';
 import 'package:evetick/features/event_booking/data/models/ticket_model.dart';
+import 'package:evetick/features/event_booking/data/models/ticket_tier_model.dart';
 
 class EventBookingRepo {
   final EventBookingDataSource dataSource;

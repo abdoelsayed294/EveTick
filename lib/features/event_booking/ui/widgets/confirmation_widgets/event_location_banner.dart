@@ -4,8 +4,6 @@ import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Event cover with the venue on it.
-/// "Bab Sharqi, Egypt" -> venue "Bab Sharqi", pill "Egypt".
 class EventLocationBanner extends StatelessWidget {
   const EventLocationBanner({
     super.key,

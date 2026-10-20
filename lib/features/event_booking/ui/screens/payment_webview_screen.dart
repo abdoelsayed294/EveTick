@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-/// Shows the Paymob checkout page.
-///
-/// It does not decide whether the payment worked: the server confirms the
-/// order and the checkout screen closes this page when that happens.
-/// If the user closes it first, the checkout screen keeps waiting.
 class PaymentWebViewScreen extends StatefulWidget {
   const PaymentWebViewScreen({super.key, required this.url});
 

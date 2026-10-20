@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Heart on top of a result image.
 class ResultFavoriteIcon extends StatelessWidget {
   const ResultFavoriteIcon({
     super.key,

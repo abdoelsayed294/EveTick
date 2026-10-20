@@ -2,7 +2,6 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// "128  Events Hosted" box.
 class OrganizerStatCard extends StatelessWidget {
   const OrganizerStatCard({super.key, required this.value, required this.label});
 

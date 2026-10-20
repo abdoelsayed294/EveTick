@@ -2419,6 +2419,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your message has been sent. We\'ll get back to you soon.'**
   String get helpSupportMessageSent;
+
+  /// No description provided for @toastSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get toastSuccessTitle;
+
+  /// No description provided for @toastErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get toastErrorTitle;
+
+  /// No description provided for @toastGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get toastGenericError;
+
+  /// No description provided for @eventDetailsCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Event details copied to clipboard'**
+  String get eventDetailsCopied;
+
+  /// No description provided for @reviewPosted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks! Your review was posted'**
+  String get reviewPosted;
+
+  /// No description provided for @bookingSelectTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select at least one ticket'**
+  String get bookingSelectTicket;
+
+  /// No description provided for @bookingSelectSeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select {count} seat(s)'**
+  String bookingSelectSeats(int count);
+
+  /// No description provided for @favoritesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorites yet'**
+  String get favoritesEmpty;
+
+  /// No description provided for @myTicketsNoPast.
+  ///
+  /// In en, this message translates to:
+  /// **'No past tickets'**
+  String get myTicketsNoPast;
+
+  /// No description provided for @myTicketsNoUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming tickets'**
+  String get myTicketsNoUpcoming;
+
+  /// No description provided for @myTicketsOnlineEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Online event'**
+  String get myTicketsOnlineEvent;
+
+  /// No description provided for @followingOrganizersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Following Organizers'**
+  String get followingOrganizersTitle;
+
+  /// No description provided for @followingOrganizersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Organizers ({count})'**
+  String followingOrganizersCount(Object count);
+
+  /// No description provided for @followingOrganizersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not following any organizer yet'**
+  String get followingOrganizersEmpty;
+
+  /// No description provided for @followingOrganizersNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No organizers found'**
+  String get followingOrganizersNoResults;
+
+  /// No description provided for @followingOrganizersSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search organizers'**
+  String get followingOrganizersSearch;
+
+  /// No description provided for @bookingLoadingEventDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading event details, try again in a moment'**
+  String get bookingLoadingEventDetails;
+
+  /// No description provided for @bookingCouldNotLoadEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the event'**
+  String get bookingCouldNotLoadEvent;
+
+  /// No description provided for @bookingSeatSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Seat Selection'**
+  String get bookingSeatSelection;
+
+  /// No description provided for @bookingSelectSeatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Seats'**
+  String get bookingSelectSeatsTitle;
+
+  /// No description provided for @bookingFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking For'**
+  String get bookingFor;
+
+  /// No description provided for @bookingContinueToSelectSeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to select seats'**
+  String get bookingContinueToSelectSeats;
+
+  /// No description provided for @bookingProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing...'**
+  String get bookingProcessing;
+
+  /// No description provided for @homeNoEventsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No events yet'**
+  String get homeNoEventsYet;
+
+  /// No description provided for @homeNoSearchResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No events match your search'**
+  String get homeNoSearchResults;
+
+  /// No description provided for @eventDetailsViewOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'View on Map'**
+  String get eventDetailsViewOnMap;
+
+  /// No description provided for @eventDetailsOrganizer.
+  ///
+  /// In en, this message translates to:
+  /// **'Organizer'**
+  String get eventDetailsOrganizer;
+
+  /// No description provided for @eventDetailsPricePerTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per ticket'**
+  String get eventDetailsPricePerTicket;
+
+  /// No description provided for @eventDetailsShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Less'**
+  String get eventDetailsShowLess;
+
+  /// No description provided for @eventDetailsFollowers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} followers'**
+  String eventDetailsFollowers(String count);
+
+  /// No description provided for @reviewsNoReviewsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet'**
+  String get reviewsNoReviewsYet;
+
+  /// No description provided for @reviewsRepliesComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Replies are coming soon'**
+  String get reviewsRepliesComingSoon;
+
+  /// No description provided for @reviewsAlreadyReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'You reviewed this event'**
+  String get reviewsAlreadyReviewed;
+
+  /// No description provided for @reviewsReviewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get reviewsReviewLabel;
+
+  /// No description provided for @reviewsAddPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Photos'**
+  String get reviewsAddPhotos;
+
+  /// No description provided for @reviewsOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'optional'**
+  String get reviewsOptional;
+
+  /// No description provided for @reviewsSelectRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a rating'**
+  String get reviewsSelectRating;
+
+  /// No description provided for @reviewsMinimumCharacters.
+  ///
+  /// In en, this message translates to:
+  /// **'Please write at least {count} characters'**
+  String reviewsMinimumCharacters(int count);
 }
 
 class _AppLocalizationsDelegate

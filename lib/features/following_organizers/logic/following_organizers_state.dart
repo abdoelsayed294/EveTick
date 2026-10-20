@@ -1,38 +1,11 @@
-import 'package:evetick/features/following_organizers/data/models/followed_organizer_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-enum FollowingOrganizersStatus { loading, success, error }
+part 'following_organizers_state.freezed.dart';
 
-class FollowingOrganizersState {
-  const FollowingOrganizersState({
-    this.status = FollowingOrganizersStatus.loading,
-    this.errorMessage,
-    this.organizers = const [],
-    this.query = '',
-  });
-
-  final FollowingOrganizersStatus status;
-  final String? errorMessage;
-  final List<FollowedOrganizer> organizers;
-  final String query;
-
-  /// Organizers matching the search box.
-  List<FollowedOrganizer> get visible {
-    final q = query.trim().toLowerCase();
-    if (q.isEmpty) return organizers;
-    return organizers.where((o) => o.name.toLowerCase().contains(q)).toList();
-  }
-
-  FollowingOrganizersState copyWith({
-    FollowingOrganizersStatus? status,
-    String? errorMessage,
-    List<FollowedOrganizer>? organizers,
-    String? query,
-  }) {
-    return FollowingOrganizersState(
-      status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-      organizers: organizers ?? this.organizers,
-      query: query ?? this.query,
-    );
-  }
+@freezed
+class FollowingOrganizersState<T> with _$FollowingOrganizersState<T> {
+  const factory FollowingOrganizersState.initial() = _Initial;
+  const factory FollowingOrganizersState.loading() = Loading;
+  const factory FollowingOrganizersState.success(T data) = Success<T>;
+  const factory FollowingOrganizersState.error({required String error}) = Error;
 }

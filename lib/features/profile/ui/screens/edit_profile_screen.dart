@@ -1,3 +1,4 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
 import 'package:evetick/core/helpers/app_regex.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/widgets/app_text_form_field.dart';
@@ -69,11 +70,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     _isSavingProfile = false;
                     isEditing = false;
                   });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(AppLocalizations.of(context)!.profileUpdatedSuccess),
-                      backgroundColor: Colors.green,
-                    ),
+                  AppToast.success(
+                    AppLocalizations.of(context)!.profileUpdatedSuccess,
                   );
                 }
               },
@@ -83,12 +81,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     _isSavingProfile = false;
                   });
                 }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(error),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+                AppToast.error(error);
               },
             );
           },

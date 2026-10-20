@@ -7,6 +7,7 @@ class Routes {
   static const String welcomeScreen = '/welcomeScreen';
   static const String homeScreen = '/homeScreen';
   static const String verificationScreen = '/verificationScreen';
+  static const String splashScreen = '/splashScreen';
   static const String appStartScreen = '/appStartScreen';
   static const String setLocationScreen = '/setLocationScreen';
   static const String profileScreen = '/profileScreen';

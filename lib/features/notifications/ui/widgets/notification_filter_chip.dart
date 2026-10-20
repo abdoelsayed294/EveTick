@@ -3,7 +3,6 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// A single pill in the "All / Events / Tickets" row.
 class NotificationFilterChip extends StatelessWidget {
   const NotificationFilterChip({
     super.key,

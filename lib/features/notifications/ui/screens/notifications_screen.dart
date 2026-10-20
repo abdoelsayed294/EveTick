@@ -6,8 +6,6 @@ import 'package:evetick/features/notifications/ui/widgets/notifications_bloc_bui
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-/// Notifications: All / Events / Tickets chips, the recent ones, then the
-/// "EARLIER" section.
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 

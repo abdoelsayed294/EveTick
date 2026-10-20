@@ -1,15 +1,3 @@
-/// Finds which venue section a ticket type belongs to.
-///
-/// Tried in this order:
-///  1. same name ("VIP Zone" == "vip zone")
-///  2. one name contains the other, when only one section matches
-///     ("VIP" <-> "VIP Zone")
-///  3. same position (3rd ticket type <-> 3rd section), when both lists
-///     have the same length
-/// Returns null if nothing matches.
-///
-/// TODO: let the organizer app write a `sectionName` on each ticket tier and
-/// use it here first, so this guessing is not needed.
 String? resolveSectionName({
   required String ticketName,
   required int tierIndex,

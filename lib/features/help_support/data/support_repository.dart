@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evetick/core/services/failure.dart';
 import 'package:evetick/core/services/firebase_error_handler.dart';
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/help_support/data/models/help_category.dart';
@@ -9,6 +8,7 @@ import 'package:evetick/features/help_support/data/models/support_message_model.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
 class SupportRepository {
   static const int maxAttachmentBytes = 5 * 1024 * 1024;
@@ -19,7 +19,6 @@ class SupportRepository {
   final FirebaseStorage storage = FirebaseStorage.instance;
   final ImagePicker _picker = ImagePicker();
 
-  /// Returns `null` when the user cancels the picker.
   Future<Result<File?>> pickAttachment() async {
     try {
       final image = await _picker.pickImage(source: ImageSource.gallery);

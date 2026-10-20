@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-/// Read-only map with a marker on the event. Shows a placeholder until the
-/// address is resolved to coordinates.
 class EventMapPreview extends StatelessWidget {
   const EventMapPreview({super.key, required this.coordinates, this.title});
 
@@ -44,7 +42,7 @@ class EventMapPreview extends StatelessWidget {
                     infoWindow: InfoWindow(title: title),
                   ),
                 },
-                liteModeEnabled: true, // static preview (Android)
+                liteModeEnabled: true,
                 zoomControlsEnabled: false,
                 myLocationButtonEnabled: false,
                 mapToolbarEnabled: false,

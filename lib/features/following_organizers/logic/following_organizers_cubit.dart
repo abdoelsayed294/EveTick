@@ -7,60 +7,69 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FollowingOrganizersCubit extends Cubit<FollowingOrganizersState> {
   final FollowingRepository repo;
 
-  FollowingOrganizersCubit(this.repo) : super(const FollowingOrganizersState());
+  FollowingOrganizersCubit(this.repo)
+      : super(const FollowingOrganizersState.initial());
 
-  /// [silent] keeps the current list on screen (pull to refresh, coming
-  /// back from an organizer page).
+  List<FollowedOrganizer> _organizers = [];
+  String _query = '';
+
+  int get totalCount => _organizers.length;
+
+  List<FollowedOrganizer> get _visible {
+    final q = _query.trim().toLowerCase();
+    if (q.isEmpty) return _organizers;
+    return _organizers.where((o) => o.name.toLowerCase().contains(q)).toList();
+  }
+
   Future<void> load({bool silent = false}) async {
-    if (!silent) emit(const FollowingOrganizersState());
+    if (!silent) emit(const FollowingOrganizersState.loading());
 
     final result = await repo.getFollowedOrganizers();
     if (isClosed) return;
     result.when(
-      success: (organizers) => emit(
-        state.copyWith(
-          status: FollowingOrganizersStatus.success,
-          organizers: organizers,
-        ),
-      ),
-      failure: (error) {
-        // On a silent refresh keep what the user already sees.
-        if (silent && state.organizers.isNotEmpty) return;
-        emit(
-          state.copyWith(
-            status: FollowingOrganizersStatus.error,
-            errorMessage: error.message,
-          ),
-        );
+      success: (organizers) {
+        _organizers = organizers;
+        emit(FollowingOrganizersState.success(_visible));
+      },
+      failure: (failure) {
+        if (silent && _organizers.isNotEmpty) return;
+        emit(FollowingOrganizersState.error(error: failure.message));
       },
     );
   }
 
-  void search(String query) => emit(state.copyWith(query: query));
+  void search(String query) {
+    _query = query;
+    emit(FollowingOrganizersState.success(_visible));
+  }
 
-  /// Follow / Following button. The row stays in the list so the user can
-  /// follow it again. Updates immediately, then saves; rolls back on failure.
   Future<void> toggleFollow(String organizerId) async {
-    final index = state.organizers.indexWhere((o) => o.id == organizerId);
+    final index = _organizers.indexWhere((o) => o.id == organizerId);
     if (index < 0) return;
-    final before = state.organizers[index];
+    final before = _organizers[index];
 
     final nowFollowing = !before.isFollowing;
     final followers = nowFollowing
         ? before.followers + 1
         : (before.followers > 0 ? before.followers - 1 : 0);
-    _replace(index, before.copyWith(isFollowing: nowFollowing, followers: followers));
+    _replace(
+      index,
+      before.copyWith(isFollowing: nowFollowing, followers: followers),
+    );
 
-    final saved = await repo.setFollowing(organizerId, follow: nowFollowing);
-    if (!saved && !isClosed) {
-      final current = state.organizers.indexWhere((o) => o.id == organizerId);
-      if (current >= 0) _replace(current, before);
-    }
+    final result = await repo.setFollowing(organizerId, follow: nowFollowing);
+    if (isClosed) return;
+    result.when(
+      success: (_) {},
+      failure: (_) {
+        final current = _organizers.indexWhere((o) => o.id == organizerId);
+        if (current >= 0) _replace(current, before);
+      },
+    );
   }
 
   void _replace(int index, FollowedOrganizer item) {
-    final list = [...state.organizers];
-    list[index] = item;
-    emit(state.copyWith(organizers: list));
+    _organizers = [..._organizers]..[index] = item;
+    emit(FollowingOrganizersState.success(_visible));
   }
 }

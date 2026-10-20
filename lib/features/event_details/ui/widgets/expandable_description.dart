@@ -1,10 +1,9 @@
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Description cut to [maxLines] with a "Read More" / "Show Less" toggle
-/// (the toggle only shows when the text is actually longer).
 class ExpandableDescription extends StatefulWidget {
   const ExpandableDescription({
     super.key,
@@ -54,7 +53,9 @@ class _ExpandableDescriptionState extends State<ExpandableDescription> {
                 child: Padding(
                   padding: EdgeInsets.only(top: 4.h),
                   child: Text(
-                    _expanded ? 'Show Less' : 'Read More',
+                    _expanded
+                        ? AppLocalizations.of(context)!.eventDetailsShowLess
+                        : AppLocalizations.of(context)!.commonReadMore,
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: ColorsManager.orange,

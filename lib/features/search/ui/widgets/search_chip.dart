@@ -3,8 +3,6 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Rounded chip used for trending searches and categories.
-/// Selected = orange outline + orange text.
 class SearchChip extends StatelessWidget {
   const SearchChip({
     super.key,

@@ -1,12 +1,3 @@
-/// One review of an organizer: `users/{organizerId}/reviews/{reviewerId}`.
-///
-/// {
-///   reviewerId, organizerId, authorName, authorImageUrl, isAnonymous,
-///   rating (1-5), text, verified, createdAt
-/// }
-///
-/// When the author posts anonymously, the real name and photo are never
-/// saved in the document ([authorName] is "Anonymous").
 class OrganizerReview {
   const OrganizerReview({
     required this.id,
@@ -33,11 +24,8 @@ class OrganizerReview {
   final bool verified;
   final DateTime? createdAt;
 
-  /// Written by the signed-in user.
   final bool isMine;
 
-  /// [json] is the document data plus `reviewId` and a `createdAt` that is
-  /// already a [DateTime] (null while the server timestamp is pending).
   factory OrganizerReview.fromJson(
     Map<String, dynamic> json, {
     required String currentUserId,

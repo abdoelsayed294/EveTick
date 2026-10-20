@@ -36,7 +36,6 @@ class _MainContainerState extends State<MainContainer> {
   @override
   void initState() {
     super.initState();
-    // Ask for push permission / save the device token / open a tapped push.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getIt<PushNotificationsService>().onHomeReady();
     });
@@ -57,13 +56,12 @@ class _MainContainerState extends State<MainContainer> {
           setState(() {
             _currentIndex = index;
           });
-          // Data may have changed on another tab since the last visit.
           switch (index) {
-            case _homeTabIndex: // hearts toggled in Favorites
+            case _homeTabIndex:
               context.read<HomeCubit>().load(silent: true);
-            case _favoritesTabIndex: // hearts toggled in Home
+            case _favoritesTabIndex:
               context.read<FavoritesCubit>().load(silent: true);
-            case _ticketsTabIndex: // a ticket may have been booked
+            case _ticketsTabIndex:
               context.read<MyTicketsCubit>().load(silent: true);
           }
         },

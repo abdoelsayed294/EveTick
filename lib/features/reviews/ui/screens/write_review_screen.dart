@@ -9,11 +9,11 @@ import 'package:evetick/features/reviews/ui/widgets/review_photos_picker.dart';
 import 'package:evetick/features/reviews/ui/widgets/review_text_field.dart';
 import 'package:evetick/features/reviews/ui/widgets/star_rating_input.dart';
 import 'package:evetick/features/reviews/ui/widgets/write_review_bloc_listener.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// "Write a Review": Cancel / Post in the top bar.
 class WriteReviewScreen extends StatelessWidget {
   const WriteReviewScreen({super.key, required this.eventId});
 
@@ -22,6 +22,7 @@ class WriteReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<WriteReviewCubit>();
+    final l10n = AppLocalizations.of(context)!;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -34,13 +35,13 @@ class WriteReviewScreen extends StatelessWidget {
             child: TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
-                'Cancel',
+                l10n.commonCancel,
                 style: TextStyle(fontSize: 16.sp, color: context.colors.lightGray),
               ),
             ),
           ),
           title: Text(
-            'Write a Review',
+            l10n.reviewsWriteAReview,
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
@@ -73,7 +74,7 @@ class WriteReviewScreen extends StatelessWidget {
                               color: Colors.white,
                             ),
                           )
-                        : Text('Post', style: TextStyles.font16WhiteMidium),
+                        : Text(l10n.commonPost, style: TextStyles.font16WhiteMidium),
                   );
                 },
               ),
@@ -91,7 +92,7 @@ class WriteReviewScreen extends StatelessWidget {
                 const StarRatingInput(),
                 verticalSpace(24),
                 Text(
-                  'Review',
+                  l10n.reviewsReviewLabel,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,

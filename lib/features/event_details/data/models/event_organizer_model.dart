@@ -1,7 +1,3 @@
-/// Organizer shown on the landing page.
-/// Loaded from `users/{organizerId}` (the event only stores `organizerId`).
-/// An event can still override it with `organizerName`,
-/// `organizerAvatarUrl` and `organizerFollowers`.
 class EventOrganizer {
   const EventOrganizer({
     required this.name,
@@ -19,8 +15,6 @@ class EventOrganizer {
         followers: followers ?? this.followers,
       );
 
-  /// Builds the organizer from a `users/{uid}` document.
-  /// Returns null when the account has no usable name.
   static EventOrganizer? fromUser(Map<String, dynamic> json) {
     final name = ((json['name'] as String?) ?? '').trim();
     if (name.isEmpty) return null;
@@ -32,7 +26,6 @@ class EventOrganizer {
     );
   }
 
-  /// 12400 -> "12.4k"
   String get followersText {
     if (followers >= 1000000) {
       return '${(followers / 1000000).toStringAsFixed(1)}M';

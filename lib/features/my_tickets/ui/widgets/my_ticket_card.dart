@@ -4,10 +4,12 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/widgets/dashed_line.dart';
 import 'package:evetick/features/home/ui/widgets/event_cover_image.dart';
 import 'package:evetick/features/my_tickets/data/models/my_ticket_model.dart';
+import 'package:evetick/features/my_tickets/data/models/ticket_phase.dart';
 import 'package:evetick/features/my_tickets/ui/widgets/ticket_qr_button.dart';
 import 'package:evetick/features/my_tickets/ui/widgets/ticket_status_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class MyTicketCard extends StatelessWidget {
   const MyTicketCard({super.key, required this.ticket, required this.onTap});
@@ -88,7 +90,7 @@ class MyTicketCard extends StatelessWidget {
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
-                    place.isEmpty ? 'Online event' : place,
+                    place.isEmpty ? AppLocalizations.of(context)!.myTicketsOnlineEvent : place,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 12.sp, color: colors.lightGray),
@@ -96,7 +98,7 @@ class MyTicketCard extends StatelessWidget {
                 ),
                 SizedBox(width: 8.w),
                 Text(
-                  'Ticket ID: ${formatOrderId(ticket.orderId)}',
+                  AppLocalizations.of(context)!.myTicketsTicketIdLabel(formatOrderId(ticket.orderId)),
                   style: TextStyle(fontSize: 12.sp, color: colors.lightGray),
                 ),
               ],

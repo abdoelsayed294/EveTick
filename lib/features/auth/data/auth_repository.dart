@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evetick/core/services/failure.dart';
 import 'package:evetick/core/services/firebase_error_handler.dart';
 import 'package:evetick/core/services/push_notifications/push_tokens_repository.dart';
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/auth/data/models/app_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
 class AuthRepository {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -132,7 +132,6 @@ class AuthRepository {
   }
 
   Future<void> logout() async {
-    // Stop pushes for this account on this device (needs the user signed in).
     await PushTokensRepository().removeCurrentToken();
     await auth.signOut();
   }

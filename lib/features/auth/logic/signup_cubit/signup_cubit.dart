@@ -21,7 +21,6 @@ class SignupCubit extends Cubit<SignupState> {
     if (value) showTermsError.value = false;
   }
 
-  /// Shows the error under the checkbox when the terms aren't accepted.
   bool validateTerms() {
     showTermsError.value = !acceptedTerms.value;
     return acceptedTerms.value;

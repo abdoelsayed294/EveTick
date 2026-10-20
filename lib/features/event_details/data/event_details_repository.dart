@@ -6,6 +6,7 @@ import 'package:evetick/features/event_details/data/models/event_organizer_model
 import 'package:evetick/features/location/data/models/location_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:evetick/core/services/firebase_failure.dart';
 
 class EventDetailsRepository {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -26,9 +27,6 @@ class EventDetailsRepository {
     }
   }
 
-  /// The event only stores `organizerId`: read the organizer's account
-  /// (`users/{organizerId}`) to show their name and photo.
-  /// The organizer is a nice-to-have, so any failure keeps the event as is.
   Future<EventDetails> _withOrganizer(EventDetails event) async {
     final id = event.organizerId;
     if (event.organizer != null || id == null || id.isEmpty) return event;
@@ -42,7 +40,6 @@ class EventDetailsRepository {
     }
   }
 
-  /// Reloads the organizer's account (name, photo, followers count).
   Future<EventDetails> refreshOrganizer(EventDetails event) async {
     final id = event.organizerId;
     if (id == null || id.isEmpty) return event;
@@ -57,8 +54,6 @@ class EventDetailsRepository {
     }
   }
 
-  /// Turns the event address into coordinates for the map preview.
-  /// The map is a nice-to-have, so any failure just returns null.
   Future<LocationModel?> findCoordinates(String address) async {
     try {
       final results = await locationFromAddress(address);
@@ -73,7 +68,6 @@ class EventDetailsRepository {
     }
   }
 
-  /// `users/{me}/following/{organizerId}` exists = I follow this organizer.
   DocumentReference<Map<String, dynamic>>? _followRef(String organizerId) {
     final uid = auth.currentUser?.uid;
     if (uid == null || uid == organizerId) return null;
@@ -84,8 +78,6 @@ class EventDetailsRepository {
         .doc(organizerId);
   }
 
-  /// Whether the organizer can be followed by the current user
-  /// (signed in, and not their own account).
   bool canFollow(String organizerId) => _followRef(organizerId) != null;
 
   Future<bool> isFollowing(String organizerId) async {
@@ -98,20 +90,25 @@ class EventDetailsRepository {
     }
   }
 
-  /// Follows / unfollows. The `followers` counter on the organizer is
-  /// updated by a Cloud Function. Returns false if saving failed.
-  Future<bool> setFollowing(String organizerId, {required bool follow}) async {
+  Future<Result<void>> setFollowing(
+    String organizerId, {
+    required bool follow,
+  }) async {
     try {
       final ref = _followRef(organizerId);
-      if (ref == null) return false;
+      if (ref == null) {
+        return Result.failure(FirebaseFailure('Please login to continue'));
+      }
       if (follow) {
         await ref.set({'createdAt': FieldValue.serverTimestamp()});
       } else {
         await ref.delete();
       }
-      return true;
-    } catch (_) {
-      return false;
+      return Result.success(null);
+    } on FirebaseException catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleFirestore(e));
+    } catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleGeneric(e));
     }
   }
 }

@@ -8,30 +8,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
-/// Push notifications (Firebase Cloud Messaging).
-///
-///  - app closed / in background: the system shows the push; tapping it
-///    opens the notifications screen (and the event, if there is one).
-///  - app open: a [PushBanner] is shown instead.
-///  - the device token is saved when the user reaches Home ([onHomeReady]),
-///    and removed on logout (see AuthRepository.logout).
-///
-/// In debug builds every step prints a line starting with `[PUSH]`.
 class PushNotificationsService {
   PushNotificationsService(this._tokensRepo);
 
   final PushTokensRepository _tokensRepo;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
-  /// A push that opened the app from closed: handled once Home is on screen.
   Map<String, dynamic>? _pendingTap;
 
   void _log(String message) {
     if (kDebugMode) debugPrint('[PUSH] $message');
   }
 
-  /// Call once from main(), after Firebase.initializeApp.
-  /// Never throws: the app must start even if push is not available.
   Future<void> init() async {
     try {
       FirebaseMessaging.onBackgroundMessage(pushBackgroundHandler);
@@ -58,7 +46,6 @@ class PushNotificationsService {
     }
   }
 
-  /// Call when the Home screen is shown to a logged in user.
   Future<void> onHomeReady() async {
     _log('onHomeReady');
 
@@ -90,8 +77,6 @@ class PushNotificationsService {
         _log('getToken returned null (no Google Play services?)');
         return;
       }
-      // Copy this token into Firebase Console > Messaging > "Send test
-      // message" to check the device receives pushes.
       _log('FCM token: $token');
 
       final saved = await _tokensRepo.saveToken(token);

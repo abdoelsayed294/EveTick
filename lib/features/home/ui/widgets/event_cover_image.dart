@@ -1,7 +1,6 @@
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
-/// Network cover with a plain placeholder while loading / on error.
 class EventCoverImage extends StatelessWidget {
   const EventCoverImage({super.key, required this.url, this.fit = BoxFit.cover});
 

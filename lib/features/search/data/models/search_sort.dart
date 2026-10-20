@@ -1,0 +1,1 @@
+enum SearchSort { popularity, date }

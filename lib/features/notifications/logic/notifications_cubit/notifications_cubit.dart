@@ -11,8 +11,6 @@ class NotificationsCubit extends Cubit<NotificationsState<List<AppNotification>>
   NotificationsCubit(this.notificationsRepo)
       : super(const NotificationsState.initial());
 
-  /// The selected chip (All / Events / Tickets). Kept here, like the
-  /// signup cubit keeps `acceptedTerms`; the list is filtered in the UI.
   final filter = ValueNotifier<NotificationFilter>(NotificationFilter.all);
 
   List<AppNotification>? get _items =>
@@ -20,7 +18,6 @@ class NotificationsCubit extends Cubit<NotificationsState<List<AppNotification>>
 
   void setFilter(NotificationFilter value) => filter.value = value;
 
-  /// [silent] keeps the current list on screen (pull to refresh).
   Future<void> emitNotificationsStates({bool silent = false}) async {
     if (!silent) emit(const NotificationsState.loading());
 
@@ -29,14 +26,12 @@ class NotificationsCubit extends Cubit<NotificationsState<List<AppNotification>>
     result.when(
       success: (items) => emit(NotificationsState.success(items)),
       failure: (failure) {
-        // On a silent refresh keep what the user already sees.
         if (silent && _items != null) return;
         emit(NotificationsState.error(error: failure.message));
       },
     );
   }
 
-  /// Removes the dot immediately, then saves; puts it back on failure.
   Future<void> markAsRead(String notificationId) async {
     final before = _items;
     if (before == null) return;
