@@ -431,12 +431,50 @@ async function changeFollowers(organizerId, delta) {
   }
 }
 
+/**
+ * Mirrors the follow into `users/{organizerId}/followers/{uid}`, so the
+ * followers of an organizer can be found with one simple query (used by
+ * onEventPublished in notifications.js). Only the server reads/writes it.
+ */
+async function setFollowerMirror(organizerId, uid, follows) {
+  try {
+    const ref = getFirestore().collection("users").doc(organizerId)
+        .collection("followers").doc(uid);
+    if (follows) {
+      await ref.set({createdAt: FieldValue.serverTimestamp()});
+    } else {
+      await ref.delete();
+    }
+  } catch (e) {
+    console.error("followers mirror failed", organizerId, uid, e.message);
+  }
+}
+
 exports.onFollowCreated = onDocumentCreated(
     "users/{uid}/following/{organizerId}",
-    (event) => changeFollowers(event.params.organizerId, 1),
+    async (event) => {
+      const {uid, organizerId} = event.params;
+      await Promise.all([
+        changeFollowers(organizerId, 1),
+        setFollowerMirror(organizerId, uid, true),
+      ]);
+    },
 );
 
 exports.onFollowDeleted = onDocumentDeleted(
     "users/{uid}/following/{organizerId}",
-    (event) => changeFollowers(event.params.organizerId, -1),
+    async (event) => {
+      const {uid, organizerId} = event.params;
+      await Promise.all([
+        changeFollowers(organizerId, -1),
+        setFollowerMirror(organizerId, uid, false),
+      ]);
+    },
 );
+
+// Notifications written for the app (see notifications.js).
+const notifications = require("./notifications");
+exports.onOrderConfirmed = notifications.onOrderConfirmed;
+exports.onEventPublished = notifications.onEventPublished;
+exports.notifyHotEvents = notifications.notifyHotEvents;
+exports.sendPushOnNotification = notifications.sendPushOnNotification;

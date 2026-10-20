@@ -26,4 +26,5 @@ class Routes {
   static const String reviewsScreen='/reviewsScreen';
   static const String writeReviewScreen='/writeReviewScreen';
   static const String writeOrganizerReviewScreen='/writeOrganizerReviewScreen';
+  static const String notificationsScreen='/notificationsScreen';
 }

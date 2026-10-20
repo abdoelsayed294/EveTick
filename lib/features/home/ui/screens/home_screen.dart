@@ -75,7 +75,10 @@ class HomeScreen extends StatelessWidget {
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 SizedBox(height: 8.h),
-                const HomeHeader(),
+                HomeHeader(
+                  onNotificationsTap: () => Navigator.of(context)
+                      .pushNamed(Routes.notificationsScreen),
+                ),
                 SizedBox(height: 24.h),
                 HomeSearchField(
                   onSearchTap: () => _openSearch(context),

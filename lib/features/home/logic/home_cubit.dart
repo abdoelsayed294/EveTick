@@ -16,6 +16,9 @@ class HomeCubit extends Cubit<HomeState> {
     final eventsResult = await homeRepo.getLiveEvents();
     final favoritesResult = await homeRepo.getFavoriteIds();
 
+    // The user may have left Home while this was loading.
+    if (isClosed) return;
+
     final favorites = favoritesResult.when(
       success: (ids) => ids,
       failure: (_) => state.favoriteIds, // favorites are optional
@@ -60,6 +63,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(favoriteIds: updated));
 
     final result = await homeRepo.setFavorite(eventId, isFavorite: !wasFavorite);
+    if (isClosed) return;
     result.when(
       success: (_) {},
       failure: (_) {

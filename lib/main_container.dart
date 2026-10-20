@@ -1,3 +1,5 @@
+import 'package:evetick/core/di/dependency_injection.dart';
+import 'package:evetick/core/services/push_notifications/push_notifications_service.dart';
 import 'package:evetick/features/animated_navbar/animated_navbar.dart';
 import 'package:evetick/features/animated_navbar/navbar_item.dart';
 import 'package:evetick/features/favorites/logic/favorites_cubit.dart';
@@ -30,6 +32,15 @@ class _MainContainerState extends State<MainContainer> {
     MyTicketsScreen(),
     ProfileScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Ask for push permission / save the device token / open a tapped push.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getIt<PushNotificationsService>().onHomeReady();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

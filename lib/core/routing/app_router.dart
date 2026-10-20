@@ -15,6 +15,8 @@ import 'package:evetick/features/favorites/logic/favorites_cubit.dart';
 import 'package:evetick/features/following_organizers/logic/following_organizers_cubit.dart';
 import 'package:evetick/features/following_organizers/ui/screens/following_organizers_screen.dart';
 import 'package:evetick/features/organizer_profile/logic/organizer_profile_cubit.dart';
+import 'package:evetick/features/notifications/logic/notifications_cubit/notifications_cubit.dart';
+import 'package:evetick/features/notifications/ui/screens/notifications_screen.dart';
 import 'package:evetick/features/organizer_reviews/logic/organizer_reviews_cubit.dart';
 import 'package:evetick/features/organizer_reviews/logic/write_organizer_review_cubit.dart';
 import 'package:evetick/features/organizer_reviews/ui/screens/write_organizer_review_screen.dart';
@@ -275,6 +277,14 @@ class AppRouter {
             // (stars, text field, anonymous switch) work unchanged.
             create: (context) => getIt<WriteOrganizerReviewCubit>(),
             child: WriteOrganizerReviewScreen(organizerId: reviewedOrganizerId),
+          ),
+        );
+      case Routes.notificationsScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<NotificationsCubit>()..emitNotificationsStates(),
+            child: const NotificationsScreen(),
           ),
         );
       case Routes.helpSupportScreen:

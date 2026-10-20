@@ -1,3 +1,4 @@
+import 'package:evetick/core/theming/app_bar_theme.dart';
 import 'package:evetick/core/theming/app_colors.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
@@ -18,5 +19,6 @@ const darkAppColors = AppColors(
 final ThemeData darkThemeData = ThemeData(
   scaffoldBackgroundColor: ColorsManager.darkBlue,
   brightness: Brightness.dark,
+  appBarTheme: buildAppBarTheme(darkAppColors),
   extensions: const [darkAppColors],
 );

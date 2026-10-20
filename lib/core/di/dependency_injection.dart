@@ -2,6 +2,10 @@ import 'package:evetick/features/following_organizers/data/following_repository.
 import 'package:evetick/features/following_organizers/logic/following_organizers_cubit.dart';
 import 'package:evetick/features/organizer_profile/data/organizer_profile_repository.dart';
 import 'package:evetick/features/organizer_profile/logic/organizer_profile_cubit.dart';
+import 'package:evetick/core/services/push_notifications/push_notifications_service.dart';
+import 'package:evetick/core/services/push_notifications/push_tokens_repository.dart';
+import 'package:evetick/features/notifications/data/notifications_repository.dart';
+import 'package:evetick/features/notifications/logic/notifications_cubit/notifications_cubit.dart';
 import 'package:evetick/features/organizer_reviews/data/organizer_reviews_repository.dart';
 import 'package:evetick/features/organizer_reviews/logic/organizer_reviews_cubit.dart';
 import 'package:evetick/features/organizer_reviews/logic/write_organizer_review_cubit.dart';
@@ -116,6 +120,22 @@ Future<void> setupGetIt() async {
       getIt<ReviewsRepository>(),
       getIt<OrganizerReviewsRepository>(),
     ),
+  );
+
+  // push notifications
+  getIt.registerLazySingleton<PushTokensRepository>(
+    () => PushTokensRepository(),
+  );
+  getIt.registerLazySingleton<PushNotificationsService>(
+    () => PushNotificationsService(getIt<PushTokensRepository>()),
+  );
+
+  // notifications
+  getIt.registerLazySingleton<NotificationsRepository>(
+    () => NotificationsRepository(),
+  );
+  getIt.registerFactory<NotificationsCubit>(
+    () => NotificationsCubit(getIt<NotificationsRepository>()),
   );
 
   // help & support

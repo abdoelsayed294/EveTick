@@ -1,5 +1,6 @@
 import 'package:evetick/core/di/dependency_injection.dart';
 import 'package:evetick/core/routing/app_router.dart';
+import 'package:evetick/core/services/push_notifications/push_notifications_service.dart';
 import 'package:evetick/evetick_app.dart';
 import 'package:evetick/features/localization/logic/locale_cubit.dart';
 import 'package:evetick/core/theming/logic/theme_cubit.dart';
@@ -14,6 +15,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   setupGetIt();
+  await getIt<PushNotificationsService>().init();
   runApp(const MainApp());
 }
 

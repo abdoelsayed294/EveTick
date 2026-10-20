@@ -1,3 +1,4 @@
+import 'package:evetick/core/routing/app_navigator.dart';
 import 'package:evetick/core/routing/app_router.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/app_theme.dart';
@@ -26,6 +27,7 @@ class EvetickApp extends StatelessWidget {
               builder: (context, themeState) {
                 return MaterialApp(
                   title: 'EveTick',
+                  navigatorKey: appNavigatorKey,
                   theme: themeState.themeMode == ThemeMode.light
                       ? AppTheme.lightTheme
                       : AppTheme.darkTheme,
