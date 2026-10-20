@@ -138,6 +138,11 @@ class ProfileScreen extends StatelessWidget {
                     Routes.termsScreen,
                     arguments: TermsMode.profile,
                   ),
+                  thirdIcon: Icons.delete_outline_rounded,
+                  thirdTitle: AppLocalizations.of(context)!.profileDeleteAccount,
+                  thirdTitleStyle: TextStyles.font16RedMid,
+                  thirdAction: () =>
+                      context.pushNamed(Routes.deleteAccountScreen),
                 ),
                 verticalSpace(24),
                 OutlineAppTextButton(

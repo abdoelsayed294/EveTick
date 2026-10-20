@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:evetick/core/services/cancelled_failure.dart';
 import 'package:evetick/core/services/firebase_failure.dart';
+import 'package:evetick/core/services/failure.dart';
 
 class AuthRepository {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -187,6 +188,117 @@ class AuthRepository {
       return Result.failure(FirebaseErrorHandler.handle(e));
     } catch (e) {
       return Result.failure(FirebaseErrorHandler.handleGeneric(e));
+    }
+  }
+
+  bool get requiresPassword =>
+      auth.currentUser?.providerData.any((p) => p.providerId == 'password') ??
+      false;
+
+  bool get usesGoogle =>
+      auth.currentUser?.providerData.any(
+        (p) => p.providerId == 'google.com',
+      ) ??
+      false;
+
+  Future<Result<String>> sendPasswordResetEmail({
+    required String email,
+  }) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email.trim());
+      return Result.success(email.trim());
+    } on FirebaseAuthException catch (e) {
+      return Result.failure(FirebaseErrorHandler.handle(e));
+    } catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleGeneric(e));
+    }
+  }
+
+  Future<Result<void>> deleteAccount({String? password}) async {
+    try {
+      final user = auth.currentUser;
+      if (user == null) {
+        return Result.failure(FirebaseFailure('No user is signed in'));
+      }
+
+      final reauthFailure = await _reauthenticate(user, password);
+      if (reauthFailure != null) return Result.failure(reauthFailure);
+
+      await PushTokensRepository().removeCurrentToken();
+      await _deleteUserData(user.uid);
+      await user.delete();
+
+      if (_googleInitialized) {
+        await GoogleSignIn.instance.signOut();
+      }
+      return Result.success(null);
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        return Result.failure(CancelledFailure());
+      }
+      return Result.failure(FirebaseErrorHandler.handleGoogleSignIn(e));
+    } on FirebaseAuthException catch (e) {
+      if (requiresPassword &&
+          (e.code == 'wrong-password' || e.code == 'invalid-credential')) {
+        return Result.failure(FirebaseFailure('Incorrect password'));
+      }
+      return Result.failure(FirebaseErrorHandler.handle(e));
+    } on FirebaseException catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleFirestore(e));
+    } catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleGeneric(e));
+    }
+  }
+
+  Future<Failure?> _reauthenticate(User user, String? password) async {
+    final providers = user.providerData.map((p) => p.providerId).toList();
+
+    if (providers.contains('password')) {
+      if (password == null || password.isEmpty) {
+        return FirebaseFailure('Please enter your password');
+      }
+      await user.reauthenticateWithCredential(
+        EmailAuthProvider.credential(email: user.email!, password: password),
+      );
+      return null;
+    }
+
+    if (providers.contains('google.com')) {
+      if (!_googleInitialized) {
+        await GoogleSignIn.instance.initialize();
+        _googleInitialized = true;
+      }
+      final googleUser = await GoogleSignIn.instance.authenticate();
+      final idToken = googleUser.authentication.idToken;
+      if (idToken == null) {
+        return FirebaseFailure('Google sign-in failed, please try again');
+      }
+      await user.reauthenticateWithCredential(
+        GoogleAuthProvider.credential(idToken: idToken),
+      );
+    }
+    return null;
+  }
+
+  Future<void> _deleteUserData(String uid) async {
+    final userRef = firestore.collection('users').doc(uid);
+    await _deleteCollection(userRef.collection('fcmTokens'));
+    await _deleteCollection(userRef.collection('notifications'));
+    await _deleteCollection(userRef.collection('following'));
+    await userRef.delete();
+  }
+
+  Future<void> _deleteCollection(
+    CollectionReference<Map<String, dynamic>> collection,
+  ) async {
+    while (true) {
+      final snapshot = await collection.limit(400).get();
+      if (snapshot.docs.isEmpty) return;
+      final batch = firestore.batch();
+      for (final doc in snapshot.docs) {
+        batch.delete(doc.reference);
+      }
+      await batch.commit();
     }
   }
 

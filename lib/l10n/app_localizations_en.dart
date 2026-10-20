@@ -236,6 +236,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authStartExploring => 'Start Exploring';
 
   @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authForgotPasswordTitle => 'Forgot Password';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Enter your email and we will send you a link to reset your password.';
+
+  @override
+  String get authSendResetLink => 'Send reset link';
+
+  @override
+  String get authResetLinkSent => 'Password reset link sent to your email';
+
+  @override
+  String get authBackToSignIn => 'Back to sign in';
+
+  @override
+  String get deleteAccountWarning =>
+      'Deleting your account permanently removes your profile and data. This action cannot be undone.';
+
+  @override
+  String get deleteAccountPasswordPrompt => 'Enter your password to confirm';
+
+  @override
+  String get deleteAccountGoogleNotice =>
+      'You will be asked to confirm with Google before your account is deleted.';
+
+  @override
+  String get deleteAccountConfirmTitle => 'Delete your account?';
+
+  @override
+  String get deleteAccountConfirmMessage =>
+      'All your data will be permanently deleted.';
+
+  @override
+  String get deleteAccountSuccess => 'Your account has been deleted';
+
+  @override
+  String get commonDelete => 'Delete';
+
+  @override
   String get homeSearchPlaceholder => 'Search for concerts, cinema...';
 
   @override
@@ -771,6 +814,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileLogOut => 'Log Out';
+
+  @override
+  String get profileDeleteAccount => 'Delete Account';
 
   @override
   String get myTicketsTitle => 'My Tickets';

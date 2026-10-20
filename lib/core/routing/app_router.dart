@@ -3,8 +3,12 @@ import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/features/app_start/logic/cubit/app_start_cubit.dart';
 import 'package:evetick/features/app_start/presentation/app_start.dart';
 import 'package:evetick/features/auth/data/auth_repository.dart';
+import 'package:evetick/features/auth/logic/delete_account_cubit/delete_account_cubit.dart';
+import 'package:evetick/features/auth/logic/forgot_password_cubit/forgot_password_cubit.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
+import 'package:evetick/features/auth/ui/screens/delete_account_screen.dart';
+import 'package:evetick/features/auth/ui/screens/forgot_password_screen.dart';
 import 'package:evetick/features/auth/ui/screens/login_screen.dart';
 import 'package:evetick/features/auth/ui/screens/signup_screen.dart';
 import 'package:evetick/features/auth/ui/screens/verification_screen.dart';
@@ -89,6 +93,22 @@ class AppRouter {
               BlocProvider(create: (context) => getIt<LoginCubit>()),
             ],
             child: const SignupScreen(),
+          ),
+        );
+      case Routes.forgotPasswordScreen:
+        final email = arguments as String? ?? '';
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<ForgotPasswordCubit>()..prefillEmail(email),
+            child: const ForgotPasswordScreen(),
+          ),
+        );
+      case Routes.deleteAccountScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<DeleteAccountCubit>(),
+            child: const DeleteAccountScreen(),
           ),
         );
       case Routes.homeScreen:

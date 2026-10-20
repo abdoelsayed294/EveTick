@@ -39,6 +39,9 @@ class FirebaseErrorHandler {
       case 'user-token-expired':
         return FirebaseFailure('Session expired, please login again');
 
+      case 'requires-recent-login':
+        return FirebaseFailure('Please sign in again to continue');
+
       case 'account-exists-with-different-credential':
         return FirebaseFailure(
           'An account already exists with this email using a different sign-in method',

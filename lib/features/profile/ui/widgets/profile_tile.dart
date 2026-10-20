@@ -7,7 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProfileTile extends StatelessWidget {
-  final String iconPath;
+  final String? iconPath;
+  final IconData? icon;
+  final TextStyle? titleStyle;
   final String title;
   final String? subtitle;
   final String? trailingText;
@@ -15,7 +17,9 @@ class ProfileTile extends StatelessWidget {
   
   const ProfileTile({
     super.key,
-    required this.iconPath,
+    this.iconPath,
+    this.icon,
+    this.titleStyle,
     required this.title,
     this.subtitle,
     this.trailingText,
@@ -37,10 +41,15 @@ class ProfileTile extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: SvgPicture.asset(iconPath, fit: BoxFit.contain),
+            child: icon != null
+                ? Icon(icon, color: ColorsManager.red, size: 22.sp)
+                : SvgPicture.asset(iconPath!, fit: BoxFit.contain),
           ),
         ),
-        title: Text(title, style: TextStyles.font16WhiteRegular(context)),
+        title: Text(
+          title,
+          style: titleStyle ?? TextStyles.font16WhiteRegular(context),
+        ),
         subtitle: subtitle == null
       ? null
       : Text(

@@ -11,6 +11,8 @@ import 'package:evetick/features/organizer_reviews/logic/organizer_reviews_cubit
 import 'package:evetick/features/organizer_reviews/logic/write_organizer_review_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evetick/features/auth/data/auth_repository.dart';
+import 'package:evetick/features/auth/logic/delete_account_cubit/delete_account_cubit.dart';
+import 'package:evetick/features/auth/logic/forgot_password_cubit/forgot_password_cubit.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_cubit.dart';
 import 'package:evetick/features/auth/logic/signup_cubit/signup_cubit.dart';
 import 'package:evetick/features/event_details/data/event_details_repository.dart';
@@ -64,6 +66,14 @@ Future<void> setupGetIt() async {
 
   getIt.registerFactory<SignupCubit>(
     () => SignupCubit(getIt<AuthRepository>()),
+  );
+
+  getIt.registerFactory<ForgotPasswordCubit>(
+    () => ForgotPasswordCubit(getIt<AuthRepository>()),
+  );
+
+  getIt.registerFactory<DeleteAccountCubit>(
+    () => DeleteAccountCubit(getIt<AuthRepository>()),
   );
 
   getIt.registerLazySingleton<OnboardingRepository>(

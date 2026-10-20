@@ -18,6 +18,10 @@ class ProfileSection extends StatelessWidget {
   final String? secondTrailingText;
   final VoidCallback? firstAction;
 final VoidCallback? secondAction;
+  final IconData? thirdIcon;
+  final String? thirdTitle;
+  final TextStyle? thirdTitleStyle;
+  final VoidCallback? thirdAction;
   
   const ProfileSection({
     super.key,
@@ -32,6 +36,10 @@ final VoidCallback? secondAction;
     this.secondTrailingText,
     this.firstAction,
     this.secondAction,
+    this.thirdIcon,
+    this.thirdTitle,
+    this.thirdTitleStyle,
+    this.thirdAction,
   });
 
   @override
@@ -68,6 +76,15 @@ final VoidCallback? secondAction;
                   trailingText: secondTrailingText,
                   onTap: secondAction,
                 ),
+                if (thirdTitle != null) ...[
+                  Divider(color: context.colors.darkBlue, thickness: 1),
+                  ProfileTile(
+                    icon: thirdIcon,
+                    title: thirdTitle!,
+                    titleStyle: thirdTitleStyle,
+                    onTap: thirdAction,
+                  ),
+                ],
                 
               ],
             ),
