@@ -4,6 +4,7 @@ import 'package:evetick/features/my_tickets/ui/widgets/my_tickets_bloc_builder.d
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class MyTicketsScreen extends StatelessWidget {
   const MyTicketsScreen({super.key});

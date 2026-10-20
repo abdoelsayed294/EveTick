@@ -4,6 +4,7 @@ import 'package:evetick/features/following_organizers/ui/widgets/following_organ
 import 'package:evetick/features/following_organizers/ui/widgets/following_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class FollowingOrganizersScreen extends StatelessWidget {
   const FollowingOrganizersScreen({super.key});
