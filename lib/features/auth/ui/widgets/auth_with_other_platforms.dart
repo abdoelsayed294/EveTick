@@ -21,11 +21,6 @@ class LoginWithOtherPlatforms extends StatelessWidget {
               onTap: () => context.read<LoginCubit>().signInWithGoogle(),
               child: PlatformContainer(url: 'assets/svgs/google.svg'),
             ),
-            horizontalSpace(32),
-            InkWell(
-              onTap: () {},
-              child: PlatformContainer(url: 'assets/svgs/facebook.svg'),
-            ),
           ],
         ),
       ],

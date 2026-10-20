@@ -1,4 +1,3 @@
-import 'package:evetick/core/helpers/app_regex.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/widgets/app_text_form_field.dart';
@@ -72,7 +71,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
               ),
             ),
             validator: (value) {
-              if(value == null || value.isEmpty || AppRegex.isPasswordValid(value)){
+              if(value == null || value.isEmpty){
                 return 'Please enter a valid password';
               }
             },

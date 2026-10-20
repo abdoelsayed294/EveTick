@@ -23,7 +23,7 @@ class SignupBlocListener extends StatelessWidget {
             );
           },
           success: (data) {
-            context.pushNamed(Routes.loginScreen);
+            context.pushReplacedNamed(Routes.loginScreen);
           },
         );
       },

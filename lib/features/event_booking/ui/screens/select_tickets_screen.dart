@@ -6,7 +6,6 @@ import 'package:evetick/features/event_booking/ui/widgets/select_tickets_widgets
 import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:evetick/l10n/app_localizations.dart';
 
 class SelectTicketsScreen extends StatelessWidget {
   const SelectTicketsScreen({super.key, this.onNext});

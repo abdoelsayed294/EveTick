@@ -23,7 +23,10 @@ class LocationListener extends StatelessWidget {
 
           saved: () {
             context.pop();
-            context.pushNamed(Routes.appStartScreen);
+            context.pushNamedAndRemoveUntil(
+              Routes.appStartScreen,
+              predicate: (route) => false,
+            );
           },
           loaded: (location) {
             context.pop();

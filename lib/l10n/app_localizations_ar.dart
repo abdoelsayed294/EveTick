@@ -237,6 +237,49 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authStartExploring => 'ابدأ الاستكشاف';
 
   @override
+  String get authForgotPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get authForgotPasswordTitle => 'نسيت كلمة المرور';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'أدخل بريدك الإلكتروني وسنرسل لك رابطًا لإعادة تعيين كلمة المرور.';
+
+  @override
+  String get authSendResetLink => 'إرسال رابط إعادة التعيين';
+
+  @override
+  String get authResetLinkSent =>
+      'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
+
+  @override
+  String get authBackToSignIn => 'العودة لتسجيل الدخول';
+
+  @override
+  String get deleteAccountWarning =>
+      'حذف حسابك سيؤدي إلى إزالة ملفك الشخصي وبياناتك نهائيًا. لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get deleteAccountPasswordPrompt => 'أدخل كلمة المرور للتأكيد';
+
+  @override
+  String get deleteAccountGoogleNotice =>
+      'سيُطلب منك التأكيد عبر جوجل قبل حذف حسابك.';
+
+  @override
+  String get deleteAccountConfirmTitle => 'حذف حسابك؟';
+
+  @override
+  String get deleteAccountConfirmMessage => 'سيتم حذف جميع بياناتك نهائيًا.';
+
+  @override
+  String get deleteAccountSuccess => 'تم حذف حسابك';
+
+  @override
+  String get commonDelete => 'حذف';
+
+  @override
   String get homeSearchPlaceholder => 'ابحث عن حفلات، سينما...';
 
   @override
@@ -773,6 +816,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileLogOut => 'تسجيل الخروج';
+
+  @override
+  String get profileDeleteAccount => 'حذف الحساب';
 
   @override
   String get myTicketsTitle => 'تذاكري';

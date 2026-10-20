@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-
 class SplashAnimations {
   static const Duration totalDuration = Duration(milliseconds: 3600);
 
   final AnimationController controller;
-
 
   late final Animation<double> fadeIn;
   late final Animation<double> popScale;
