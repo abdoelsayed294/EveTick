@@ -23,6 +23,7 @@ import 'package:evetick/features/organizer_reviews/ui/screens/write_organizer_re
 import 'package:evetick/features/organizer_profile/ui/screens/organizer_profile_screen.dart';
 import 'package:evetick/features/home/logic/home_cubit.dart';
 import 'package:evetick/features/search/logic/search_cubit.dart';
+import 'package:evetick/features/splash/ui/screens/splash_screen.dart';
 import 'package:evetick/features/search/ui/screens/search_screen.dart';
 import 'package:evetick/features/my_tickets/logic/my_tickets_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
@@ -197,6 +198,8 @@ class AppRouter {
 
       case Routes.verificationScreen:
         return MaterialPageRoute(builder: (_) => const VerificationScreen());
+      case Routes.splashScreen:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case Routes.appStartScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<AppStartCubit>(
