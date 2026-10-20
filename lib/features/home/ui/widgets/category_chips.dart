@@ -1,5 +1,6 @@
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,7 +42,7 @@ class CategoryChips extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
-                category ?? 'All',
+                category ?? AppLocalizations.of(context)!.homeFiltersAll,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,

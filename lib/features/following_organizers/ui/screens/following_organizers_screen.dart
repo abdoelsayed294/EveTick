@@ -11,6 +11,7 @@ import 'package:evetick/features/following_organizers/ui/widgets/organizer_tile.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 /// My profile -> Following Organizers.
 class FollowingOrganizersScreen extends StatelessWidget {
@@ -66,7 +67,7 @@ class FollowingOrganizersScreen extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 24.h),
             children: [
               Text(
-                'Organizers (${state.organizers.length})',
+                AppLocalizations.of(context)!.followingOrganizersCount('${state.organizers.length}'),
                 style: TextStyles.font16WhiteBold(context),
               ),
               verticalSpace(8),
@@ -74,8 +75,8 @@ class FollowingOrganizersScreen extends StatelessWidget {
                 SizedBox(height: 120.h),
                 AppEmptyView(
                   message: state.organizers.isEmpty
-                      ? 'You are not following any organizer yet'
-                      : 'No organizers found',
+                      ? AppLocalizations.of(context)!.followingOrganizersEmpty
+                      : AppLocalizations.of(context)!.followingOrganizersNoResults,
                 ),
               ] else
                 for (final organizer in organizers)
@@ -107,7 +108,7 @@ class _AppBar extends StatelessWidget {
                   size: 20.sp, color: context.colors.white),
             ),
           ),
-          Text('Following Organizers', style: TextStyles.font18WhiteBold(context)),
+          Text(AppLocalizations.of(context)!.followingOrganizersTitle, style: TextStyles.font18WhiteBold(context)),
         ],
       ),
     );
@@ -125,7 +126,7 @@ class _SearchField extends StatelessWidget {
       style: TextStyle(color: colors.white, fontSize: 15.sp),
       cursorColor: ColorsManager.orange,
       decoration: InputDecoration(
-        hintText: 'Search organizers',
+        hintText: AppLocalizations.of(context)!.followingOrganizersSearch,
         hintStyle: TextStyle(color: colors.lightGray, fontSize: 15.sp),
         prefixIcon: Icon(Icons.search_rounded, color: colors.lightGray),
         filled: true,

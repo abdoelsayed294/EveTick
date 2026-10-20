@@ -1,3 +1,5 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:evetick/core/helpers/date_formatter.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
@@ -46,9 +48,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
+    AppToast.error(message);
   }
 
   /// Opens the Paymob page. The cubit is told when the user closes it.
@@ -86,7 +86,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         break;
       case CheckoutStatus.orderFailed:
         if (_paymentPageOpen) Navigator.of(context).pop();
-        _showMessage(state.errorMessage ?? 'Something went wrong');
+        _showMessage(state.errorMessage ?? AppLocalizations.of(context)!.toastGenericError);
         break;
       default:
         break;

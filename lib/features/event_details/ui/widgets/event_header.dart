@@ -76,7 +76,7 @@ class _EventHeaderState extends State<EventHeader> {
                     icon: widget.isFavorite
                         ? Icons.favorite
                         : Icons.favorite_border,
-                    color: widget.isFavorite ? ColorsManager.favourite : null,
+                    color: widget.isFavorite ? ColorsManager.orange : null,
                     onTap: widget.onFavorite,
                   ),
                   SizedBox(width: 8.w),

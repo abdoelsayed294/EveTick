@@ -1,6 +1,7 @@
 import 'package:evetick/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 /// "Load More Reviews" text button, with its loading / error states.
 class LoadMoreReviews extends StatelessWidget {
@@ -47,7 +48,7 @@ class LoadMoreReviews extends StatelessWidget {
         TextButton(
           onPressed: onTap,
           child: Text(
-            'Load More Reviews',
+            AppLocalizations.of(context)!.commonLoadMoreReviews,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,

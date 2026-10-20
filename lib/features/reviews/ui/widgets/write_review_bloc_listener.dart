@@ -1,3 +1,5 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:evetick/features/auth/ui/widgets/error_banner.dart';
 import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_cubit.dart';
 import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_state.dart';
@@ -16,14 +18,7 @@ class WriteReviewBlocListener extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           success: (data) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Thanks! Your review was posted'),
-                  backgroundColor: Colors.green,
-                ),
-              );
+            AppToast.success(AppLocalizations.of(context)!.reviewPosted);
             Navigator.of(context).pop(true);
           },
         );

@@ -3,6 +3,7 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/features/my_tickets/logic/my_tickets_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 /// Upcoming / Past switch.
 class MyTicketsTabSwitch extends StatelessWidget {
@@ -25,8 +26,8 @@ class MyTicketsTabSwitch extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _item(context, 'Upcoming', MyTicketsTab.upcoming),
-          _item(context, 'Past', MyTicketsTab.past),
+          _item(context, AppLocalizations.of(context)!.myTicketsTabsUpcoming, MyTicketsTab.upcoming),
+          _item(context, AppLocalizations.of(context)!.myTicketsTabsPast, MyTicketsTab.past),
         ],
       ),
     );

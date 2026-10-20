@@ -1,3 +1,5 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_state.dart';
 import 'package:evetick/features/event_booking/ui/widgets/select_chair_widgets/selected_seats_bar.dart';
@@ -19,13 +21,9 @@ class SelectedSeatsBarBuilder extends StatelessWidget {
           totalPrice: state.totalPrice,
           onProceed: () {
             if (!state.isSelectionComplete) {
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(
-                    content: Text('Please select ${state.maxSeats} seat(s)'),
-                  ),
-                );
+              AppToast.error(
+                AppLocalizations.of(context)!.bookingSelectSeats(state.maxSeats),
+              );
               return;
             }
             onNext?.call();

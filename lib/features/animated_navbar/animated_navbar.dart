@@ -13,9 +13,9 @@ class AnimatedSpotlightNavbar extends StatefulWidget {
   final ValueChanged<int> onTap;
   final double height;
   final double borderRadius;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final Color activeColor;
-  final Color inactiveColor;
+  final Color? inactiveColor;
   final Duration animationDuration;
 
   const AnimatedSpotlightNavbar({
@@ -24,9 +24,9 @@ class AnimatedSpotlightNavbar extends StatefulWidget {
     required this.currentIndex,
     required this.onTap,
     this.height = 72,
-    this.backgroundColor = ColorsManager.lightBlue,
+    this.backgroundColor,
     this.activeColor = ColorsManager.orange,
-    this.inactiveColor = ColorsManager.lightGray,
+    this.inactiveColor,
     this.borderRadius = 24,
     this.animationDuration = const Duration(milliseconds: 500),
   });
@@ -89,17 +89,30 @@ class _AnimatedSpotlightNavbarState extends State<AnimatedSpotlightNavbar>
   double _calculateCenterX(int index) {
     final totalWidth = MediaQuery.of(context).size.width;
     final itemWidth = totalWidth / widget.items.length;
-    return itemWidth * index + itemWidth / 2;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final visualIndex = isRtl ? widget.items.length - 1 - index : index;
+    return itemWidth * visualIndex + itemWidth / 2;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // A language change can reverse the visual order without changing the
+    // selected logical index.
+    final center = _calculateCenterX(widget.currentIndex);
+    _startX = center;
+    _endX = center;
   }
 
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final colors = Theme.of(context).extension<AppColors>()!;
 
     return Container(
       height: widget.height + bottomPadding,
       decoration: BoxDecoration(
-        color: widget.backgroundColor,
+        color: widget.backgroundColor ?? colors.lightBlue,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(widget.borderRadius),
         ),
@@ -110,10 +123,15 @@ class _AnimatedSpotlightNavbarState extends State<AnimatedSpotlightNavbar>
         ),
         child: Stack(
           children: [
-            _buildSpotlight(),
+            _buildSpotlight(widget.activeColor),
             Padding(
               padding: EdgeInsets.only(bottom: bottomPadding),
-              child: Stack(children: [_buildIndicator(), _buildIcons()]),
+              child: Stack(
+                children: [
+                  _buildIndicator(widget.activeColor),
+                  _buildIcons(widget.inactiveColor ?? colors.lightGray),
+                ],
+              ),
             ),
           ],
         ),
@@ -121,7 +139,7 @@ class _AnimatedSpotlightNavbarState extends State<AnimatedSpotlightNavbar>
     );
   }
 
-  Widget _buildSpotlight() {
+  Widget _buildSpotlight(Color activeColor) {
     return AnimatedBuilder(
       animation: _animation,
       builder: (_, __) {
@@ -129,13 +147,13 @@ class _AnimatedSpotlightNavbarState extends State<AnimatedSpotlightNavbar>
           progress: _animation.value,
           startX: _startX,
           endX: _endX,
-          color: widget.activeColor,
+          color: activeColor,
         );
       },
     );
   }
 
-  Widget _buildIndicator() {
+  Widget _buildIndicator(Color activeColor) {
     return AnimatedBuilder(
       animation: _animation,
       builder: (_, __) {
@@ -143,13 +161,13 @@ class _AnimatedSpotlightNavbarState extends State<AnimatedSpotlightNavbar>
           progress: _animation.value,
           startX: _startX,
           endX: _endX,
-          color: widget.activeColor,
+          color: activeColor,
         );
       },
     );
   }
 
-  Widget _buildIcons() {
+  Widget _buildIcons(Color inactiveColor) {
     return Row(
       children: List.generate(widget.items.length, (index) {
         return Expanded(
@@ -160,7 +178,7 @@ class _AnimatedSpotlightNavbarState extends State<AnimatedSpotlightNavbar>
               item: widget.items[index],
               selected: widget.currentIndex == index,
               activeColor: widget.activeColor,
-              inactiveColor: widget.inactiveColor,
+              inactiveColor: inactiveColor,
             ),
           ),
         );

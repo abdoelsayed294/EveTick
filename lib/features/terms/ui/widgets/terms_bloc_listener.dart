@@ -1,3 +1,4 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/features/terms/logic/terms_cubit.dart';
 import 'package:evetick/features/terms/logic/terms_state.dart';
@@ -17,9 +18,7 @@ class TermsBlocListener extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           saved: () => context.pop(),
-          error: (error) => ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error), backgroundColor: Colors.red),
-          ),
+          error: (error) => AppToast.error(error),
         );
       },
       child: child,

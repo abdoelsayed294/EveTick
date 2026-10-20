@@ -11,6 +11,7 @@ import 'package:evetick/features/my_tickets/ui/widgets/my_tickets_tab_switch.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class MyTicketsScreen extends StatelessWidget {
   const MyTicketsScreen({super.key});
@@ -30,7 +31,7 @@ class MyTicketsScreen extends StatelessWidget {
                 children: [
                   verticalSpace(30),
                   Text(
-                    'My Tickets',
+                    AppLocalizations.of(context)!.myTicketsTitle,
                     style: TextStyles.font18WhiteBold(context),
                   ),
                   verticalSpace(24),
@@ -72,7 +73,9 @@ class MyTicketsScreen extends StatelessWidget {
                     SizedBox(height: 200.h),
                     AppEmptyView(
                       message:
-                          isPast ? 'No past tickets' : 'No upcoming tickets',
+                          isPast
+                              ? AppLocalizations.of(context)!.myTicketsNoPast
+                              : AppLocalizations.of(context)!.myTicketsNoUpcoming,
                     ),
                   ],
                 )

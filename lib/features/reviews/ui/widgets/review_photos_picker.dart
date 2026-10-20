@@ -8,6 +8,7 @@ import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_c
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 /// "Add Photos (optional)": the UPLOAD tile and the picked thumbnails.
 class ReviewPhotosPicker extends StatelessWidget {
@@ -24,7 +25,7 @@ class ReviewPhotosPicker extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Add Photos',
+              AppLocalizations.of(context)!.reviewsAddPhotos,
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
@@ -32,7 +33,7 @@ class ReviewPhotosPicker extends StatelessWidget {
               ),
             ),
             Text(
-              'optional',
+              AppLocalizations.of(context)!.reviewsOptional,
               style: TextStyle(fontSize: 14.sp, color: context.colors.lightGray),
             ),
           ],
@@ -89,7 +90,7 @@ class _UploadTile extends StatelessWidget {
               Icon(Icons.add_a_photo_outlined, color: context.colors.white, size: 26.sp),
               verticalSpace(6),
               Text(
-                'UPLOAD',
+                AppLocalizations.of(context)!.profileUpload,
                 style: TextStyle(fontSize: 12.sp, color: context.colors.white),
               ),
             ],

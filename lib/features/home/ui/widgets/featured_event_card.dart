@@ -4,6 +4,7 @@ import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:evetick/features/home/data/models/home_event_model.dart';
 import 'package:evetick/features/home/ui/widgets/event_badge.dart';
 import 'package:evetick/features/home/ui/widgets/event_cover_image.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -82,7 +83,9 @@ class FeaturedEventCard extends StatelessWidget {
                   ],
                   SizedBox(height: 16.h),
                   FilledAppTextButton(
-                    buttonText: event.isSoldOut ? 'Sold out' : 'Book Now',
+                    buttonText: event.isSoldOut
+                        ? AppLocalizations.of(context)!.commonSoldOut
+                        : AppLocalizations.of(context)!.commonBookNow,
                     backgroundColor: event.isSoldOut
                         ? ColorsManager.gray3
                         : null,

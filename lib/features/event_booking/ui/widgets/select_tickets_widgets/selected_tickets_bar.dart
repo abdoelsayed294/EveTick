@@ -4,6 +4,7 @@ import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class SelectedTicketsBar extends StatelessWidget {
   const SelectedTicketsBar({
@@ -45,9 +46,7 @@ class SelectedTicketsBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    ticketCount == 1
-                        ? '1 ticket selected'
-                        : '$ticketCount tickets selected',
+                    AppLocalizations.of(context)!.ticketsTicketCountSelected('$ticketCount'),
                     style: TextStyles.font12LightGrayRegular(context),
                   ),
                   verticalSpace(8),
@@ -58,7 +57,7 @@ class SelectedTicketsBar extends StatelessWidget {
                 ],
               ),
               Text(
-                'TOTAL PRICE \n + Service fee',
+                '${AppLocalizations.of(context)!.ticketsTotalPrice}\n${AppLocalizations.of(context)!.ticketsPlusServiceFee}',
                 style: TextStyles.font12LightGrayRegular(context),
               ),
             ],

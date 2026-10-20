@@ -5,6 +5,7 @@ import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/core/widgets/filled_app_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class CheckoutBottomBar extends StatelessWidget {
   const CheckoutBottomBar({
@@ -37,14 +38,14 @@ class CheckoutBottomBar extends StatelessWidget {
               Icon(Icons.lock_outline_rounded, size: 16.sp, color: ColorsManager.gray),
               horizontalSpace(4),
               Text(
-                'SECURE SSL ENCRYPTED PAYMENT',
+                AppLocalizations.of(context)!.paymentSecurePaymentNotice,
                 style: TextStyles.font12GrayRegular,
               ),
             ],
           ),
           verticalSpace(8),
           FilledAppTextButton(
-            buttonText: isLoading ? 'Processing...' : 'Pay Now',
+            buttonText: isLoading ? AppLocalizations.of(context)!.bookingProcessing : AppLocalizations.of(context)!.paymentPayNow,
             onPressed: isLoading ? () {} : onPay,
           ),
         ],

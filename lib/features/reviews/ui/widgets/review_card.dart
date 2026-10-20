@@ -5,6 +5,7 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/features/reviews/data/models/review_model.dart';
 import 'package:evetick/features/reviews/ui/widgets/review_photos_row.dart';
 import 'package:evetick/features/reviews/ui/widgets/star_row.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,10 +23,14 @@ class ReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subtitle = [
-      if (review.verified) 'Verified Attendee',
-      formatTimeAgo(review.createdAt),
-    ].join('  •  ');
+    final l10n = AppLocalizations.of(context)!;
+    final time = formatTimeAgo(
+      review.createdAt,
+      locale: Localizations.localeOf(context),
+    );
+    final subtitle = review.verified
+        ? l10n.reviewsVerifiedAttendee(time)
+        : time;
 
     return Container(
       width: double.infinity,
@@ -98,7 +103,7 @@ class ReviewCard extends StatelessWidget {
                 icon: review.isHelpful
                     ? Icons.thumb_up_alt_rounded
                     : Icons.thumb_up_alt_outlined,
-                label: 'Helpful (${review.helpfulCount})',
+                label: l10n.reviewsHelpfulCount('${review.helpfulCount}'),
                 color: review.isHelpful
                     ? ColorsManager.orange
                     : context.colors.lightGray,
@@ -108,7 +113,7 @@ class ReviewCard extends StatelessWidget {
               horizontalSpace(24),
               _Action(
                 icon: Icons.chat_bubble_rounded,
-                label: 'Reply',
+                label: l10n.reviewsReply,
                 color: context.colors.lightGray,
                 onTap: onReply,
               ),

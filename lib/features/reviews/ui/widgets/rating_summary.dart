@@ -6,6 +6,7 @@ import 'package:evetick/features/reviews/ui/widgets/star_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 /// Big average, stars, review count and the 5..1 bars.
 class RatingSummary extends StatelessWidget {
@@ -36,7 +37,10 @@ class RatingSummary extends StatelessWidget {
             StarRow(rating: summary.roundedAverage, size: 22),
             verticalSpace(8),
             Text(
-              '${NumberFormat('#,###').format(total)} ${total == 1 ? 'Review' : 'Reviews'}',
+              AppLocalizations.of(context)!.reviewsReviewsCountTotal(
+                NumberFormat('#,###', Localizations.localeOf(context).toString())
+                    .format(total),
+              ),
               style: TextStyle(fontSize: 16.sp, color: context.colors.lightGray),
             ),
           ],
