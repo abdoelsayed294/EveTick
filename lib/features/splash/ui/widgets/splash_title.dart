@@ -12,13 +12,14 @@ class SplashTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // نفس ألوان اللوجو: E برتقالي و T أبيض (أو كحلي في اللايت)
     final tickColor = isDark ? ColorsManager.white : ColorsManager.darkBlue;
 
+    const spacing = 3.0;
+
     final baseStyle = TextStyle(
-      fontSize: 30.sp,                 // أصغر من 40 عشان ما ينافسش اللوجو
-      fontWeight: FontWeight.w800,     // أتخن عشان يطابق بلوكات اللوجو
-      letterSpacing: 3,                // تباعد بين الحروف = شكل brand أنضف
+      fontSize: 30.sp,
+      fontWeight: FontWeight.w800,
+      letterSpacing: spacing,
       height: 1.1,
     );
 
@@ -33,7 +34,7 @@ class SplashTitle extends StatelessWidget {
           child: Opacity(
             opacity: animations.nameFade.value,
             child: Padding(
-              padding: EdgeInsets.only(top: 20.h), // مسافة أوسع من اللوجو
+              padding: EdgeInsets.only(top: 20.h, left: spacing),
               child: Text.rich(
                 TextSpan(
                   children: [
