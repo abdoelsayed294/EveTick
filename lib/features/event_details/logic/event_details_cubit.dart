@@ -31,6 +31,10 @@ class EventDetailsCubit extends Cubit<EventDetailsState> {
           ),
         );
         if (event.hasMap) _loadCoordinates(event.location!);
+        final organizerId = event.organizerId;
+        if (organizerId != null && event.organizer != null) {
+          _loadFollowState(organizerId);
+        }
       },
       failure: (error) => emit(
         state.copyWith(
@@ -39,6 +43,23 @@ class EventDetailsCubit extends Cubit<EventDetailsState> {
         ),
       ),
     );
+  }
+
+  /// Coming back from the organizer page: the follow state and the
+  /// followers count may have changed there.
+  Future<void> refreshOrganizer() async {
+    final event = state.event;
+    final organizerId = event?.organizerId;
+    if (event == null || organizerId == null) return;
+    final following = await repo.isFollowing(organizerId);
+    final fresh = await repo.refreshOrganizer(event);
+    if (isClosed) return;
+    emit(state.copyWith(isFollowing: following, event: fresh));
+  }
+
+  Future<void> _loadFollowState(String organizerId) async {
+    final following = await repo.isFollowing(organizerId);
+    if (following && !isClosed) emit(state.copyWith(isFollowing: true));
   }
 
   Future<void> _loadCoordinates(String address) async {
@@ -64,6 +85,30 @@ class EventDetailsCubit extends Cubit<EventDetailsState> {
     );
   }
 
-  // TODO: persist follows once organizers exist in Firestore.
-  void toggleFollow() => emit(state.copyWith(isFollowing: !state.isFollowing));
+  /// Updates the button and the counter immediately, then saves;
+  /// rolls back if saving fails. The real counter is kept by a Cloud Function.
+  Future<void> toggleFollow() async {
+    final event = state.event;
+    final organizer = event?.organizer;
+    final organizerId = event?.organizerId;
+    if (event == null || organizer == null || organizerId == null) return;
+    if (!repo.canFollow(organizerId)) return;
+
+    final wasFollowing = state.isFollowing;
+    final newFollowers = wasFollowing
+        ? (organizer.followers > 0 ? organizer.followers - 1 : 0)
+        : organizer.followers + 1;
+    emit(state.copyWith(
+      isFollowing: !wasFollowing,
+      event: event.withOrganizer(
+        organizer.copyWith(followers: newFollowers),
+      ),
+    ));
+
+    final saved =
+        await repo.setFollowing(organizerId, follow: !wasFollowing);
+    if (!saved && !isClosed) {
+      emit(state.copyWith(isFollowing: wasFollowing, event: event));
+    }
+  }
 }

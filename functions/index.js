@@ -1,5 +1,9 @@
 const {onRequest} = require("firebase-functions/v2/https");
 const {onSchedule} = require("firebase-functions/v2/scheduler");
+const {
+  onDocumentCreated,
+  onDocumentDeleted,
+} = require("firebase-functions/v2/firestore");
 const {defineSecret, defineString} = require("firebase-functions/params");
 const {verifyHmac} = require("./paymob");
 const {getFirestore, FieldValue, Timestamp} = require("firebase-admin/firestore");
@@ -409,3 +413,68 @@ exports.expirePendingOrders = onSchedule("every 5 minutes", async () => {
     }
   }
 });
+
+/**
+ * Keeps `users/{organizerId}.followers` in sync with the documents
+ * `users/{uid}/following/{organizerId}` (created / deleted by the app).
+ * Clients cannot write the counter themselves (see firestore.rules).
+ * @param {string} organizerId  the organizer's uid
+ * @param {number} delta  +1 or -1
+ */
+async function changeFollowers(organizerId, delta) {
+  try {
+    await getFirestore().collection("users").doc(organizerId).update({
+      followers: FieldValue.increment(delta),
+    });
+  } catch (e) {
+    console.error("followers update failed", organizerId, e.message);
+  }
+}
+
+/**
+ * Mirrors the follow into `users/{organizerId}/followers/{uid}`, so the
+ * followers of an organizer can be found with one simple query (used by
+ * onEventPublished in notifications.js). Only the server reads/writes it.
+ */
+async function setFollowerMirror(organizerId, uid, follows) {
+  try {
+    const ref = getFirestore().collection("users").doc(organizerId)
+        .collection("followers").doc(uid);
+    if (follows) {
+      await ref.set({createdAt: FieldValue.serverTimestamp()});
+    } else {
+      await ref.delete();
+    }
+  } catch (e) {
+    console.error("followers mirror failed", organizerId, uid, e.message);
+  }
+}
+
+exports.onFollowCreated = onDocumentCreated(
+    "users/{uid}/following/{organizerId}",
+    async (event) => {
+      const {uid, organizerId} = event.params;
+      await Promise.all([
+        changeFollowers(organizerId, 1),
+        setFollowerMirror(organizerId, uid, true),
+      ]);
+    },
+);
+
+exports.onFollowDeleted = onDocumentDeleted(
+    "users/{uid}/following/{organizerId}",
+    async (event) => {
+      const {uid, organizerId} = event.params;
+      await Promise.all([
+        changeFollowers(organizerId, -1),
+        setFollowerMirror(organizerId, uid, false),
+      ]);
+    },
+);
+
+// Notifications written for the app (see notifications.js).
+const notifications = require("./notifications");
+exports.onOrderConfirmed = notifications.onOrderConfirmed;
+exports.onEventPublished = notifications.onEventPublished;
+exports.notifyHotEvents = notifications.notifyHotEvents;
+exports.sendPushOnNotification = notifications.sendPushOnNotification;
