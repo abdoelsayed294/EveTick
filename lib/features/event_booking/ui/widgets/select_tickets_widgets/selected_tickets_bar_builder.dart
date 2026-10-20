@@ -1,3 +1,5 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_state.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
@@ -21,17 +23,14 @@ class SelectedTicketsBarBuilder extends StatelessWidget {
             chair.status == SelectChairStatus.success && !chair.isSeated;
 
         return SelectedTicketsBar(
-          buttonText:
-              skipsSeats ? 'Continue to Checkout' : 'Continue to select Chair',
+          buttonText: skipsSeats
+              ? AppLocalizations.of(context)!.ticketsContinueToCheckout
+              : AppLocalizations.of(context)!.bookingContinueToSelectSeats,
           ticketCount: state.totalQuantity,
           totalPrice: state.totalPrice,
           onNext: () {
             if (state.totalQuantity == 0) {
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  const SnackBar(content: Text('Please select at least one ticket')),
-                );
+              AppToast.error(AppLocalizations.of(context)!.bookingSelectTicket);
               return;
             }
             onNext?.call();

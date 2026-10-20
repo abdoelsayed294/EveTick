@@ -1281,4 +1281,127 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get helpSupportMessageSent => 'تم إرسال رسالتك. سنرد عليك قريبًا.';
+
+  @override
+  String get toastSuccessTitle => 'تمت العملية بنجاح';
+
+  @override
+  String get toastErrorTitle => 'حدث خطأ';
+
+  @override
+  String get toastGenericError => 'حدث خطأ ما';
+
+  @override
+  String get eventDetailsCopied => 'تم نسخ تفاصيل الفعالية';
+
+  @override
+  String get reviewPosted => 'شكرًا لك! تم نشر تقييمك';
+
+  @override
+  String get bookingSelectTicket => 'يرجى اختيار تذكرة واحدة على الأقل';
+
+  @override
+  String bookingSelectSeats(int count) {
+    return 'يرجى اختيار $count مقعد';
+  }
+
+  @override
+  String get favoritesEmpty => 'لا توجد فعاليات مفضلة بعد';
+
+  @override
+  String get myTicketsNoPast => 'لا توجد تذاكر سابقة';
+
+  @override
+  String get myTicketsNoUpcoming => 'لا توجد تذاكر قادمة';
+
+  @override
+  String get myTicketsOnlineEvent => 'فعالية عبر الإنترنت';
+
+  @override
+  String get followingOrganizersTitle => 'المنظمون الذين تتابعهم';
+
+  @override
+  String followingOrganizersCount(Object count) {
+    return 'المنظمون ($count)';
+  }
+
+  @override
+  String get followingOrganizersEmpty => 'أنت لا تتابع أي منظم بعد';
+
+  @override
+  String get followingOrganizersNoResults => 'لم يتم العثور على منظمين';
+
+  @override
+  String get followingOrganizersSearch => 'ابحث عن منظمين';
+
+  @override
+  String get bookingLoadingEventDetails =>
+      'جارٍ تحميل تفاصيل الفعالية، حاول مرة أخرى بعد قليل';
+
+  @override
+  String get bookingCouldNotLoadEvent => 'تعذر تحميل الفعالية';
+
+  @override
+  String get bookingSeatSelection => 'اختيار المقاعد';
+
+  @override
+  String get bookingSelectSeatsTitle => 'اختر المقاعد';
+
+  @override
+  String get bookingFor => 'الحجز لـ';
+
+  @override
+  String get bookingContinueToSelectSeats => 'المتابعة لاختيار المقاعد';
+
+  @override
+  String get bookingProcessing => 'جارٍ المعالجة...';
+
+  @override
+  String get homeNoEventsYet => 'لا توجد فعاليات بعد';
+
+  @override
+  String get homeNoSearchResults => 'لا توجد فعاليات تطابق بحثك';
+
+  @override
+  String get eventDetailsViewOnMap => 'عرض على الخريطة';
+
+  @override
+  String get eventDetailsOrganizer => 'المنظم';
+
+  @override
+  String get eventDetailsPricePerTicket => 'سعر التذكرة';
+
+  @override
+  String get eventDetailsShowLess => 'عرض أقل';
+
+  @override
+  String eventDetailsFollowers(String count) {
+    return '$count متابع';
+  }
+
+  @override
+  String get reviewsNoReviewsYet => 'لا توجد تقييمات بعد';
+
+  @override
+  String get reviewsRepliesComingSoon => 'الردود ستكون متاحة قريبًا';
+
+  @override
+  String get reviewsAlreadyReviewed => 'لقد قيّمت هذه الفعالية';
+
+  @override
+  String get reviewsReviewLabel => 'التقييم';
+
+  @override
+  String get reviewsAddPhotos => 'إضافة صور';
+
+  @override
+  String get reviewsOptional => 'اختياري';
+
+  @override
+  String get reviewsSelectRating => 'يرجى اختيار تقييم';
+
+  @override
+  String reviewsMinimumCharacters(int count) {
+    return 'يرجى كتابة $count أحرف على الأقل';
+  }
 }

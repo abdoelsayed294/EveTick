@@ -1,5 +1,6 @@
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/widgets/app_filter_button.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -36,7 +37,7 @@ class HomeSearchField extends StatelessWidget {
                   Icon(Icons.search, color: colors.lightGray),
                   SizedBox(width: 12.w),
                   Text(
-                    'Search for concerts, cinema...',
+                    AppLocalizations.of(context)!.homeSearchPlaceholder,
                     style: TextStyle(color: colors.lightGray, fontSize: 14.sp),
                   ),
                 ],

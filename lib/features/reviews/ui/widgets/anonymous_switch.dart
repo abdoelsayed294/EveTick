@@ -4,6 +4,7 @@ import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_c
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 /// "Post Anonymously": the name and photo are not saved with the review.
 class AnonymousSwitch extends StatelessWidget {
@@ -20,7 +21,7 @@ class AnonymousSwitch extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Post Anonymously',
+                AppLocalizations.of(context)!.reviewsPostAnonymously,
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
@@ -29,7 +30,7 @@ class AnonymousSwitch extends StatelessWidget {
               ),
               SizedBox(height: 2.h),
               Text(
-                "Your name won't be visible to others",
+                AppLocalizations.of(context)!.reviewsAnonymousNote,
                 style: TextStyle(fontSize: 12.sp, color: context.colors.lightGray),
               ),
             ],

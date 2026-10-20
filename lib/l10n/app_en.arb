@@ -966,5 +966,66 @@
   "helpSupportAttachmentInvalid": "Only PNG or JPG images up to 5MB are supported",
   "@helpSupportAttachmentInvalid": {},
   "helpSupportMessageSent": "Your message has been sent. We'll get back to you soon.",
-  "@helpSupportMessageSent": {}
+  "@helpSupportMessageSent": {},
+  "toastSuccessTitle": "Success",
+  "@toastSuccessTitle": {},
+  "toastErrorTitle": "Error",
+  "@toastErrorTitle": {},
+  "toastGenericError": "Something went wrong",
+  "@toastGenericError": {},
+  "eventDetailsCopied": "Event details copied to clipboard",
+  "@eventDetailsCopied": {},
+  "reviewPosted": "Thanks! Your review was posted",
+  "@reviewPosted": {},
+  "bookingSelectTicket": "Please select at least one ticket",
+  "@bookingSelectTicket": {},
+  "bookingSelectSeats": "Please select {count} seat(s)",
+  "@bookingSelectSeats": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesEmpty": "No favorites yet",
+  "myTicketsNoPast": "No past tickets",
+  "myTicketsNoUpcoming": "No upcoming tickets",
+  "myTicketsOnlineEvent": "Online event",
+  "followingOrganizersTitle": "Following Organizers",
+  "followingOrganizersCount": "Organizers ({count})",
+  "followingOrganizersEmpty": "You are not following any organizer yet",
+  "followingOrganizersNoResults": "No organizers found",
+  "followingOrganizersSearch": "Search organizers",
+  "bookingLoadingEventDetails": "Loading event details, try again in a moment",
+  "bookingCouldNotLoadEvent": "Could not load the event",
+  "bookingSeatSelection": "Seat Selection",
+  "bookingSelectSeatsTitle": "Select Seats",
+  "bookingFor": "Booking For",
+  "bookingContinueToSelectSeats": "Continue to select seats",
+  "bookingProcessing": "Processing...",
+  "homeNoEventsYet": "No events yet",
+  "homeNoSearchResults": "No events match your search",
+  "eventDetailsViewOnMap": "View on Map",
+  "eventDetailsOrganizer": "Organizer",
+  "eventDetailsPricePerTicket": "Price per ticket",
+  "eventDetailsShowLess": "Show Less",
+  "eventDetailsFollowers": "{count} followers",
+  "@eventDetailsFollowers": {
+    "placeholders": {
+      "count": { "type": "String" }
+    }
+  },
+  "reviewsNoReviewsYet": "No reviews yet",
+  "reviewsRepliesComingSoon": "Replies are coming soon",
+  "reviewsAlreadyReviewed": "You reviewed this event",
+  "reviewsReviewLabel": "Review",
+  "reviewsAddPhotos": "Add Photos",
+  "reviewsOptional": "optional",
+  "reviewsSelectRating": "Please select a rating",
+  "reviewsMinimumCharacters": "Please write at least {count} characters",
+  "@reviewsMinimumCharacters": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/features/help_support/logic/send_message/send_message_cubit.dart';
 import 'package:evetick/features/help_support/logic/send_message/send_message_state.dart';
@@ -20,31 +21,15 @@ class SendMessageBlocListener extends StatelessWidget {
           current.status == SendMessageStatus.invalidAttachment,
       listener: (context, state) {
         final l10n = AppLocalizations.of(context)!;
-        final messenger = ScaffoldMessenger.of(context);
 
         switch (state.status) {
           case SendMessageStatus.sent:
-            messenger.showSnackBar(
-              SnackBar(
-                content: Text(l10n.helpSupportMessageSent),
-                backgroundColor: Colors.green,
-              ),
-            );
+            AppToast.success(l10n.helpSupportMessageSent);
             context.pop();
           case SendMessageStatus.failure:
-            messenger.showSnackBar(
-              SnackBar(
-                content: Text(state.error ?? ''),
-                backgroundColor: Colors.red,
-              ),
-            );
+            AppToast.error(state.error ?? '');
           case SendMessageStatus.invalidAttachment:
-            messenger.showSnackBar(
-              SnackBar(
-                content: Text(l10n.helpSupportAttachmentInvalid),
-                backgroundColor: Colors.red,
-              ),
-            );
+            AppToast.error(l10n.helpSupportAttachmentInvalid);
           case SendMessageStatus.idle || SendMessageStatus.sending:
             break;
         }

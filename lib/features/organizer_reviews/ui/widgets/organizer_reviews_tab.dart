@@ -1,3 +1,4 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/routing/routes.dart';
@@ -36,9 +37,7 @@ class _OrganizerReviewsTabState extends State<OrganizerReviewsTab> {
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
+    AppToast.error(message);
   }
 
   Future<void> _writeReview(OrganizerReviewsData data) async {

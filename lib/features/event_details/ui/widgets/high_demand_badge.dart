@@ -1,4 +1,5 @@
 import 'package:evetick/core/theming/colors.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,7 +24,7 @@ class HighDemandBadge extends StatelessWidget {
           ),
           SizedBox(width: 4.w),
           Text(
-            'HIGH DEMAND',
+            AppLocalizations.of(context)!.homeBadgesHighDemand,
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w700,

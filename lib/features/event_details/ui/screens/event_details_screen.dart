@@ -1,3 +1,5 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:evetick/core/helpers/date_formatter.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
@@ -52,11 +54,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     ];
     await Clipboard.setData(ClipboardData(text: lines.join('\n')));
     if (!mounted) return;
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        const SnackBar(content: Text('Event details copied to clipboard')),
-      );
+    AppToast.success(AppLocalizations.of(context)!.eventDetailsCopied);
   }
 
   @override

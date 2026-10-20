@@ -5,6 +5,7 @@ import 'package:evetick/features/reviews/logic/write_review_cubit/write_review_c
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 /// "HOW WAS YOUR EXPERIENCE?" + five tappable stars.
 class StarRatingInput extends StatelessWidget {
@@ -17,7 +18,7 @@ class StarRatingInput extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'HOW WAS YOUR EXPERIENCE?',
+          AppLocalizations.of(context)!.reviewsHowWasYourExperience,
           style: TextStyle(
             fontSize: 14.sp,
             letterSpacing: 0.5,
@@ -56,7 +57,7 @@ class StarRatingInput extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.only(top: 8.h),
               child: Text(
-                'Please select a rating',
+                AppLocalizations.of(context)!.reviewsSelectRating,
                 style: TextStyle(color: ColorsManager.red, fontSize: 14.sp),
               ),
             );

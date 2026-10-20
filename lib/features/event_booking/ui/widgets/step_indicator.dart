@@ -4,6 +4,7 @@ import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:evetick/core/theming/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class StepIndicator extends StatelessWidget {
   const StepIndicator({
@@ -27,7 +28,7 @@ class StepIndicator extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Step $stepNum OF $_total',
+              AppLocalizations.of(context)!.ticketsStepIndicator('$stepNum', '$_total'),
               style: TextStyles.font12OrangeRegular,
             ),
             Text(

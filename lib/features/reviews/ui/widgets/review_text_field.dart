@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class ReviewTextField extends StatelessWidget {
   const ReviewTextField({super.key});
@@ -26,12 +27,14 @@ class ReviewTextField extends StatelessWidget {
       cursorColor: context.colors.white,
       validator: (value) {
         if ((value ?? '').trim().length < ReviewsRepository.minTextLength) {
-          return 'Please write at least ${ReviewsRepository.minTextLength} characters';
+          return AppLocalizations.of(context)!.reviewsMinimumCharacters(
+            ReviewsRepository.minTextLength,
+          );
         }
         return null;
       },
       decoration: InputDecoration(
-        hintText: 'Share your experience with others…',
+        hintText: AppLocalizations.of(context)!.reviewsShareExperiencePlaceholder,
         hintStyle: TextStyle(color: context.colors.lightGray, fontSize: 16.sp),
         filled: true,
         fillColor: context.colors.lightBlue,

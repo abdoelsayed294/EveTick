@@ -9,6 +9,7 @@ import 'package:evetick/features/event_details/ui/widgets/expandable_description
 import 'package:evetick/features/event_details/ui/widgets/high_demand_badge.dart';
 import 'package:evetick/features/event_details/ui/widgets/organizer_card.dart';
 import 'package:evetick/features/reviews/ui/widgets/reviews_entry_tile.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 /// Everything under the cover: badge, title, date, place, description,
@@ -35,6 +36,7 @@ class EventDetailsInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final organizer = event.organizer;
     final place = event.placeText;
 
@@ -60,19 +62,19 @@ class EventDetailsInfo extends StatelessWidget {
                 : Icons.location_on_outlined,
             title: place,
             subtitle: event.isOnline ? event.eventUrl : null,
-            actionText: event.hasMap ? 'View on Map' : null,
+            actionText: event.hasMap ? l10n.eventDetailsViewOnMap : null,
             onAction: event.hasMap ? onViewMap : null,
           ),
         ],
         if (event.description.trim().isNotEmpty) ...[
           verticalSpace(24),
-          Text('Description', style: TextStyles.font18WhiteBold(context)),
+          Text(l10n.eventDetailsDescriptionTitle, style: TextStyles.font18WhiteBold(context)),
           verticalSpace(12),
           ExpandableDescription(text: event.description),
         ],
         if (organizer != null) ...[
           verticalSpace(24),
-          Text('Organizer', style: TextStyles.font18WhiteBold(context)),
+          Text(l10n.eventDetailsOrganizer, style: TextStyles.font18WhiteBold(context)),
           verticalSpace(12),
           OrganizerCard(
             organizer: organizer,

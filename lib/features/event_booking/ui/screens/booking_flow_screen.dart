@@ -1,3 +1,4 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
 import 'package:evetick/features/event_booking/ui/screens/checkout_screen.dart';
 import 'package:evetick/features/event_booking/ui/screens/select_chair_screen.dart';
 import 'package:evetick/features/event_booking/ui/screens/select_tickets_screen.dart';
@@ -9,6 +10,7 @@ import 'package:evetick/features/event_booking/logic/checkout/checkout_cubit.dar
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_cubit.dart';
 import 'package:evetick/features/event_booking/logic/select_chair/select_chair_state.dart';
 import 'package:evetick/features/event_booking/logic/select_tickets/select_tickets_cubit.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -58,9 +60,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
+    AppToast.error(message);
   }
 
   /// Seated events: hand the tickets to the seat step.
@@ -68,11 +68,11 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   void _onTicketsNext() {
     final chair = context.read<SelectChairCubit>().state;
     if (chair.status == SelectChairStatus.loading) {
-      _showMessage('Loading event details, try again in a moment');
+      _showMessage(AppLocalizations.of(context)!.bookingLoadingEventDetails);
       return;
     }
     if (chair.status == SelectChairStatus.error) {
-      _showMessage(chair.errorMessage ?? 'Could not load the event');
+      _showMessage(chair.errorMessage ?? AppLocalizations.of(context)!.bookingCouldNotLoadEvent);
       return;
     }
 
@@ -153,13 +153,14 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     return BlocBuilder<SelectChairCubit, SelectChairState>(
       builder: (context, chair) {
         final isSeated = _isSeated(chair);
+        final l10n = AppLocalizations.of(context)!;
         final stepTitles = isSeated
-            ? const ['Ticket Selection', 'Seat Selection', 'Checkout']
-            : const ['Ticket Selection', 'Checkout'];
+            ? [l10n.ticketsStepTicketSelection, l10n.bookingSeatSelection, l10n.ticketsStepCheckout]
+            : [l10n.ticketsStepTicketSelection, l10n.ticketsStepCheckout];
 
         return Scaffold(
           appBar: CustomAppBar(
-            title: _getAppBarTitle(isSeated),
+            title: _getAppBarTitle(l10n, isSeated),
             stepNum: _currentStep + 1,
             stepTitles: stepTitles,
             onPrevious: _previousStep,
@@ -179,9 +180,9 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     );
   }
 
-  String _getAppBarTitle(bool isSeated) {
-    if (_currentStep == 0) return 'Select Tickets';
+  String _getAppBarTitle(AppLocalizations l10n, bool isSeated) {
+    if (_currentStep == 0) return l10n.ticketsSelectTicketsTitle;
     final isCheckout = _currentStep == (isSeated ? 2 : 1);
-    return isCheckout ? 'Checkout' : 'Select Seats';
+    return isCheckout ? l10n.checkoutTitle : l10n.bookingSelectSeatsTitle;
   }
 }

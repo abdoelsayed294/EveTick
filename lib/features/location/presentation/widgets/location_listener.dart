@@ -1,3 +1,4 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/features/location/logic/cubit/location_cubit.dart';
@@ -33,9 +34,7 @@ class LocationListener extends StatelessWidget {
           },
           error: (message) {
             context.pop();
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(message)));
+            AppToast.error(message);
           },
         );
       },

@@ -3,6 +3,7 @@ import 'package:evetick/core/theming/colors.dart';
 
 import 'package:evetick/features/event_booking/ui/widgets/select_chair_widgets/legend_item.dart';
 import 'package:flutter/material.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class SeatLegend extends StatelessWidget {
   const SeatLegend({super.key});
@@ -11,11 +12,11 @@ class SeatLegend extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        LegendItem(color: ColorsManager.chairColor, label: 'Available'),
+        LegendItem(color: ColorsManager.chairColor, label: AppLocalizations.of(context)!.ticketsAvailable),
         horizontalSpace(56),
-        LegendItem(color: ColorsManager.lightBlue, label: 'Reserved'),
+        LegendItem(color: ColorsManager.lightBlue, label: AppLocalizations.of(context)!.ticketsReserved),
         horizontalSpace(56),
-        LegendItem(color: ColorsManager.orange, label: 'Selected'),
+        LegendItem(color: ColorsManager.orange, label: AppLocalizations.of(context)!.ticketsSelected),
       ],
     );
   }

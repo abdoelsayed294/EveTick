@@ -10,6 +10,7 @@ import 'package:evetick/features/home/ui/widgets/home_search_field.dart';
 import 'package:evetick/features/home/ui/widgets/popular_event_tile.dart';
 import 'package:evetick/features/home/ui/widgets/section_header.dart';
 import 'package:evetick/core/widgets/app_error_view.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,6 +62,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context, HomeState state) {
+    final l10n = AppLocalizations.of(context)!;
     final cubit = context.read<HomeCubit>();
     final featured = state.featuredEvents;
     final popular = state.popularEvents;
@@ -99,7 +101,7 @@ class HomeScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 // TODO: wire "See All" once the events list screen exists
-                child: const SectionHeader(title: 'Featured Events'),
+                child: SectionHeader(title: l10n.homeFeaturedEvents),
               ),
             ),
             SliverToBoxAdapter(child: SizedBox(height: 16.h)),
@@ -116,7 +118,7 @@ class HomeScreen extends StatelessWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: const SectionHeader(title: 'Popular Events'),
+                child: SectionHeader(title: l10n.homePopularEvents),
               ),
             ),
             SliverToBoxAdapter(child: SizedBox(height: 16.h)),
@@ -145,8 +147,8 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 120.h),
                   child: Text(
                     state.events.isEmpty
-                        ? 'No events yet'
-                        : 'No events match your search',
+                        ? l10n.homeNoEventsYet
+                        : l10n.homeNoSearchResults,
                     style: TextStyles.font16LightGrayRegular(context),
                   ),
                 ),

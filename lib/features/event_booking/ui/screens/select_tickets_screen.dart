@@ -7,6 +7,7 @@ import 'package:evetick/features/event_booking/logic/checkout/checkout_state.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class SelectTicketsScreen extends StatelessWidget {
   SelectTicketsScreen({super.key, this.onNext});
@@ -25,7 +26,7 @@ class SelectTicketsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Booking For', style: TextStyles.font16GrayRegular),
+                    Text(AppLocalizations.of(context)!.bookingFor, style: TextStyles.font16GrayRegular),
                     verticalSpace(4),
                     BlocBuilder<CheckoutCubit, CheckoutState>(
                       builder: (context, state) => Text(

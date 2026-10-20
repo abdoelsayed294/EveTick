@@ -9,6 +9,7 @@ import 'package:evetick/features/search/ui/widgets/search_results_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 /// Quick filters, "N results found" and the list.
 class SearchResultsView extends StatelessWidget {
@@ -45,7 +46,7 @@ class SearchResultsView extends StatelessWidget {
           verticalSpace(16),
         ],
         Text(
-          results.length == 1 ? '1 result found' : '${results.length} results found',
+          AppLocalizations.of(context)!.homeResultsFound('${results.length}'),
           style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w500,

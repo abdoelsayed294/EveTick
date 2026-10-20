@@ -1,5 +1,6 @@
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/text_styles.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,7 +19,7 @@ class SectionHeader extends StatelessWidget {
         GestureDetector(
           onTap: onSeeAll,
           child: Text(
-            'See All',
+            AppLocalizations.of(context)!.commonSeeAll,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,

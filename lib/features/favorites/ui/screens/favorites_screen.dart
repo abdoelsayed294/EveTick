@@ -9,6 +9,7 @@ import 'package:evetick/features/favorites/ui/widgets/favorite_event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -31,7 +32,7 @@ class FavoritesScreen extends StatelessWidget {
           child: Column(
             children: [
               verticalSpace(30),
-              Text('Favorites', style: TextStyles.font18WhiteBold(context)),
+              Text(AppLocalizations.of(context)!.favoritesTitle, style: TextStyles.font18WhiteBold(context)),
               verticalSpace(16),
               Expanded(
                 child: BlocBuilder<FavoritesCubit, FavoritesState>(
@@ -61,7 +62,7 @@ class FavoritesScreen extends StatelessWidget {
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
                     SizedBox(height: 200.h),
-                    const AppEmptyView(message: 'No favorites yet'),
+                    AppEmptyView(message: AppLocalizations.of(context)!.favoritesEmpty),
                   ],
                 )
               : ListView.separated(

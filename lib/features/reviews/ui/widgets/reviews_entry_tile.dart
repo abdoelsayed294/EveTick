@@ -2,6 +2,7 @@ import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/core/theming/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 /// "Reviews & Ratings >" row for the event details page.
 class ReviewsEntryTile extends StatelessWidget {
@@ -26,7 +27,7 @@ class ReviewsEntryTile extends StatelessWidget {
             SizedBox(width: 12.w),
             Expanded(
               child: Text(
-                'Reviews & Ratings',
+                AppLocalizations.of(context)!.reviewsTitle,
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,

@@ -4,6 +4,7 @@ import 'package:evetick/core/theming/text_styles.dart';
 import 'package:evetick/features/event_booking/ui/widgets/checkout_widgets/price_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 
 class OrderSummaryCard extends StatelessWidget {
   const OrderSummaryCard({
@@ -30,16 +31,16 @@ class OrderSummaryCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          PriceRow(label: 'Subtotal', amount: subtotal),
+          PriceRow(label: AppLocalizations.of(context)!.paymentSubtotal, amount: subtotal),
           verticalSpace(12),
-          PriceRow(label: 'Service Fee', amount: serviceFee),
+          PriceRow(label: AppLocalizations.of(context)!.paymentServiceFee, amount: serviceFee),
           verticalSpace(12),
-          PriceRow(label: 'Taxes', amount: taxes),
+          PriceRow(label: AppLocalizations.of(context)!.paymentTaxes, amount: taxes),
           verticalSpace(24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total Price', style: TextStyles.font16WhiteBold(context)),
+              Text(AppLocalizations.of(context)!.paymentTotalPrice, style: TextStyles.font16WhiteBold(context)),
               Text(
                 '\$${totalPrice.toStringAsFixed(2)}',
                 style: TextStyles.font18OrangeBold,

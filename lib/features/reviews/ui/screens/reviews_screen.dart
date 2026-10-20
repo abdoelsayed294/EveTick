@@ -1,3 +1,4 @@
+import 'package:evetick/core/services/toast/app_toast.dart';
 import 'package:evetick/core/helpers/extentions.dart';
 import 'package:evetick/core/helpers/spacing.dart';
 import 'package:evetick/core/routing/routes.dart';
@@ -15,6 +16,7 @@ import 'package:evetick/features/reviews/logic/reviews_cubit/reviews_state.dart'
 import 'package:evetick/features/reviews/ui/widgets/load_more_reviews.dart';
 import 'package:evetick/features/reviews/ui/widgets/rating_summary.dart';
 import 'package:evetick/features/reviews/ui/widgets/review_card.dart';
+import 'package:evetick/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,9 +35,7 @@ class ReviewsScreen extends StatelessWidget {
   }
 
   void _showMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
+    AppToast.error(message);
   }
 
   Future<void> _writeReview(BuildContext context, ReviewsData data) async {
@@ -54,12 +54,13 @@ class ReviewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         iconTheme: IconThemeData(color: context.colors.white),
         title: Text(
-          'Reviews & Rating',
+          l10n.reviewsTitle,
           style: TextStyles.font18WhiteBold(context),
         ),
       ),
@@ -80,6 +81,7 @@ class ReviewsScreen extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context, ReviewsData data) {
+    final l10n = AppLocalizations.of(context)!;
     final cubit = context.read<ReviewsCubit>();
     final canWrite = data.eligibility == ReviewEligibility.allowed;
 
@@ -92,7 +94,7 @@ class ReviewsScreen extends StatelessWidget {
           RatingSummary(summary: data.summary),
           verticalSpace(24),
           FilledAppTextButton(
-            buttonText: canWrite ? 'Write a Review' : _lockedLabel(data),
+            buttonText: canWrite ? l10n.reviewsWriteAReview : _lockedLabel(context, data),
             buttonWidth: double.infinity,
             backgroundColor: canWrite ? null : ColorsManager.gray3,
             onPressed: () => _writeReview(context, data),
@@ -101,7 +103,7 @@ class ReviewsScreen extends StatelessWidget {
           if (data.reviews.isEmpty)
             Padding(
               padding: EdgeInsets.symmetric(vertical: 48.h),
-              child: const AppEmptyView(message: 'No reviews yet'),
+              child: AppEmptyView(message: l10n.reviewsNoReviewsYet),
             )
           else ...[
             for (final review in data.reviews) ...[
@@ -109,7 +111,7 @@ class ReviewsScreen extends StatelessWidget {
                 review: review,
                 onHelpful: () => cubit.toggleHelpful(review.id),
                 // TODO: replies need their own screen (no design yet).
-                onReply: () => _showMessage(context, 'Replies are coming soon'),
+                onReply: () => _showMessage(context, l10n.reviewsRepliesComingSoon),
               ),
               verticalSpace(16),
             ],
@@ -125,9 +127,9 @@ class ReviewsScreen extends StatelessWidget {
     );
   }
 
-  String _lockedLabel(ReviewsData data) {
+  String _lockedLabel(BuildContext context, ReviewsData data) {
     return data.eligibility == ReviewEligibility.alreadyReviewed
-        ? 'You reviewed this event'
-        : 'Write a Review';
+        ? AppLocalizations.of(context)!.reviewsAlreadyReviewed
+        : AppLocalizations.of(context)!.reviewsWriteAReview;
   }
 }
