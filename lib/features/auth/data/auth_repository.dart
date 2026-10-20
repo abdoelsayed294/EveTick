@@ -4,11 +4,14 @@ import 'package:evetick/core/services/push_notifications/push_tokens_repository.
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/auth/data/models/app_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:evetick/core/services/cancelled_failure.dart';
 import 'package:evetick/core/services/firebase_failure.dart';
 
 class AuthRepository {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  bool _googleInitialized = false;
 
   Future<Result<AppUserModel>> login({
     required String email,
@@ -92,6 +95,62 @@ class AuthRepository {
     }
   }
 
+  Future<Result<AppUserModel>> signInWithGoogle() async {
+    try {
+      if (!_googleInitialized) {
+        await GoogleSignIn.instance.initialize();
+        _googleInitialized = true;
+      }
+
+      final googleUser = await GoogleSignIn.instance.authenticate();
+      final idToken = googleUser.authentication.idToken;
+
+      if (idToken == null) {
+        return Result.failure(
+          FirebaseFailure('Google sign-in failed, please try again'),
+        );
+      }
+
+      final userCredential = await auth.signInWithCredential(
+        GoogleAuthProvider.credential(idToken: idToken),
+      );
+      final firebaseUser = userCredential.user!;
+
+      final docRef = firestore.collection('users').doc(firebaseUser.uid);
+      final doc = await docRef.get();
+
+      if (!doc.exists) {
+        final user = AppUserModel(
+          uid: firebaseUser.uid,
+          email: firebaseUser.email ?? googleUser.email,
+          name: (firebaseUser.displayName ?? googleUser.displayName ?? '')
+              .trim(),
+          isEmailVerified: true,
+          isGuest: false,
+        );
+        await docRef.set(user.toJson());
+        return Result.success(user);
+      }
+
+      final data = doc.data()!;
+      if (data['isEmailVerified'] != true) {
+        await docRef.update({'isEmailVerified': true});
+        data['isEmailVerified'] = true;
+      }
+
+      return Result.success(AppUserModel.fromJson(data));
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        return Result.failure(CancelledFailure());
+      }
+      return Result.failure(FirebaseErrorHandler.handleGoogleSignIn(e));
+    } on FirebaseAuthException catch (e) {
+      return Result.failure(FirebaseErrorHandler.handle(e));
+    } catch (e) {
+      return Result.failure(FirebaseErrorHandler.handleGeneric(e));
+    }
+  }
+
   Future<AppUserModel?> getCurrentUser() async {
     final firebaseUser = auth.currentUser;
 
@@ -134,5 +193,8 @@ class AuthRepository {
   Future<void> logout() async {
     await PushTokensRepository().removeCurrentToken();
     await auth.signOut();
+    if (_googleInitialized) {
+      await GoogleSignIn.instance.signOut();
+    }
   }
 }

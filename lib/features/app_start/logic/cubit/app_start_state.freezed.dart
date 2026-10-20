@@ -55,7 +55,7 @@ extension AppStartStatePatterns on AppStartState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _GoToOnboarding value)?  goToOnboarding,TResult Function( _GoToLogin value)?  goToLogin,TResult Function( _GoToHome value)?  goToHome,TResult Function( _GoToLocation value)?  goToLocation,TResult Function( _GoToWelcome value)?  goToWelcome,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _GoToOnboarding value)?  goToOnboarding,TResult Function( _GoToLogin value)?  goToLogin,TResult Function( _GoToHome value)?  goToHome,TResult Function( _GoToLocation value)?  goToLocation,TResult Function( _GoToWelcome value)?  goToWelcome,TResult Function( _GoToTerms value)?  goToTerms,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -65,7 +65,8 @@ return goToOnboarding(_that);case _GoToLogin() when goToLogin != null:
 return goToLogin(_that);case _GoToHome() when goToHome != null:
 return goToHome(_that);case _GoToLocation() when goToLocation != null:
 return goToLocation(_that);case _GoToWelcome() when goToWelcome != null:
-return goToWelcome(_that);case _:
+return goToWelcome(_that);case _GoToTerms() when goToTerms != null:
+return goToTerms(_that);case _:
   return orElse();
 
 }
@@ -83,7 +84,7 @@ return goToWelcome(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _GoToOnboarding value)  goToOnboarding,required TResult Function( _GoToLogin value)  goToLogin,required TResult Function( _GoToHome value)  goToHome,required TResult Function( _GoToLocation value)  goToLocation,required TResult Function( _GoToWelcome value)  goToWelcome,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _GoToOnboarding value)  goToOnboarding,required TResult Function( _GoToLogin value)  goToLogin,required TResult Function( _GoToHome value)  goToHome,required TResult Function( _GoToLocation value)  goToLocation,required TResult Function( _GoToWelcome value)  goToWelcome,required TResult Function( _GoToTerms value)  goToTerms,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -93,7 +94,8 @@ return goToOnboarding(_that);case _GoToLogin():
 return goToLogin(_that);case _GoToHome():
 return goToHome(_that);case _GoToLocation():
 return goToLocation(_that);case _GoToWelcome():
-return goToWelcome(_that);case _:
+return goToWelcome(_that);case _GoToTerms():
+return goToTerms(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -110,7 +112,7 @@ return goToWelcome(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _GoToOnboarding value)?  goToOnboarding,TResult? Function( _GoToLogin value)?  goToLogin,TResult? Function( _GoToHome value)?  goToHome,TResult? Function( _GoToLocation value)?  goToLocation,TResult? Function( _GoToWelcome value)?  goToWelcome,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _GoToOnboarding value)?  goToOnboarding,TResult? Function( _GoToLogin value)?  goToLogin,TResult? Function( _GoToHome value)?  goToHome,TResult? Function( _GoToLocation value)?  goToLocation,TResult? Function( _GoToWelcome value)?  goToWelcome,TResult? Function( _GoToTerms value)?  goToTerms,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -120,7 +122,8 @@ return goToOnboarding(_that);case _GoToLogin() when goToLogin != null:
 return goToLogin(_that);case _GoToHome() when goToHome != null:
 return goToHome(_that);case _GoToLocation() when goToLocation != null:
 return goToLocation(_that);case _GoToWelcome() when goToWelcome != null:
-return goToWelcome(_that);case _:
+return goToWelcome(_that);case _GoToTerms() when goToTerms != null:
+return goToTerms(_that);case _:
   return null;
 
 }
@@ -137,7 +140,7 @@ return goToWelcome(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  goToOnboarding,TResult Function()?  goToLogin,TResult Function()?  goToHome,TResult Function()?  goToLocation,TResult Function()?  goToWelcome,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  goToOnboarding,TResult Function()?  goToLogin,TResult Function()?  goToHome,TResult Function()?  goToLocation,TResult Function()?  goToWelcome,TResult Function()?  goToTerms,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
@@ -146,7 +149,8 @@ return goToOnboarding();case _GoToLogin() when goToLogin != null:
 return goToLogin();case _GoToHome() when goToHome != null:
 return goToHome();case _GoToLocation() when goToLocation != null:
 return goToLocation();case _GoToWelcome() when goToWelcome != null:
-return goToWelcome();case _:
+return goToWelcome();case _GoToTerms() when goToTerms != null:
+return goToTerms();case _:
   return orElse();
 
 }
@@ -164,7 +168,7 @@ return goToWelcome();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  goToOnboarding,required TResult Function()  goToLogin,required TResult Function()  goToHome,required TResult Function()  goToLocation,required TResult Function()  goToWelcome,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  goToOnboarding,required TResult Function()  goToLogin,required TResult Function()  goToHome,required TResult Function()  goToLocation,required TResult Function()  goToWelcome,required TResult Function()  goToTerms,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
@@ -173,7 +177,8 @@ return goToOnboarding();case _GoToLogin():
 return goToLogin();case _GoToHome():
 return goToHome();case _GoToLocation():
 return goToLocation();case _GoToWelcome():
-return goToWelcome();case _:
+return goToWelcome();case _GoToTerms():
+return goToTerms();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -190,7 +195,7 @@ return goToWelcome();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  goToOnboarding,TResult? Function()?  goToLogin,TResult? Function()?  goToHome,TResult? Function()?  goToLocation,TResult? Function()?  goToWelcome,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  goToOnboarding,TResult? Function()?  goToLogin,TResult? Function()?  goToHome,TResult? Function()?  goToLocation,TResult? Function()?  goToWelcome,TResult? Function()?  goToTerms,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
@@ -199,7 +204,8 @@ return goToOnboarding();case _GoToLogin() when goToLogin != null:
 return goToLogin();case _GoToHome() when goToHome != null:
 return goToHome();case _GoToLocation() when goToLocation != null:
 return goToLocation();case _GoToWelcome() when goToWelcome != null:
-return goToWelcome();case _:
+return goToWelcome();case _GoToTerms() when goToTerms != null:
+return goToTerms();case _:
   return null;
 
 }
@@ -423,6 +429,38 @@ int get hashCode => runtimeType.hashCode;
 @override
 String toString() {
   return 'AppStartState.goToWelcome()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _GoToTerms implements AppStartState {
+  const _GoToTerms();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GoToTerms);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AppStartState.goToTerms()';
 }
 
 

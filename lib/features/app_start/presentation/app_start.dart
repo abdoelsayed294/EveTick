@@ -1,6 +1,7 @@
 import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/features/app_start/logic/cubit/app_start_cubit.dart';
 import 'package:evetick/features/app_start/logic/cubit/app_start_state.dart';
+import 'package:evetick/features/terms/data/models/terms_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:evetick/core/helpers/extentions.dart';
@@ -29,6 +30,12 @@ class AppStartScreen extends StatelessWidget {
           },
           goToLocation: () {
             context.pushReplacedNamed(Routes.setLocationScreen);
+          },
+          goToTerms: () {
+            context.pushReplacedNamed(
+              Routes.termsScreen,
+              arguments: TermsMode.firstLogin,
+            );
           },
         );
       },

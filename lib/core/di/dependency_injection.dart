@@ -92,7 +92,7 @@ Future<void> setupGetIt() async {
 
   getIt.registerLazySingleton<TermsRepository>(() => TermsRepository());
   getIt.registerFactory<TermsCubit>(
-    () => TermsCubit(getIt<TermsRepository>()),
+    () => TermsCubit(getIt<TermsRepository>(), getIt<AuthRepository>()),
   );
 
   getIt.registerLazySingleton<ReviewsRepository>(() => ReviewsRepository());

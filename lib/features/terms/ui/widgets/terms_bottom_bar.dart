@@ -1,4 +1,5 @@
 import 'package:evetick/core/helpers/extentions.dart';
+import 'package:evetick/core/routing/routes.dart';
 import 'package:evetick/core/theming/colors.dart';
 import 'package:evetick/features/terms/data/models/terms_mode.dart';
 import 'package:evetick/features/terms/logic/terms_cubit.dart';
@@ -40,7 +41,14 @@ class TermsBottomBar extends StatelessWidget {
                   TermsLoaded(:final acceptance) when acceptance.isUpToDate =>
                     TermsAcceptedBanner(acceptedAt: acceptance.acceptedAt),
                   _ => TermsActionBar(
-                    onDecline: context.pop,
+                    onDecline: mode == TermsMode.firstLogin
+                        ? () async {
+                            await context.read<TermsCubit>().declineTerms();
+                            if (context.mounted) {
+                              context.pushReplacedNamed(Routes.appStartScreen);
+                            }
+                          }
+                        : context.pop,
                     onAgree: () => context.read<TermsCubit>().acceptTerms(),
                   ),
                 };

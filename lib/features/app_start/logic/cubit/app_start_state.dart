@@ -11,4 +11,5 @@ class AppStartState with _$AppStartState {
   const factory AppStartState.goToHome() = _GoToHome;
   const factory AppStartState.goToLocation() = _GoToLocation;
   const factory AppStartState.goToWelcome() = _GoToWelcome;
+  const factory AppStartState.goToTerms() = _GoToTerms;
 }

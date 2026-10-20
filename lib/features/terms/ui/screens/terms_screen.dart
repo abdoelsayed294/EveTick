@@ -13,20 +13,29 @@ class TermsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isFirstLogin = mode == TermsMode.firstLogin;
+
     return TermsBlocListener(
-      child: Scaffold(
-        appBar: const TermsAppBar(),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  child: const TermsContent(),
+      mode: mode,
+      child: PopScope(
+        canPop: !isFirstLogin,
+        child: Scaffold(
+          appBar: TermsAppBar(showBack: !isFirstLogin),
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 16.h,
+                    ),
+                    child: const TermsContent(),
+                  ),
                 ),
-              ),
-              TermsBottomBar(mode: mode),
-            ],
+                TermsBottomBar(mode: mode),
+              ],
+            ),
           ),
         ),
       ),

@@ -343,6 +343,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get searchApplyFilters => 'تطبيق الفلاتر';
 
   @override
+  String get searchCategory => 'الفئة';
+
+  @override
   String get notificationsTitle => 'الإشعارات';
 
   @override

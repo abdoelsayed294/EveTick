@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:evetick/core/services/cancelled_failure.dart';
 import 'package:evetick/core/services/result.dart';
 import 'package:evetick/features/auth/data/auth_repository.dart';
 import 'package:evetick/features/auth/logic/login_cubit/login_state.dart';
@@ -43,6 +44,26 @@ class LoginCubit extends Cubit<LoginState> {
         emit(LoginState.success(user));
       },
       failure: (failure) {
+        emit(LoginState.error(error: failure.message));
+      },
+    );
+  }
+
+  void signInWithGoogle() async {
+    if (state is Loading) return;
+    emit(const LoginState.loading());
+
+    final result = await authRepo.signInWithGoogle();
+
+    result.when(
+      success: (user) {
+        emit(LoginState.success(user));
+      },
+      failure: (failure) {
+        if (failure is CancelledFailure) {
+          emit(const LoginState.initial());
+          return;
+        }
         emit(LoginState.error(error: failure.message));
       },
     );
