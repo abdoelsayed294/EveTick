@@ -478,3 +478,7 @@ exports.onOrderConfirmed = notifications.onOrderConfirmed;
 exports.onEventPublished = notifications.onEventPublished;
 exports.notifyHotEvents = notifications.notifyHotEvents;
 exports.sendPushOnNotification = notifications.sendPushOnNotification;
+
+// Check-in documents the organizer app scans against (see tickets.js).
+const tickets = require("./tickets");
+exports.createTicketOnOrderConfirmed = tickets.createTicketOnOrderConfirmed;
