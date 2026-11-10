@@ -1,0 +1,33 @@
+class Routes {
+  static const String onBoardingScreen = '/onboardingScreen';
+  static const String loginScreen = '/loginScreen';
+  static const String signupScreen = '/signupScreen';
+  static const String forgotPasswordScreen = '/forgotPasswordScreen';
+  static const String deleteAccountScreen = '/deleteAccountScreen';
+  static const String onBoardingScreen1 = '/onboardingScreen1';
+  static const String onBoardingScreen2 = '/onboardingScreen2';
+  static const String welcomeScreen = '/welcomeScreen';
+  static const String homeScreen = '/homeScreen';
+  static const String verificationScreen = '/verificationScreen';
+  static const String splashScreen = '/splashScreen';
+  static const String appStartScreen = '/appStartScreen';
+  static const String setLocationScreen = '/setLocationScreen';
+  static const String profileScreen = '/profileScreen';
+  static const String mapPickerScreen = '/mapPickerScreen';
+  static const String editProfileScreen='/editProfileScreen';
+  static const String searchScreen='/searchScreen';
+  static const String eventDetailsScreen='/eventDetailsScreen';
+  static const String selectTicketsScreen='/selectTicketsScreen';
+  static const String bookingFlowScreen='/bookingFlowScreen';
+  static const String confirmationScreen='/confirmationScreen';
+  static const String ticketScreen='/ticketScreen';
+  static const String termsScreen='/termsScreen';
+  static const String helpSupportScreen='/helpSupportScreen';
+  static const String sendUsScreen='/sendUsScreen';
+  static const String organizerProfileScreen='/organizerProfileScreen';
+  static const String followingOrganizersScreen='/followingOrganizersScreen';
+  static const String reviewsScreen='/reviewsScreen';
+  static const String writeReviewScreen='/writeReviewScreen';
+  static const String writeOrganizerReviewScreen='/writeOrganizerReviewScreen';
+  static const String notificationsScreen='/notificationsScreen';
+}
