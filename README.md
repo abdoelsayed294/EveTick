@@ -2,10 +2,8 @@
 
 EveTick is a Flutter mobile app for discovering events and booking tickets. Attendees can browse and search events, pick tickets and seats, pay online, and keep their QR tickets in the app. The UI is fully available in **Arabic and English** with light and dark themes.
 
-<img width="375" height="812" alt="home" src="https://github.com/user-attachments/assets/2074f4e6-a599-4e2b-a3dc-2fcc93567e55" />
-<img width="1500" height="3256" alt="landing page for event" src="https://github.com/user-attachments/assets/65a6ac6c-9174-4484-8be6-31887981ad6b" />
-<img width="375" height="812" alt="select chair" src="https://github.com/user-attachments/assets/80cecf2c-f4fc-46dd-8a84-95ad76a44b8d" />
-<img width="375" height="812" alt="your ticket" src="https://github.com/user-attachments/assets/4d4b2b7e-2ff7-4b3a-b18f-ea47cdbe18ab" />
+<img width="2100" height="900" alt="evetick-hero" src="https://github.com/user-attachments/assets/dcf411bd-7644-4a06-9707-ea3eadf81974" />
+
 
 
 ## Features
